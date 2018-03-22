@@ -136,8 +136,10 @@
         <div slot="title" class="header">
           <Icon type="star"></Icon>
           <span class="card-title">评价</span>
-          <button>赞</button>
-          <button>踩</button>
+        </div>
+        <div>
+          <Button type="success" shape="circle" size="small">赞</Button>
+          <Button type="error" shape="circle" size="small">踩</Button>
         </div>
       </Card>
 
