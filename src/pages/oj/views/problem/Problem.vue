@@ -46,6 +46,11 @@
             <p class="content">{{problem.source}}</p>
           </div>
 
+          <!--测试文件下载 -->
+          <div >
+            <p class="title">测试数据下载</p>
+            <p class="content">测试文件</p>
+          </div>
         </div>
       </Panel>
       <!--problem main end-->
@@ -126,6 +131,15 @@
           </VerticalMenu-item>
         </template>
       </VerticalMenu>
+
+      <Card id="info">
+        <div slot="title" class="header">
+          <Icon type="star"></Icon>
+          <span class="card-title">评价</span>
+          <button>赞</button>
+          <button>踩</button>
+        </div>
+      </Card>
 
       <Card id="info">
         <div slot="title" class="header">
