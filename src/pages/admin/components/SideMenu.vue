@@ -17,9 +17,9 @@
       <template slot="title"><i class="el-icon-fa-bars"></i>Problem</template>
       <el-menu-item index="/problems">Problem List</el-menu-item>
       <el-menu-item index="/problem/create">Create Problem</el-menu-item>
-      <el-menu-item index="/problem/batch_ops">Import / Export</el-menu-item>
+      <el-menu-item v-if="isAdminRole" index="/problem/batch_ops">Import / Export</el-menu-item>
     </el-submenu>
-    <el-submenu index="contest">
+    <el-submenu v-if="isAdminRole" index="contest">
       <template slot="title"><i class="el-icon-fa-trophy"></i>Contest</template>
       <el-menu-item index="/contest">Contest List</el-menu-item>
       <el-menu-item index="/contest/create">Create Contest</el-menu-item>

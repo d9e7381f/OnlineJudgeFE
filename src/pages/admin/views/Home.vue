@@ -45,6 +45,7 @@
       api.getProfile().then(res => {
         if (!res.data.data) {
           // not login
+
           next({name: 'login'})
         } else {
           next(vm => {
