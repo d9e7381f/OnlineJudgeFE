@@ -41,7 +41,7 @@
       this.currentPath = this.$route.path
     },
     computed: {
-      ...mapGetters(['user', 'isSuperAdmin', 'hasProblemPermission'])
+      ...mapGetters(['user', 'isSuperAdmin', 'isAdminRole', 'hasProblemPermission'])
     }
   }
 </script>
