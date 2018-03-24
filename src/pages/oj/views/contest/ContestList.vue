@@ -7,36 +7,36 @@
         <ul class="filter">
           <li>
             <Dropdown @on-click="onRuleChange">
-              <span>{{query.rule_type === '' ? 'Rule' : query.rule_type}}
+              <span>{{query.rule_type === '' ? '比赛类型' : query.rule_type}}
                 <Icon type="arrow-down-b"></Icon>
               </span>
               <Dropdown-menu slot="list">
-                <Dropdown-item name="">All</Dropdown-item>
-                <Dropdown-item name="OI">OI</Dropdown-item>
-                <Dropdown-item name="ACM">ACM</Dropdown-item>
+                <Dropdown-item name="">全部</Dropdown-item>
+                <Dropdown-item name="OI">OI比赛</Dropdown-item>
+                <Dropdown-item name="ACM">ACM比赛</Dropdown-item>
               </Dropdown-menu>
             </Dropdown>
           </li>
           <li>
             <Dropdown @on-click="onStatusChange">
-              <span>{{query.status === '' ? 'Status' : CONTEST_STATUS_REVERSE[query.status].name}}
+              <span>{{query.status === '' ? '状态' : CONTEST_STATUS_REVERSE[query.status].name}}
                 <Icon type="arrow-down-b"></Icon>
               </span>
               <Dropdown-menu slot="list">
-                <Dropdown-item name="">All</Dropdown-item>
-                <Dropdown-item name="0">UnderWay</Dropdown-item>
-                <Dropdown-item name="1">Not Started</Dropdown-item>
-                <Dropdown-item name="-1">Ended</Dropdown-item>
+                <Dropdown-item name="">全部</Dropdown-item>
+                <Dropdown-item name="0">进行中</Dropdown-item>
+                <Dropdown-item name="1">未开始</Dropdown-item>
+                <Dropdown-item name="-1">已结束</Dropdown-item>
               </Dropdown-menu>
             </Dropdown>
           </li>
           <li>
             <Input id="keyword" @on-enter="changeRoute" @on-click="changeRoute" v-model="query.keyword"
-                   icon="ios-search-strong" placeholder="Keyword"/>
+                   icon="ios-search-strong" placeholder="关键字"/>
           </li>
         </ul>
       </div>
-      <p id="no-contest" v-if="contests.length == 0">No contest</p>
+      <p id="no-contest" v-if="contests.length == 0">目前没有比赛</p>
       <ol id="contest-list">
         <li v-for="contest in contests">
           <Row type="flex" justify="space-between" align="middle">

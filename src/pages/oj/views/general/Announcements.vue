@@ -4,13 +4,13 @@
       {{title}}
     </div>
     <div slot="extra">
-      <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">Refresh</Button>
-      <Button v-else type="ghost" icon="ios-undo" @click="goBack">Back</Button>
+      <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">刷新一下</Button>
+      <Button v-else type="ghost" icon="ios-undo" @click="goBack">返回</Button>
     </div>
 
     <transition-group name="announcement-animate" mode="in-out">
       <div class="no-announcement" v-if="!announcements.length" key="no-announcement">
-        <p>No announcements</p>
+        <p>无通告</p>
       </div>
       <template v-if="listVisible">
         <ul class="announcements-container" key="list">
@@ -108,7 +108,7 @@
     computed: {
       title () {
         if (this.listVisible) {
-          return this.isContest ? 'Contest Announcements' : 'Announcements'
+          return this.isContest ? '比赛通告' : '通告'
         } else {
           return this.announcement.title
         }

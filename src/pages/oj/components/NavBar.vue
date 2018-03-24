@@ -4,42 +4,42 @@
       <div class="logo"><span>{{website.website_name}}</span></div>
       <Menu-item name="/">
         <Icon type="home"></Icon>
-        Home
+        主页
       </Menu-item>
       <Menu-item name="/problems">
         <Icon type="ios-keypad"></Icon>
-        Problems
+        题目
       </Menu-item>
       <Menu-item name="/contests">
         <Icon type="trophy"></Icon>
-        Contests
+        竞赛
       </Menu-item>
       <Menu-item name="/status">
         <Icon type="ios-pulse-strong"></Icon>
-        Status
+        提交
       </Menu-item>
       <Submenu name="">
         <template slot="title">
           <Icon type="podium"></Icon>
-          Rank
+          排名
         </template>
         <Menu-item name="/acm-rank">
-          ACM Rank
+          ACM排名
         </Menu-item>
         <Menu-item name="/oi-rank">
-          OI Rank
+          OI排名
         </Menu-item>
       </Submenu>
       <Submenu name="">
         <template slot="title">
           <Icon type="information-circled"></Icon>
-          About
+          关于
         </template>
         <Menu-item name="/about">
-          Judger
+          判断机制
         </Menu-item>
         <Menu-item name="/FAQ">
-          FAQ
+          常见问题解答
         </Menu-item>
       </Submenu>
       <template v-if="!isAuthenticated">
@@ -63,17 +63,17 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <Dropdown-menu slot="list">
-            <Dropdown-item name="/user-home">Home</Dropdown-item>
-            <Dropdown-item name="/status?myself=1">Submissions</Dropdown-item>
-            <Dropdown-item name="/setting/profile">Settings</Dropdown-item>
-            <Dropdown-item name="/admin">Management</Dropdown-item>
-            <Dropdown-item divided name="/logout">Logout</Dropdown-item>
+            <Dropdown-item name="/user-home">个人主页</Dropdown-item>
+            <Dropdown-item name="/status?myself=1">提交历史</Dropdown-item>
+            <Dropdown-item name="/setting/profile">个性设置</Dropdown-item>
+            <Dropdown-item name="/admin">后台管理</Dropdown-item>
+            <Dropdown-item divided name="/logout">退出</Dropdown-item>
           </Dropdown-menu>
         </Dropdown>
       </template>
     </Menu>
     <Modal v-model="modalVisible" :width="400">
-      <div slot="header" class="modal-title">Welcome to {{website.website_name_shortcut}}</div>
+      <div slot="header" class="modal-title">欢迎访问 {{website.website_name_shortcut}}</div>
       <component :is="modalStatus.mode" v-if="modalVisible"></component>
       <div slot="footer" style="display: none"></div>
     </Modal>

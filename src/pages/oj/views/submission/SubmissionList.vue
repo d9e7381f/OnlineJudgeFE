@@ -11,7 +11,7 @@
                   <Icon type="arrow-down-b"></Icon>
                 </span>
                 <Dropdown-menu slot="list">
-                  <Dropdown-item name="">All</Dropdown-item>
+                  <Dropdown-item name="">全部</Dropdown-item>
                   <Dropdown-item v-for="status in Object.keys(JUDGE_STATUS)" :key="status" :name="status">
                     {{JUDGE_STATUS[status].name}}
                   </Dropdown-item>
@@ -22,16 +22,16 @@
 
             <li>
               <i-switch size="large" v-model="formFilter.myself" @on-change="handleQueryChange">
-                <span slot="open">Mine</span>
-                <span slot="close">All</span>
+                <span slot="open">自己</span>
+                <span slot="close">全部</span>
               </i-switch>
             </li>
             <li>
-              <Input v-model="formFilter.username" placeholder="Search Author" @on-enter="handleQueryChange"/>
+              <Input v-model="formFilter.username" placeholder="搜索作者" @on-enter="handleQueryChange"/>
             </li>
 
             <li>
-              <Button type="info" icon="refresh" @click="getSubmissions">Refresh</Button>
+              <Button type="info" icon="refresh" @click="getSubmissions">刷新</Button>
             </li>
           </ul>
         </div>
@@ -64,7 +64,7 @@
         },
         columns: [
           {
-            title: 'When',
+            title: '提交日期',
             align: 'center',
             render: (h, params) => {
               return h('span', time.utcToLocal(params.row.create_time))
@@ -92,7 +92,7 @@
             }
           },
           {
-            title: 'Status',
+            title: '状态',
             align: 'center',
             render: (h, params) => {
               return h('Tag', {
@@ -103,7 +103,7 @@
             }
           },
           {
-            title: 'Problem',
+            title: '题目序号',
             align: 'center',
             render: (h, params) => {
               return h('span',
@@ -130,26 +130,26 @@
             }
           },
           {
-            title: 'Time',
+            title: '所用时间',
             align: 'center',
             render: (h, params) => {
               return h('span', utils.submissionTimeFormat(params.row.statistic_info.time_cost))
             }
           },
           {
-            title: 'Memory',
+            title: '所用空间',
             align: 'center',
             render: (h, params) => {
               return h('span', utils.submissionMemoryFormat(params.row.statistic_info.memory_cost))
             }
           },
           {
-            title: 'Language',
+            title: '语言',
             align: 'center',
             key: 'language'
           },
           {
-            title: 'Author',
+            title: '作者',
             align: 'center',
             render: (h, params) => {
               return h('a', {

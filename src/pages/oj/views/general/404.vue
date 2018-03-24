@@ -3,10 +3,10 @@
     <div class="error404-body-con">
       <Card>
         <div class="error404-body-con-title">4<span><Icon type="ios-navigate-outline"></Icon></span>4</div>
-        <p class="error404-body-con-message">YOU&nbsp;&nbsp;LOOK&nbsp;&nbsp;LOST</p>
+        <p class="error404-body-con-message">你好像迷路了</p>
         <div class="error404-btn-con">
-          <Button @click="goHome" size="large" style="width: 200px;" type="ghost">Go Home</Button>
-          <Button @click="backPage" size="large" style="width: 200px;margin-left: 40px;" type="primary">Back</Button>
+          <Button @click="goHome" size="large" style="width: 200px;" type="ghost">返回主页</Button>
+          <Button @click="backPage" size="large" style="width: 200px;margin-left: 40px;" type="primary">返回</Button>
         </div>
       </Card>
     </div>
