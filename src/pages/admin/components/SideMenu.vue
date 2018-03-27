@@ -4,25 +4,25 @@
     <div class="logo">
       <img src="../../../assets/logo.svg" alt="oj admin"/>
     </div>
-    <el-menu-item index="/"><i class="el-icon-fa-dashboard"></i>Dashboard</el-menu-item>
+    <el-menu-item index="/"><i class="el-icon-fa-dashboard"></i>指示板</el-menu-item>
     <el-submenu v-if="isSuperAdmin" index="general">
-      <template slot="title"><i class="el-icon-menu"></i>General</template>
-      <el-menu-item index="/user">User</el-menu-item>
-      <el-menu-item index="/announcement">Announcement</el-menu-item>
-      <el-menu-item index="/conf">System Config</el-menu-item>
-      <el-menu-item index="/judge-server">Judge Server</el-menu-item>
-      <el-menu-item index="/prune-test-case">Prune Test Case</el-menu-item>
+      <template slot="title"><i class="el-icon-menu"></i>通用</template>
+      <el-menu-item index="/user">用户</el-menu-item>
+      <el-menu-item index="/announcement">公告</el-menu-item>
+      <el-menu-item index="/conf">系统配置</el-menu-item>
+      <el-menu-item index="/judge-server">Judge 服务器</el-menu-item>
+      <el-menu-item index="/prune-test-case">Prune 测试实例</el-menu-item>
     </el-submenu>
     <el-submenu index="problem" v-if="hasProblemPermission">
-      <template slot="title"><i class="el-icon-fa-bars"></i>Problem</template>
-      <el-menu-item index="/problems">Problem List</el-menu-item>
-      <el-menu-item index="/problem/create">Create Problem</el-menu-item>
-      <el-menu-item v-if="isAdminRole" index="/problem/batch_ops">Import / Export</el-menu-item>
+      <template slot="title"><i class="el-icon-fa-bars"></i>题目</template>
+      <el-menu-item index="/problems">题目列表</el-menu-item>
+      <el-menu-item index="/problem/create">创建题目</el-menu-item>
+      <el-menu-item v-if="isAdminRole" index="/problem/batch_ops">导入 / 导出</el-menu-item>
     </el-submenu>
     <el-submenu v-if="isAdminRole" index="contest">
-      <template slot="title"><i class="el-icon-fa-trophy"></i>Contest</template>
-      <el-menu-item index="/contest">Contest List</el-menu-item>
-      <el-menu-item index="/contest/create">Create Contest</el-menu-item>
+      <template slot="title"><i class="el-icon-fa-trophy"></i>比赛</template>
+      <el-menu-item index="/contest">比赛列表</el-menu-item>
+      <el-menu-item index="/contest/create">创建比赛</el-menu-item>
     </el-submenu>
   </el-menu>
 </template>
