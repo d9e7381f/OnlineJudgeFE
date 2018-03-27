@@ -2,12 +2,12 @@
   <div>
     <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
       <FormItem prop="username">
-        <Input type="text" v-model="formLogin.username" placeholder="Username" size="large" @on-enter="handleLogin">
+        <Input type="text" v-model="formLogin.username" placeholder="用户名" size="large" @on-enter="handleLogin">
         <Icon type="ios-person-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
       <FormItem prop="password">
-        <Input type="password" v-model="formLogin.password" placeholder="Password" size="large" @on-enter="handleLogin">
+        <Input type="password" v-model="formLogin.password" placeholder="密码" size="large" @on-enter="handleLogin">
         <Icon type="ios-locked-outline" slot="prepend"></Icon>
         </Input>
       </FormItem>
@@ -23,10 +23,10 @@
         @click="handleLogin"
         class="btn" long
         :loading="btnLoginLoading">
-        Login
+        登录
       </Button>
-      <a v-if="website.allow_register" @click.stop="handleBtnClick('register')">No account? Register now!</a>
-      <a @click.stop="goResetPassword" style="float: right">Forget Password</a>
+      <a v-if="website.allow_register" @click.stop="handleBtnClick('register')">没有账号？现在就注册吧</a>
+      <a @click.stop="goResetPassword" style="float: right">忘记密码</a>
     </div>
   </div>
 </template>
@@ -86,7 +86,7 @@
             this.btnLoginLoading = false
             this.changeModalStatus({visible: false})
             this.getProfile()
-            this.$success('Welcome back to OJ')
+            this.$success('欢迎登录oj系统')
           }, _ => {
             this.btnLoginLoading = false
           })

@@ -1,22 +1,22 @@
 <template>
   <Panel :padding="30" class="container">
-    <div slot="title" class="center">Reset Password</div>
+    <div slot="title" class="center">重置密码</div>
     <template v-if="!resetSuccess">
     <Form :model=formResetPassword ref="formResetPassword" :rules="ruleResetPassword">
       <Form-item prop="password">
-        <Input type="password" v-model="formResetPassword.password" placeholder="Password" size="large">
+        <Input type="password" v-model="formResetPassword.password" placeholder="密码" size="large">
         <Icon type="ios-locked-outline" slot="prepend"></Icon>
         </Input>
       </Form-item>
       <Form-item prop="passwordAgain">
-        <Input type="password" v-model="formResetPassword.passwordAgain" placeholder="Password Again" size="large">
+        <Input type="password" v-model="formResetPassword.passwordAgain" placeholder="确认密码" size="large">
         <Icon type="ios-locked-outline" slot="prepend"></Icon>
         </Input>
       </Form-item>
       <Form-item prop="captcha" style="margin-bottom:10px">
         <div id="captcha">
           <div id="captchaCode">
-            <Input v-model="formResetPassword.captcha" placeholder="Captcha" size="large">
+            <Input v-model="formResetPassword.captcha" placeholder="验证码" size="large">
             <Icon type="ios-lightbulb-outline" slot="prepend"></Icon>
             </Input>
           </div>
@@ -31,12 +31,12 @@
     <Button type="primary"
             @click="resetPassword"
             class="btn" long
-            :loading="btnLoading">Reset Password
+            :loading="btnLoading">重置密码
     </Button>
     </template>
 
     <template v-else>
-      <Alert type="success">Your password has been reset.</Alert>
+      <Alert type="success">你的密码已经重置完成了</Alert>
     </template>
   </Panel>
 </template>

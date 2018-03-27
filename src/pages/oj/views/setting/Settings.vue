@@ -11,16 +11,16 @@
                   <a @click.stop="goRoute({name: 'profile-setting'})">
                     <div class="mask-content">
                       <Icon type="camera" size="30"></Icon>
-                      <p class="text">change avatar</p>
+                      <p class="text">更改头像</p>
                     </div>
                   </a>
                 </div>
               </div>
             </div>
 
-            <Menu-item name="/setting/profile">Profile</Menu-item>
-            <Menu-item name="/setting/account">Account</Menu-item>
-            <Menu-item name="/setting/security">Security</Menu-item>
+            <Menu-item name="/setting/profile">个人信息</Menu-item>
+            <Menu-item name="/setting/account">账号</Menu-item>
+            <Menu-item name="/setting/security">安全</Menu-item>
           </Menu>
         </div>
         <div class="panel">

@@ -47,13 +47,13 @@
           <Button type="ghost"
                   ref="loginBtn"
                   shape="circle"
-                  @click="handleBtnClick('login')">Login
+                  @click="handleBtnClick('login')">登录
           </Button>
           <Button v-if="website.allow_register"
                   type="ghost"
                   shape="circle"
                   @click="handleBtnClick('register')"
-                  style="margin-left: 5px;">Register
+                  style="margin-left: 5px;">注册
           </Button>
         </div>
       </template>

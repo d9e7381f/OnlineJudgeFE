@@ -1,26 +1,26 @@
 <template>
   <div class="setting-main">
-    <p class="section-title">Sessions</p>
+    <p class="section-title">全部会话</p>
     <div class="flex-container setting-content">
       <template v-for="session in sessions">
         <Card :padding="20" class="flex-child">
           <span slot="title" style="line-height: 20px">{{session.ip}}</span>
           <div slot="extra">
-            <Tag v-if="session.current_session" color="green">Current</Tag>
+            <Tag v-if="session.current_session" color="green">当前</Tag>
             <Button v-else
                     type="warning"
                     size="small"
-                    @click="deleteSession(session.session_key)">Revoke
+                    @click="deleteSession(session.session_key)">撤销
             </Button>
           </div>
           <Form :label-width="100">
-            <FormItem label="OS :" class="item">
+            <FormItem label="操作系统 :" class="item">
               {{session.user_agent | platform}}
             </FormItem>
-            <FormItem label="Browser :" class="item">
+            <FormItem label="浏览器 :" class="item">
               {{session.user_agent | browser}}
             </FormItem>
-            <FormItem label="Last Activity :" class="item">
+            <FormItem label="最后活动时间 :" class="item">
               {{session.last_activity | localtime }}
             </FormItem>
           </Form>
@@ -28,13 +28,13 @@
       </template>
     </div>
 
-    <p class="section-title">Two Factor Authentication</p>
+    <p class="section-title">两步验证</p>
     <div class="mini-container setting-content">
       <Form>
         <Alert v-if="TFAOpened"
                type="success"
                class="notice"
-               showIcon>You have enabled two-factor authentication.
+               showIcon>你已经开启了两步验证.
         </Alert>
         <FormItem v-if="!TFAOpened">
           <div class="oj-relative">
@@ -44,17 +44,17 @@
         </FormItem>
         <template v-if="!loadingQRcode">
           <FormItem style="width: 250px">
-            <Input v-model="formTwoFactor.code" placeholder="Enter the code from your application"/>
+              <Input v-model="formTwoFactor.code" placeholder="从应用程序中输入你的验证码"/>
           </FormItem>
           <Button type="primary"
                   :loading="loadingBtn"
                   @click="updateTFA(false)"
-                  v-if="!TFAOpened">Open TFA
+                  v-if="!TFAOpened">开启 TFA
           </Button>
           <Button type="error"
                   :loading="loadingBtn"
                   @click="closeTFA"
-                  v-else>Close TFA
+                  v-else>关闭 TFA
           </Button>
         </template>
       </Form>
@@ -124,7 +124,7 @@
       deleteSession (sessionKey) {
         this.$Modal.confirm({
           title: 'Confirm',
-          content: 'Are you sure to revoke the session?',
+          content: '你确定要撤销这个会话吗?',
           onOk: () => {
             api.deleteSession(sessionKey).then(res => {
               this.getSessions()
@@ -136,7 +136,7 @@
       closeTFA () {
         this.$Modal.confirm({
           title: 'Confirm',
-          content: 'Two-factor Authentication is a powerful tool to protect your account, are you sure to close it?',
+          content: '两步验证是十分强大的保护措施，你确定要关闭它吗?',
           onOk: () => {
             this.updateTFA(true)
           }
