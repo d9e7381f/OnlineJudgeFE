@@ -7,21 +7,21 @@
         prop="id">
       </el-table-column>
       <el-table-column
-        label="DisplayID"
+        label="展示ID"
         width="200"
         prop="_id">
       </el-table-column>
       <el-table-column
-        label="Title"
+        label="题目"
         prop="title">
       </el-table-column>
       <el-table-column
-        label="option"
+        label="操作"
         align="center"
         width="100"
         fixed="right">
         <template slot-scope="{row}">
-          <icon-btn icon="plus" name="Add the problem"
+          <icon-btn icon="plus" name="添加该题目"
                     @click.native="handleAddProblem(row.id)"></icon-btn>
         </template>
       </el-table-column>
@@ -75,7 +75,7 @@
         })
       },
       handleAddProblem (problemID) {
-        this.$prompt('Please input display id for the contest problem', 'confirm').then(({value}) => {
+        this.$prompt('请为比赛题目设置展示ID', '确认').then(({value}) => {
           let data = {
             problem_id: problemID,
             contest_id: this.contestID,

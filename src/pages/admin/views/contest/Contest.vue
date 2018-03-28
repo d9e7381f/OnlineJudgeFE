@@ -4,46 +4,46 @@
       <el-form label-position="top">
         <el-row :gutter="20">
           <el-col :span="24">
-            <el-form-item label="Title" required>
-              <el-input v-model="contest.title" placeholder="Tittle"></el-input>
+            <el-form-item label="标题" required>
+              <el-input v-model="contest.title" placeholder="请输入标题"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Description" required>
+            <el-form-item label="描述" required>
               <Simditor v-model="contest.description"></Simditor>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Start Time" required>
+            <el-form-item label="开始时间" required>
               <el-date-picker
                 v-model="contest.start_time"
                 type="datetime"
-                placeholder="Start Time">
+                placeholder="请选择开始时间">
               </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="End Time" required>
+            <el-form-item label="停止时间" required>
               <el-date-picker
                 v-model="contest.end_time"
                 type="datetime"
-                placeholder="End Time">
+                placeholder="请输入停止时间">
               </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Password">
-              <el-input v-model="contest.password" placeholder="Contest Password"></el-input>
+            <el-form-item label="口令">
+              <el-input v-model="contest.password" placeholder="请设置比赛口令"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Contest Rule Type">
+            <el-form-item label="比赛得分规则">
               <el-radio class="radio" v-model="contest.rule_type" label="ACM" :disabled="disableRuleType">ACM</el-radio>
               <el-radio class="radio" v-model="contest.rule_type" label="OI" :disabled="disableRuleType">OI</el-radio>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Real Time Rank">
+            <el-form-item label="实时排名">
               <el-switch
                 v-model="contest.real_time_rank"
                 active-color="#13ce66"
@@ -52,7 +52,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Status">
+            <el-form-item label="可见">
               <el-switch
                 v-model="contest.visible"
                 active-text=""
@@ -61,11 +61,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="Allowed IP Ranges">
+            <el-form-item label="允许IP">
               <div v-for="(range, index) in contest.allowed_ip_ranges" :key="index">
                 <el-row :gutter="20" style="margin-bottom: 15px">
                   <el-col :span="8">
-                    <el-input v-model="range.value" placeholder="CIDR Network"></el-input>
+                    <el-input v-model="range.value" placeholder="请输入支持的IP"></el-input>
                   </el-col>
                   <el-col :span="10">
                     <el-button plain icon="el-icon-fa-plus" @click="addIPRange"></el-button>
@@ -93,7 +93,7 @@
     },
     data () {
       return {
-        title: 'Create Contest',
+        title: '创建比赛',
         disableRuleType: false,
         contest: {
           title: '',
