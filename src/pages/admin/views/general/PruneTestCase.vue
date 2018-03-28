@@ -1,25 +1,25 @@
 <template>
   <div>
     <panel>
-      <span slot="title">Prune Test Case
+      <span slot="title">废弃测试实例
         <el-popover placement="right" trigger="hover">
-          These test cases are not owned by any problem, you can clean them safely.
+         这些测试用例不属于任何问题，您可以安全地清除它们。
           <i slot="reference" class="el-icon-fa-question-circle import-user-icon"></i>
         </el-popover>
       </span>
       <el-table :data="data">
         <el-table-column
-          label="Last Modified">
+          label="最后一次修改">
           <template slot-scope="{row}">
             {{row.create_time | timestampFormat }}
           </template>
         </el-table-column>
         <el-table-column
           prop="id"
-          label="Test Case ID">
+          label="测试实例ID">
         </el-table-column>
         <el-table-column
-          label="Option"
+          label="操作"
           fixed="right"
           width="200">
           <template slot-scope="{row}">

@@ -68,7 +68,7 @@
     </Panel>
 
     <Panel>
-      <span slot="title">Import User
+      <span slot="title">导入用户
         <el-popover placement="right" trigger="hover">
           <p>Only support csv file without headers, check the <a
             href="http://docs.onlinejudge.me/#/onlinejudge/guide/import_users">link</a> for details</p>
@@ -80,7 +80,7 @@
                  :show-file-list="false"
                  accept=".csv"
                  :before-upload="handleUsersCSV">
-        <el-button size="small" icon="el-icon-fa-upload" type="primary">Choose File</el-button>
+        <el-button size="small" icon="el-icon-fa-upload" type="primary">选择文件</el-button>
       </el-upload>
       <template v-else>
         <el-table :data="uploadUsersPage">
@@ -120,33 +120,33 @@
       </template>
     </Panel>
 
-    <Panel title="Generate User">
+    <Panel title="导出用户">
       <el-form :model="formGenerateUser" ref="formGenerateUser">
         <el-row type="flex" justify="space-between">
           <el-col :span="4">
-            <el-form-item label="Prefix" prop="prefix">
+            <el-form-item label="前缀" prop="prefix">
               <el-input v-model="formGenerateUser.prefix" placeholder="Prefix"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="Suffix" prop="suffix">
+            <el-form-item label="后缀" prop="suffix">
               <el-input v-model="formGenerateUser.suffix" placeholder="Suffix"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="Start Number" prop="number_from" required>
+            <el-form-item label="开始编号" prop="number_from" required>
               <el-input-number v-model="formGenerateUser.number_from" style="width: 100%"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="End Number" prop="number_to" required>
+            <el-form-item label="终止编号" prop="number_to" required>
               <el-input-number v-model="formGenerateUser.number_to" style="width: 100%"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="Password Length" prop="password_length" required>
+            <el-form-item label="密码长度" prop="password_length" required>
               <el-input v-model="formGenerateUser.password_length"
-                        placeholder="Password Length"></el-input>
+                        placeholder="密码长度"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -168,49 +168,49 @@
       </el-form>
     </Panel>
     <!--对话框-->
-    <el-dialog title="User" :visible.sync="showUserDialog" :close-on-click-modal="false">
+    <el-dialog title="用户" :visible.sync="showUserDialog" :close-on-click-modal="false">
       <el-form :model="user" label-width="120px" label-position="left">
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="Username" required>
+            <el-form-item label="用户名" required>
               <el-input v-model="user.username"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Real Name" required>
+            <el-form-item label="真实姓名" required>
               <el-input v-model="user.real_name"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Email" required>
+            <el-form-item label="电子邮箱" required>
               <el-input v-model="user.email"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="New Password">
+            <el-form-item label="新密码">
               <el-input v-model="user.password"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="User Type">
+            <el-form-item label="用户类型">
               <el-select v-model="user.admin_type">
-                <el-option label="Regular User" value="Regular User"></el-option>
-                <el-option label="Admin" value="Admin"></el-option>
-                <el-option label="Super Admin" value="Super Admin"></el-option>
+                <el-option label="普通用户" value="Regular User"></el-option>
+                <el-option label="管理员" value="Admin"></el-option>
+                <el-option label="超级管理员" value="Super Admin"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="Problem Permission">
+            <el-form-item label="题目权限">
               <el-select v-model="user.problem_permission" :disabled="user.admin_type!=='Admin'">
-                <el-option label="None" value="None"></el-option>
-                <el-option label="Own" value="Own"></el-option>
-                <el-option label="All" value="All"></el-option>
+                <el-option label="无" value="None"></el-option>
+                <el-option label="仅自己" value="Own"></el-option>
+                <el-option label="全部" value="All"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Two Factor Auth">
+            <el-form-item label="两步授权">
               <el-switch
                 v-model="user.two_factor_auth"
                 active-color="#13ce66"
@@ -228,7 +228,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="Is Disabled">
+            <el-form-item label="禁用">
               <el-switch
                 v-model="user.is_disabled"
                 active-text=""
@@ -324,7 +324,7 @@
         })
       },
       deleteUsers (ids) {
-        this.$confirm('你确定要删除该用户?', 'confirm', {
+        this.$confirm('你确定要删除该用户?', '确定', {
           type: 'warning'
         }).then(() => {
           api.deleteUsers(ids.join(',')).then(res => {

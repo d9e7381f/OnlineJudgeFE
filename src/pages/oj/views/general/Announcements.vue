@@ -10,7 +10,7 @@
 
     <transition-group name="announcement-animate" mode="in-out">
       <div class="no-announcement" v-if="!announcements.length" key="no-announcement">
-        <p>无通告</p>
+        <p>无公告</p>
       </div>
       <template v-if="listVisible">
         <ul class="announcements-container" key="list">
@@ -108,7 +108,7 @@
     computed: {
       title () {
         if (this.listVisible) {
-          return this.isContest ? '比赛通告' : '通告'
+          return this.isContest ? '比赛公告' : '公告'
         } else {
           return this.announcement.title
         }

@@ -3,7 +3,7 @@
     <Panel title="Judge Server Token">
       <code>{{ token }}</code>
     </Panel>
-    <Panel title="Judge Server">
+    <Panel title="Judge服务器">
       <el-table
         :data="servers"
         :default-expand-all="true"
@@ -13,12 +13,12 @@
           <template slot-scope="props">
             <p>IP:
               <el-tag type="success">{{ props.row.ip }}</el-tag>&nbsp;&nbsp;
-              Judger Version:
+              Judger 版本:
               <el-tag type="success">{{ props.row.judger_version }}</el-tag>
             </p>
-            <p>Service URL: <code>{{ props.row.service_url }}</code></p>
-            <p>Last Heartbeat: {{ props.row.last_heartbeat | localtime}}</p>
-            <p>Create Time: {{ props.row.create_time | localtime }}</p>
+            <p>Service 路径: <code>{{ props.row.service_url }}</code></p>
+            <p>最后活跃时间: {{ props.row.last_heartbeat | localtime}}</p>
+            <p>创建时间: {{ props.row.create_time | localtime }}</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -27,42 +27,42 @@
           <template slot-scope="scope">
             <el-tag
               :type="scope.row.status === 'normal' ? 'success' : 'danger'">
-              {{ scope.row.status === 'normal' ? 'Normal' : 'Abnormal' }}
+              {{ scope.row.status === 'normal' ? '正常' : '不正常' }}
             </el-tag>
           </template>
         </el-table-column>
         <el-table-column
           prop="hostname"
-          label="Hostname">
+          label="主机名">
         </el-table-column>
         <el-table-column
           prop="task_number"
-          label="Task Number">
+          label="任务数">
         </el-table-column>
         <el-table-column
           prop="cpu_core"
-          label="CPU Core">
+          label="CPU核心">
         </el-table-column>
         <el-table-column
           prop="cpu_usage"
-          label="CPU Usage">
+          label="CPU使用率">
           <template slot-scope="scope">{{ scope.row.cpu_usage }}%</template>
         </el-table-column>
         <el-table-column
           prop="memory_usage"
-          label="Memory Usage">
+          label="内存使用率">
           <template slot-scope="scope">{{ scope.row.memory_usage }}%</template>
         </el-table-column>
-        <el-table-column label="Disabled">
+        <el-table-column label="不可用">
           <template slot-scope="{row}">
             <el-switch v-model="row.is_disabled" @change="handleDisabledSwitch(row.id, row.is_disabled)"></el-switch>
           </template>
         </el-table-column>
         <el-table-column
           fixed="right"
-          label="Options">
+          label="操作">
           <template slot-scope="scope">
-            <icon-btn name="Delete" icon="trash" @click.native="deleteJudgeServer(scope.row.hostname)"></icon-btn>
+            <icon-btn name="删除" icon="trash" @click.native="deleteJudgeServer(scope.row.hostname)"></icon-btn>
           </template>
         </el-table-column>
       </el-table>
@@ -96,9 +96,9 @@
         })
       },
       deleteJudgeServer (hostname) {
-        this.$confirm('If you delete this judge server, it can\'t be used until next heartbeat', 'Warning', {
-          confirmButtonText: 'Delete',
-          cancelButtonText: 'Cancel',
+        this.$confirm('如果你删除该服务器，该服务器将无法在下次使用', '警告', {
+          confirmButtonText: '删除',
+          cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           api.deleteJudgeServer(hostname).then(res =>

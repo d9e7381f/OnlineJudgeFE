@@ -38,7 +38,7 @@
           params: null,
           fileKey: 'image',
           connectionCount: 3,
-          leaveConfirm: 'Uploading is in progress, are you sure to leave this page?'
+          leaveConfirm: '当前正在上传文件，你确定要离开本页吗?'
         }
       })
       this.editor.on('valuechanged', (e, src) => {
