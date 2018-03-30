@@ -195,6 +195,7 @@
         })
       },
       getProblemList () {
+        console.log('hello')
         let offset = (this.query.page - 1) * this.limit
         this.loadings.table = true
         api.getProblemList(offset, this.limit, this.query).then(res => {

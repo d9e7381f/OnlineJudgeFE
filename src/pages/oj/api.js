@@ -295,9 +295,9 @@ function ajax (url, method, options) {
         }
       } else {
         resolve(res)
-        // if (method !== 'get') {
-        //   Vue.prototype.$success('Succeeded')
-        // }
+        if (method !== 'get') {
+          Vue.prototype.$success('Succeeded')
+        }
       }
     }, res => {
       // API请求异常，一般为Server error 或 network error

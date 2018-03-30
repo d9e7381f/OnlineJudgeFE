@@ -224,6 +224,18 @@
         <el-form-item style="margin-top: 20px" label="展示代码">
           <Simditor v-model="problem.hint" placeholder=""></Simditor>
         </el-form-item>
+
+
+        <el-form-item label="分类">
+          <el-button type="primary" icon="el-icon-arrow-left" size="small"></el-button>
+          <el-select size="small" placeholder="请选择题目分类分类" v-model="collectionId">
+            <el-option v-for="item in collection" :key="item.value" :value="item.id" :label="item.label">
+            </el-option>
+          </el-select>
+          <el-button type="primary" class="el-icon-arrow-right el-icon--right" size="small" @click="forwardCollection()"></el-button>
+        </el-form-item>
+
+
         <el-form-item label="来源">
           <el-input placeholder="输入题目来源" v-model="problem.source"></el-input>
         </el-form-item>
@@ -271,6 +283,12 @@
         title: '',
         spjMode: '',
         disableRuleType: false,
+        collection: [
+          { value: 'One', label: 'A', id: 1 },
+          {value: 'Two', label: 'B', id: 2},
+          { value: 'Three', label: 'C', id: 3 }
+        ],
+        collectionId: '',
         routeName: '',
         error: {
           tags: '',
@@ -281,6 +299,7 @@
       }
     },
     mounted () {
+      this.init()
       this.routeName = this.$route.name
       if (this.routeName === 'edit-problem' || this.routeName === 'edit-contest-problem') {
         this.mode = 'edit'
@@ -298,6 +317,7 @@
           memory_limit: 256,
           difficulty: 'Low',
           visible: true,
+          collection: '',
           tags: [],
           languages: [],
           template: {},
@@ -352,6 +372,7 @@
       '$route' () {
         this.$refs.form.resetFields()
         this.problem = this.reProblem
+        this.init()
       },
       'problem.languages' (newVal) {
         let data = {}
@@ -380,11 +401,13 @@
       }
     },
     methods: {
+      init () {
+      },
       switchSpj () {
         if (this.testCaseUploaded) {
           this.$confirm('如果你更改题目的判题方式（例如：ACM改为IO），你需要重新上传测试实例', '警告', {
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'Cancel',
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
             this.problem.spj = !this.problem.spj
@@ -404,6 +427,9 @@
           cb(tagList)
         }).catch(() => {
         })
+      },
+      getCollection () {
+        this.collection = [{text: '树', value: 1}, {text: '图', value: 2}, {text: '顺序表', value: 3}]
       },
       resetTestCase () {
         this.testCaseUploaded = false
@@ -471,9 +497,15 @@
           })
         })
       },
+      forwardCollection () {
+        console.log(this.collectionId)
+        this.problem.collection = ''
+        this.collection = [{label: '树', value: 1}, {label: '图', value: 2}, {label: '顺序表', value: 3}]
+        console.log('分类前进')
+      },
       submit () {
         if (!this.problem.samples.length) {
-          this.$error('样本为设置')
+          this.$error('样本未设置')
           return
         }
         for (let sample of this.problem.samples) {

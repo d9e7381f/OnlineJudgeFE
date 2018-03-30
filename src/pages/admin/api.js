@@ -294,6 +294,9 @@ export default {
     return ajax('export_problem', 'post', {
       data
     })
+  },
+  getCollection (data) {
+    return ajax('http://219.222.189.39/api/collection/', 'get', {data})
   }
 }
 
