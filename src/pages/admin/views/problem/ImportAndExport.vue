@@ -36,7 +36,7 @@
 
       <div class="panel-options">
         <el-button type="primary" size="small" v-show="selected_problems.length"
-                   @click="exportProblems" icon="el-icon-fa-arrow-down">Export
+                   @click="exportProblems" icon="el-icon-fa-arrow-down">导出
         </el-button>
         <el-pagination
           class="page"

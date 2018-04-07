@@ -23,9 +23,13 @@
             <p>提交数</p>
             <p class="emphasis">{{profile.submission_number}}</p>
           </div>
-          <div class="right">
+          <div class="middle">
             <p>成绩</p>
             <p class="emphasis">{{profile.total_score}}</p>
+          </div>
+            <div class="right">
+            <p>积分</p>
+            <p class="emphasis">100</p>
           </div>
         </div>
         <div id="problems">
