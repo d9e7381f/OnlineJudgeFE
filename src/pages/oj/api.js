@@ -262,11 +262,6 @@ export default {
     return ajax('admin/contest/acm_helper', 'put', {
       data
     })
-  },
-  getCollection (data) {
-    return ajax('http://219.222.189.39/api/collection/', 'get', {
-      data
-    })
   }
 }
 

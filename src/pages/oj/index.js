@@ -4,7 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from '@/store'
 import VueClipboard from 'vue-clipboard2'
-import locale from 'iview/src/locale/lang/en-US'
+import locale from 'iview/src/locale/lang/zh-CN'
 
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'

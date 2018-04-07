@@ -296,7 +296,7 @@ export default {
     })
   },
   getCollection (data) {
-    return ajax('http://219.222.189.39/api/collection/', 'get', {data})
+    return ajax('http://219.222.189.39/api/collection/', 'get')
   }
 }
 

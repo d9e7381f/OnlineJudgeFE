@@ -14,6 +14,10 @@
         <Icon type="trophy"></Icon>
         竞赛
       </Menu-item>
+      <Menu-item name="/contribution">
+        <Icon type="ios-flag"></Icon>
+        贡献榜
+      </Menu-item>
       <Menu-item name="/status">
         <Icon type="ios-pulse-strong"></Icon>
         提交
@@ -129,8 +133,7 @@
 
 <style lang="less" scoped>
   #header {
-    position: fixed;
-    overflow: hidden;
+    position: inherit;
     top: 0;
     left: 0;
     height: 60px;
@@ -139,6 +142,7 @@
     background-color: #fff;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
     .oj-menu {
+      
       background: #fdfdfd;
     }
 
