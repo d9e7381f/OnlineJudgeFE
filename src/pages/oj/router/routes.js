@@ -114,6 +114,11 @@ export default [
     ]
   },
   {
+    name: 'contribution',
+    path: '/contribution',
+    component: NotFound
+  },
+  {
     name: 'acm-rank',
     path: '/acm-rank',
     meta: {title: 'ACM Rankings'},

@@ -73,8 +73,6 @@
             <icon-btn name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
             <icon-btn v-if="contestId" name="设置公开" icon="clone"
                       @click.native="makeContestProblemPublic(scope.row.id)"></icon-btn>
-            <icon-btn name="设置教学题目" icon="change"
-                      @click.native=""></icon-btn>
             <icon-btn icon="download" name="下载测试实例"
                       @click.native="downloadTestCase(scope.row.id)"></icon-btn>
             <icon-btn icon="trash" name="删除"

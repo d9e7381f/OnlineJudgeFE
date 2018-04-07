@@ -16,6 +16,7 @@
     <el-submenu index="problem" v-if="hasProblemPermission">
       <template slot="title"><i class="el-icon-fa-bars"></i>题目</template>
       <el-menu-item v-if="isAdminRole" index="#">教学题库</el-menu-item>
+      <el-menu-item v-if="isAdminRole" index="#">审核题目</el-menu-item>
       <el-menu-item index="/problems">题目列表</el-menu-item>
       <el-menu-item index="/problem/create">创建题目</el-menu-item>
       <el-menu-item v-if="isAdminRole" index="/problem/batch_ops">导入 / 导出</el-menu-item>
