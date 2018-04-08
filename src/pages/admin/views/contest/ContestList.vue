@@ -74,8 +74,8 @@
           label="操作">
           <div slot-scope="scope">
             <icon-btn name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
-            <icon-btn name="题目列表" icon="list-ol" @click.native="goContestProblemList(scope.row.id)"></icon-btn>
-            <icon-btn name="公告" icon="info-circle"
+            <icon-btn name="题目列表" icon="tickets" @click.native="goContestProblemList(scope.row.id)"></icon-btn>
+            <icon-btn name="公告" icon="date"
                       @click.native="goContestAnnouncement(scope.row.id)"></icon-btn>
           </div>
         </el-table-column>

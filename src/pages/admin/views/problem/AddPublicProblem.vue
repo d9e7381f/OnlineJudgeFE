@@ -21,7 +21,7 @@
         width="100"
         fixed="right">
         <template slot-scope="{row}">
-          <icon-btn icon="plus" name="添加该题目"
+          <icon-btn icon="plus" name="添加"
                     @click.native="handleAddProblem(row.id)"></icon-btn>
         </template>
       </el-table-column>

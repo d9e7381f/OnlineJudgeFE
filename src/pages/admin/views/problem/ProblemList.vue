@@ -54,6 +54,7 @@
           </template>
         </el-table-column>
         <el-table-column
+          v-if="ProblemList"
           width="100"
           prop="visible"
           label="可见">
@@ -70,13 +71,14 @@
           label="操作"
           width="250">
           <div slot-scope="scope">
-            <icon-btn name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
-            <icon-btn v-if="!isProblemList" name="pass" icon=""></icon-btn>
-            <icon-btn v-if="contestId" name="设置公开" icon="clone"
+            <icon-btn v-if="!UncheckProblemList" name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
+            <icon-btn v-if="UncheckProblemList" name="通过" icon="check" ></icon-btn>
+            <icon-btn name="预览" icon="view"  @click.native="openViewProblem(scope.row.id)"></icon-btn>
+            <icon-btn v-if="contestId" name="设置公开" icon="sort"
                       @click.native="makeContestProblemPublic(scope.row.id)"></icon-btn>
             <icon-btn icon="download" name="下载测试实例"
                       @click.native="downloadTestCase(scope.row.id)"></icon-btn>
-            <icon-btn icon="trash" name="删除"
+            <icon-btn icon="delete" name="删除"
                       @click.native="deleteProblem(scope.row.id)"></icon-btn>
           </div>
         </el-table-column>
@@ -111,6 +113,12 @@
         <save @click.native="updateProblem(currentRow)"></save>
       </span>
     </el-dialog>
+     <el-dialog title="预览题目"
+               width="80%"
+               :visible.sync="viewProblem"
+               @close-on-click-modal="false">
+      <view-problem-component :problemId="viewProblemId" ></view-problem-component>
+    </el-dialog>
     <el-dialog title="添加比赛题目"
                v-if="contestId"
                width="80%"
@@ -125,11 +133,13 @@
   import api from '../../api.js'
   import utils from '@/utils/utils'
   import AddProblemComponent from './AddPublicProblem.vue'
+  import ViewProblemComponent from './ViewProblem.vue'
 
   export default {
     name: 'ProblemList',
     components: {
-      AddProblemComponent
+      AddProblemComponent,
+      ViewProblemComponent
     },
     data () {
       return {
@@ -143,9 +153,11 @@
         ProblemList: true,
         UncheckProblemList: false,
         contestId: '',
+        viewProblemId: '',
         // for make public use
         currentProblemID: '',
         currentRow: {},
+        viewProblem: false,
         InlineEditDialogVisible: false,
         makePublicDialogVisible: false,
         addProblemDialogVisible: false
@@ -160,6 +172,8 @@
     methods: {
       init () {
         this.routeName = this.$route.name
+        this.ProblemList = this.isProblemList()
+        this.UncheckProblemList = this.isUncheckProblemList()
       },
       handleDblclick (row) {
         row.isEditing = true
@@ -176,6 +190,11 @@
         } else if (this.routeName === 'contest-problem-list') {
           this.$router.push({name: 'edit-contest-problem', params: {problemId: problemId, contestId: this.contestId}})
         }
+      },
+      openViewProblem (problemId) {
+        console.log('view problemId: ' + problemId)
+        this.viewProblem = true
+        this.viewProblemId = problemId
       },
       goCreateProblem () {
         if (this.routeName === 'problem-list') {
@@ -264,9 +283,9 @@
       '$route' (newVal, oldVal) {
         this.contestId = newVal.params.contestId
         this.routeName = newVal.name
-        this.ProblemList = this.isProblemList()
-        this.UncheckProblemList = this.isUncheckProblemList()
+        this.init()
         console.log('isUncheckProblemList:' + this.UncheckProblemList)
+        console.log('watch routeName:' + this.routeName)
         this.getProblemList(this.currentPage)
       },
       'keyword' () {
