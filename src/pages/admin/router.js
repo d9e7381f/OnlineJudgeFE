@@ -104,7 +104,7 @@ export default new VueRouter({
           component: Problem
         },
         {
-          path: '/problems/eduss',
+          path: '/problems/edus',
           name: 'edu-problem-list',
           component: ProblemList
         },

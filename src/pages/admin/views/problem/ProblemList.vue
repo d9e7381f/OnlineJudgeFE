@@ -71,6 +71,7 @@
           width="250">
           <div slot-scope="scope">
             <icon-btn name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
+            <icon-btn v-if="!isProblemList" name="pass" icon=""></icon-btn>
             <icon-btn v-if="contestId" name="设置公开" icon="clone"
                       @click.native="makeContestProblemPublic(scope.row.id)"></icon-btn>
             <icon-btn icon="download" name="下载测试实例"
@@ -81,7 +82,7 @@
         </el-table-column>
       </el-table>
       <div class="panel-options">
-        <el-button type="primary" size="small"
+        <el-button v-if="isProblemList" type="primary" size="small"
                    @click="goCreateProblem" icon="el-icon-plus">创建题目
         </el-button>
         <el-button v-if="contestId" type="primary"
@@ -139,6 +140,8 @@
         loading: false,
         currentPage: 1,
         routeName: '',
+        ProblemList: true,
+        UncheckProblemList: false,
         contestId: '',
         // for make public use
         currentProblemID: '',
@@ -156,11 +159,16 @@
     },
     methods: {
       init () {
-        console.log('init')
-        console.log('routeName:' + this.$route.name)
+        this.routeName = this.$route.name
       },
       handleDblclick (row) {
         row.isEditing = true
+      },
+      isProblemList () {
+        return this.routeName === 'problem-list'
+      },
+      isUncheckProblemList () {
+        return this.routeName === 'uncheck-problem-list'
       },
       goEdit (problemId) {
         if (this.routeName === 'problem-list') {
@@ -183,13 +191,12 @@
       },
       getProblemList (page = 1) {
         this.loading = true
-        let funcName1 = {
+        let funcName = {
           'problem-list': 'getProblemList',
           'contest-problem-list': 'getContestProblemList',
-          'edu-problem-list': 'getEduProblemList'
+          'edu-problem-list': 'getEduProblemList',
+          'uncheck-problem-list': 'getUncheckProblemList'
         }[this.routeName]
-        console.log('funcName:' + funcName1)
-        let funcName = this.routeName === 'problem-list' ? 'getProblemList' : 'getContestProblemList'
         let params = {
           limit: this.pageSize,
           offset: (page - 1) * this.pageSize,
@@ -257,6 +264,9 @@
       '$route' (newVal, oldVal) {
         this.contestId = newVal.params.contestId
         this.routeName = newVal.name
+        this.ProblemList = this.isProblemList()
+        this.UncheckProblemList = this.isUncheckProblemList()
+        console.log('isUncheckProblemList:' + this.UncheckProblemList)
         this.getProblemList(this.currentPage)
       },
       'keyword' () {

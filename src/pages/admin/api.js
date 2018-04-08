@@ -246,6 +246,14 @@ export default {
       params
     })
   },
+  getEduProblemList (params) {
+    params = utils.filterEmptyValue(params)
+    return ajax('admin/problem', 'get', {params})
+  },
+  getUncheckProblemList (params) {
+    params = utils.filterEmptyValue(params)
+    return ajax('admin/problem', 'get', {params})
+  },
   getContestProblemList (params) {
     params = utils.filterEmptyValue(params)
     return ajax('admin/contest/problem', 'get', {
