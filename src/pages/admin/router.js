@@ -102,6 +102,16 @@ export default new VueRouter({
           path: '/contest/:contestId/problem/:problemId/edit',
           name: 'edit-contest-problem',
           component: Problem
+        },
+        {
+          path: '/problems/eduss',
+          name: 'edu-problem-list',
+          component: ProblemList
+        },
+        {
+          path: '/problems/uncheck',
+          name: 'uncheck-problem-list',
+          component: ProblemList
         }
       ]
     },

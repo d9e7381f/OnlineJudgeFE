@@ -149,11 +149,16 @@
       }
     },
     mounted () {
+      this.init()
       this.routeName = this.$route.name
       this.contestId = this.$route.params.contestId
       this.getProblemList(this.currentPage)
     },
     methods: {
+      init () {
+        console.log('init')
+        console.log('routeName:' + this.$route.name)
+      },
       handleDblclick (row) {
         row.isEditing = true
       },
@@ -178,6 +183,12 @@
       },
       getProblemList (page = 1) {
         this.loading = true
+        let funcName1 = {
+          'problem-list': 'getProblemList',
+          'contest-problem-list': 'getContestProblemList',
+          'edu-problem-list': 'getEduProblemList'
+        }[this.routeName]
+        console.log('funcName:' + funcName1)
         let funcName = this.routeName === 'problem-list' ? 'getProblemList' : 'getContestProblemList'
         let params = {
           limit: this.pageSize,
