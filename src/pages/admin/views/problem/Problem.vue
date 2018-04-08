@@ -226,7 +226,7 @@
         </el-form-item>
 
         <el-form-item label="分类"  required>
-          <el-cascader :options="options" 
+          <el-cascader :options="collectionList" 
               :props="collectionprops"
               @change="handleChange"
               placeholder="选择题目分类">
@@ -277,7 +277,7 @@
         allLanguage: {},
         inputVisible: false,
         tagInput: '',
-        options: [],
+        collectionList: [],
         template: {},
         title: '',
         collectionprops: {
@@ -287,7 +287,6 @@
         spjMode: '',
         disableRuleType: false,
         routeName: '',
-        collectionId: '12',
         error: {
           tags: '',
           spj: '',
@@ -329,7 +328,7 @@
           rule_type: 'ACM',
           hint: '',
           selection: '',
-          collectionId: '',
+          collection: '',
           source: ''
         }
         let contestID = this.$route.params.contestId
@@ -401,15 +400,22 @@
       }
     },
     methods: {
+      changeChildren (list) {
+        for (var listitem of list) {
+          if (listitem[ 'children' ].length === 0) {
+            delete listitem[ 'children' ]
+          } else {
+            this.changeChildren(listitem[ 'children' ])
+          }
+        }
+      },
       handleChange (value) {
-        console.log(value)
-        console.log(value[ value.length - 1 ])
-        this.problem.collectionId = value[ value.length - 1 ]
+        this.problem.collection = value[ value.length - 1 ]
       },
       init () {
         api.getCollection().then(res => {
-          this.options = res.data.data.collection
-          console.log(this.options)
+          this.collectionList = res.data.data.collection
+          this.changeChildren(this.collectionList)
         }).catch(() => {
         })
       },
@@ -555,8 +561,8 @@
             }
           }
         }
-        if (this.problem.collectionId === '') {
-          console.log('collectionId is null')
+        if (this.problem.collection === '') {
+          console.log('collection is null')
           this.$error('未设置题目分类')
           return
         }

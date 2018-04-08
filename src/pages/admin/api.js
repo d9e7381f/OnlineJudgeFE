@@ -216,6 +216,11 @@ export default {
       data
     })
   },
+  createxProblem (data) {
+    return ajax('http://219.222.189.39/api/xproblem', 'post', {
+      data
+    })
+  },
   editProblem (data) {
     return ajax('admin/problem', 'put', {
       data
