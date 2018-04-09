@@ -1,13 +1,23 @@
 <template>
   <div class="view">
     <Panel :title="contestId ? '比赛题目列表' : '题目列表'">
-      <div slot="header">
-        <el-input
-          v-model="keyword"
-          prefix-icon="el-icon-search"
-          placeholder="关键字">
-        </el-input>
+      <div slot="header" >
+          <div class="header-option">
+           <el-switch
+           v-model="checkProblem"
+           @change="getProblemList"
+           active-text="已审核">
+          </el-switch>
+         </div>
+         <div class="header-option" style="margin: 0 auto">
+           <el-input
+              v-model="keyword"
+              prefix-icon="el-icon-search"
+              placeholder="关键字">
+           </el-input>
+         </div>
       </div>
+
       <el-table
         v-loading="loading"
         element-loading-text="加载中"
@@ -154,6 +164,7 @@
         UncheckProblemList: false,
         contestId: '',
         viewProblemId: '',
+        checkProblem: true,
         // for make public use
         currentProblemID: '',
         currentRow: {},
@@ -220,7 +231,8 @@
           limit: this.pageSize,
           offset: (page - 1) * this.pageSize,
           keyword: this.keyword,
-          contest_id: this.contestId
+          contest_id: this.contestId,
+          checkProblem: this.checkProblem
         }
         api[funcName](params).then(res => {
           this.loading = false
@@ -296,4 +308,9 @@
 </script>
 
 <style scoped lang="less">
+  .header-option{
+    float: left;
+    margin-top: 10px;
+    margin-right: 20px;
+  }
 </style>
