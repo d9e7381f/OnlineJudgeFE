@@ -308,8 +308,11 @@ export default {
       data
     })
   },
-  getCollection (data) {
+  getCollection () {
     return ajax('http://219.222.189.39/api/collection/', 'get')
+  },
+  getCourse () {
+    return ajax('http://219.222.189.39/api/course/', 'get')
   }
 }
 

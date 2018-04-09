@@ -227,20 +227,33 @@
 
         <el-form-item label="分类"  required>
           <el-cascader :options="collectionList" 
-              :props="collectionprops"
-              @change="handleChange"
+              :props="cascaderprops"
+              @change="handleCollectionChange"
               placeholder="选择题目分类">
         </el-cascader>
         </el-form-item>
         
-        <el-select v-model="value" placeholder="选择题目的类型">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
+        <el-form-item label="题目用途" required>
+           <el-select v-model="behoofvalue" placeholder="选择题目的类型">
+            <el-option
+              v-for="item in behoof"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
         </el-select>
+        </el-form-item>
+
+        <transition name="el-zoom-in-top">
+           <el-form-item v-if="behoofvalue" label="课程"  required>
+            <el-cascader :options="courseList" 
+                :props="cascaderprops"
+                @change="handleCourseChange"
+                placeholder="选择题目所属课程">
+            </el-cascader>
+          </el-form-item>
+        </transition>
+       
 
         <el-form-item label="来源">
           <el-input placeholder="输入题目来源" v-model="problem.source"></el-input>
@@ -274,6 +287,17 @@
         },
         loadingCompile: false,
         mode: '',
+        behoof: [
+          {
+            label: '公共题库',
+            value: 0
+          },
+          {
+            label: '教学题库',
+            value: 1
+          }
+        ],
+        behoofvalue: 0,
         contest: {},
         problem: {
           languages: []
@@ -286,10 +310,11 @@
         inputVisible: false,
         tagInput: '',
         collectionList: [],
+        courseList: [],
         template: {},
         isEduProblem: false,
         title: '',
-        collectionprops: {
+        cascaderprops: {
           value: 'id',
           label: 'name'
         },
@@ -338,6 +363,7 @@
           hint: '',
           selection: '',
           collection: '',
+          course: '',
           source: ''
         }
         let contestID = this.$route.params.contestId
@@ -418,8 +444,11 @@
           }
         }
       },
-      handleChange (value) {
+      handleCollectionChange (value) {
         this.problem.collection = value[ value.length - 1 ]
+      },
+      handleCourseChange (value) {
+        this.problem.course = value[ value.length - 1 ]
       },
       init () {
         api.getCollection().then(res => {

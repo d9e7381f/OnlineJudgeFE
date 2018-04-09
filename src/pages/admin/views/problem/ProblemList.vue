@@ -4,6 +4,7 @@
       <div slot="header" >
           <div class="header-option">
            <el-switch
+           v-if="EduProblemList"
            v-model="checkProblem"
            @change="getProblemList"
            active-text="已审核">
@@ -94,7 +95,7 @@
         </el-table-column>
       </el-table>
       <div class="panel-options">
-        <el-button v-if="isProblemList" type="primary" size="small"
+        <el-button v-if="ProblemList" type="primary" size="small"
                    @click="goCreateProblem" icon="el-icon-plus">创建题目
         </el-button>
         <el-button v-if="contestId" type="primary"
@@ -162,6 +163,7 @@
         routeName: '',
         ProblemList: true,
         UncheckProblemList: false,
+        EduProblemList: false,
         contestId: '',
         viewProblemId: '',
         checkProblem: true,
@@ -185,12 +187,16 @@
         this.routeName = this.$route.name
         this.ProblemList = this.isProblemList()
         this.UncheckProblemList = this.isUncheckProblemList()
+        this.EduProblemList = this.isEduProblemList()
       },
       handleDblclick (row) {
         row.isEditing = true
       },
       isProblemList () {
         return this.routeName === 'problem-list'
+      },
+      isEduProblemList () {
+        return this.routeName === 'edu-problem-list'
       },
       isUncheckProblemList () {
         return this.routeName === 'uncheck-problem-list'
