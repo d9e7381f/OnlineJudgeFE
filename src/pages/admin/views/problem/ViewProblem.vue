@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-        <div slot="title">{{problem.title}}</div>
+        <div slot="title">标题:{{problem.title}}</div>
         <div id="problem-content" class="markdown-body">
           <p class="title">问题描述</p>
           <p class="content" v-html=problem.description></p>

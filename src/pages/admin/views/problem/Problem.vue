@@ -233,6 +233,14 @@
         </el-cascader>
         </el-form-item>
         
+        <el-select v-model="value" placeholder="选择题目的类型">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
 
         <el-form-item label="来源">
           <el-input placeholder="输入题目来源" v-model="problem.source"></el-input>
@@ -279,6 +287,7 @@
         tagInput: '',
         collectionList: [],
         template: {},
+        isEduProblem: false,
         title: '',
         collectionprops: {
           value: 'id',
