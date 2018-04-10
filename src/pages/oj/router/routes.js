@@ -116,7 +116,8 @@ export default [
   {
     name: 'contribution',
     path: '/contribution',
-    component: NotFound
+    meta: {title: '贡献榜'},
+    component: ACMRank
   },
   {
     name: 'acm-rank',
