@@ -1,89 +1,132 @@
 <template>
-  <div class="error404">
-    <div class="error404-body-con">
-      <Card>
-        <div class="error404-body-con-title">4<span><Icon type="ios-navigate-outline"></Icon></span>4</div>
-        <p class="error404-body-con-message">你好像迷路了</p>
-        <div class="error404-btn-con">
-          <Button @click="goHome" size="large" style="width: 200px;" type="ghost">返回主页</Button>
-          <Button @click="backPage" size="large" style="width: 200px;margin-left: 40px;" type="primary">返回</Button>
-        </div>
-      </Card>
+  <Panel shadow :padding="10">
+    <div slot="title">
+      {{title}}
     </div>
-  </div>
+    <transition-group mode="in-out">
+      <div class="no-contribution" v-if="!contributions.length" key="no-contributiont">
+        <p>暂无数据</p>
+      </div>
+      <template>
+        <ul class="contribution-container" key="list">
+          <li v-for="contribution in contributions">
+            <div class="flex-container">
+              <div class="title"><a class="entry" @click="goUser(contribution.name)">
+                {{contribution.name}}</a></div>
+              <div class="date">班级:{{contribution.classes }}</div>
+              <div class="creator"> 贡献值 {{contribution.contribution}}</div>
+            </div>
+          </li>
+        </ul>
+      </template>
+    </transition-group>
+  </Panel>
 </template>
 
 <script>
+  import api from '@oj/api'
+
   export default {
-    name: 'contribution',
+    name: 'Contribution',
+    data () {
+      return {
+        title: '贡献榜',
+        limit: 10,
+        total: 10,
+        btnLoading: false,
+        contributions: [
+          {
+            name: 'admin',
+            contribution: 100,
+            classes: '2016级软件1班'
+          },
+          {
+            name: 'teacher',
+            contribution: 100,
+            classes: '2016级软件1班'
+          }
+        ]
+      }
+    },
+    mounted () {
+      this.init()
+    },
     methods: {
-      backPage () {
-        this.$router.go(-1)
+      init () {
+
       },
-      goHome () {
-        this.$router.push({
-          name: 'home'
+      getContributionList (page = 1) {
+        let params = {
+          limit: this.limit,
+          offset: (page - 1) * this.limit
+        }
+        this.btnLoading = true
+        api.getAnnouncementList(params).then(res => {
+          this.btnLoading = false
+          this.announcements = res.data.data.results
+          this.total = res.data.data.total
+        }, () => {
+          this.btnLoading = false
         })
+      },
+      goUser (username) {
+        console.log('username:' + username)
       }
     }
   }
 </script>
 
-<style lang="less" scoped>
-  @keyframes error404animation {
-    0% {
-      transform: rotateZ(0deg);
-    }
-    20% {
-      transform: rotateZ(-60deg);
-    }
-    40% {
-      transform: rotateZ(-10deg);
-    }
-    60% {
-      transform: rotateZ(50deg);
-    }
-    80% {
-      transform: rotateZ(-20deg);
-    }
-    100% {
-      transform: rotateZ(0deg);
+<style scoped lang="less">
+  .contribution-container {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    li {
+      list-style: none;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      margin-left: 20px;
+      font-size: 16px;
+      border-bottom: 1px solid rgba(187, 187, 187, 0.5);
+      &:last-child {
+        border-bottom: none;
+      }
+      .flex-container {
+        .title {
+          flex: 1 1;
+          text-align: left;
+          padding-left: 10px;
+          a.entry {
+            color: #495060;
+            &:hover {
+              color: #2d8cf0;
+              border-bottom: 1px solid #2d8cf0;
+            }
+          }
+        }
+        .creator {
+          flex: none;
+          width: 200px;
+          text-align: center;
+        }
+        .date {
+          flex: none;
+          width: 200px;
+          text-align: center;
+        }
+      }
     }
   }
 
-  .error404 {
-    &-body-con {
-      width: 700px;
-      height: 500px;
-      margin: 0 auto;
-      &-title {
-        text-align: center;
-        font-size: 240px;
-        font-weight: 700;
-        color: #2d8cf0;
-        height: 260px;
-        line-height: 260px;
-        margin-top: 40px;
-        span {
-          display: inline-block;
-          color: #19be6b;
-          font-size: 230px;
-          animation: error404animation 3s ease 0s infinite alternate;
-        }
-      }
-      &-message {
-        display: block;
-        text-align: center;
-        font-size: 30px;
-        font-weight: 500;
-        letter-spacing: 12px;
-        color: #dddde2;
-      }
-    }
-    &-btn-con {
-      text-align: center;
-      padding: 20px 0;
-      margin-bottom: 40px;
-    }
+  .content-container {
+    padding: 0 20px 20px 20px;
+  }
+
+  .no-contribution {
+    text-align: center;
+    font-size: 16px;
+  }
+
+  .contribution-animate-enter-active {
+    animation: fadeIn 1s;
   }
 </style>

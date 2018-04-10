@@ -17,7 +17,7 @@ export default {
     return ajax('announcement', 'get')
   },
   login (data) {
-    return ajax('login', 'post', {
+    return ajax('http://219.222.189.39/api/xlogin/', 'post', {
       data
     })
   },
@@ -42,7 +42,8 @@ export default {
     return ajax('captcha', 'get')
   },
   getUserInfo (username = undefined) {
-    return ajax('profile', 'get', {
+    console.log('username:' + username)
+    return ajax('http://219.222.189.39/api/profile/', 'get', {
       params: {
         username
       }
