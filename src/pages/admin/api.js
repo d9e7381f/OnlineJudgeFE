@@ -289,7 +289,7 @@ export default {
       data
     })
   },
-  addProblemFromPublic (data) {
+  addProblemFromEdu (data) {
     return ajax('admin/contest/add_problem_from_public', 'post', {
       data
     })

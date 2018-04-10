@@ -30,7 +30,7 @@
     <el-pagination
       class="page"
       layout="prev, pager, next"
-      @current-change="getPublicProblem"
+      @current-change="getEduProblem"
       :page-size="limit"
       :total="total">
     </el-pagination>
@@ -55,19 +55,20 @@
     mounted () {
       api.getContest(this.contestID).then(res => {
         this.contest = res.data.data
-        this.getPublicProblem()
+        this.getEduProblem()
       }).catch(() => {
       })
     },
     methods: {
-      getPublicProblem (page) {
+      getEduProblem (page) {
         this.loading = true
         let params = {
           offset: (page - 1) * this.limit,
           limit: this.limit,
           rule_type: this.contest.rule_type
         }
-        api.getProblemList(params).then(res => {
+        console.log('getting problem list')
+        api.getEduProblemList(params).then(res => {
           this.loading = false
           this.total = res.data.data.total
           this.problems = res.data.data.results
@@ -81,7 +82,7 @@
             contest_id: this.contestID,
             display_id: value
           }
-          api.addProblemFromPublic(data).then(() => {
+          api.addProblemFromEdu(data).then(() => {
             this.$emit('on-change')
           }, () => {})
         }, () => {

@@ -82,8 +82,8 @@
           label="操作"
           width="250">
           <div slot-scope="scope">
-            <icon-btn v-if="!UncheckProblemList" name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
-            <icon-btn v-if="UncheckProblemList" name="通过" icon="check" ></icon-btn>
+            <icon-btn v-if="!((UncheckProblemList)||(EduProblemList && !checkProblem))" name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
+            <icon-btn v-if="UncheckProblemList || (EduProblemList&& !checkProblem)" name="通过" icon="check" ></icon-btn>
             <icon-btn name="预览" icon="view"  @click.native="openViewProblem(scope.row.id)"></icon-btn>
             <icon-btn v-if="contestId" name="设置公开" icon="sort"
                       @click.native="makeContestProblemPublic(scope.row.id)"></icon-btn>
@@ -100,7 +100,7 @@
         </el-button>
         <el-button v-if="contestId" type="primary"
                    size="small" icon="el-icon-plus"
-                   @click="addProblemDialogVisible = true">从公共题目中添加
+                   @click="addProblemDialogVisible = true">从教学题库中添加
         </el-button>
         <el-pagination
           class="page"
@@ -188,6 +188,11 @@
         this.ProblemList = this.isProblemList()
         this.UncheckProblemList = this.isUncheckProblemList()
         this.EduProblemList = this.isEduProblemList()
+        if (this.UncheckProblemList) {
+          this.checkProblem = false
+        } else {
+          this.checkProblem = true
+        }
       },
       handleDblclick (row) {
         row.isEditing = true
@@ -238,7 +243,8 @@
           offset: (page - 1) * this.pageSize,
           keyword: this.keyword,
           contest_id: this.contestId,
-          checkProblem: this.checkProblem
+          in_course: this.EduProblemList,
+          in_valid: this.checkProblem
         }
         api[funcName](params).then(res => {
           this.loading = false
@@ -302,8 +308,6 @@
         this.contestId = newVal.params.contestId
         this.routeName = newVal.name
         this.init()
-        console.log('isUncheckProblemList:' + this.UncheckProblemList)
-        console.log('watch routeName:' + this.routeName)
         this.getProblemList(this.currentPage)
       },
       'keyword' () {
