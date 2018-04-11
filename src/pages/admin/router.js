@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // 引入 view 组件
 import { Announcement, Conf, Contest, ContestList, Home, JudgeServer, Login,
-  Problem, ProblemList, User, PruneTestCase, Dashboard, ProblemImportOrExport } from './views'
+  Problem, ProblemList, User, PruneTestCase, Dashboard, ProblemImportOrExport, CourseCollection } from './views'
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -47,6 +47,11 @@ export default new VueRouter({
           path: '/prune-test-case',
           name: 'prune-test-case',
           component: PruneTestCase
+        },
+        {
+          path: 'course-collection',
+          name: 'course-collection',
+          component: CourseCollection
         },
         {
           path: '/problems',
