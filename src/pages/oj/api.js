@@ -17,7 +17,7 @@ export default {
     return ajax('announcement', 'get')
   },
   login (data) {
-    return ajax('http://219.222.189.39/api/xlogin/', 'post', {
+    return ajax('xlogin/', 'post', {
       data
     })
   },
@@ -43,7 +43,7 @@ export default {
   },
   getUserInfo (username = undefined) {
     console.log('username:' + username)
-    return ajax('http://219.222.189.39/api/profile/', 'get', {
+    return ajax('profile', 'get', {
       params: {
         username
       }
@@ -120,7 +120,7 @@ export default {
         params[element] = searchParams[element]
       }
     })
-    return ajax('problem', 'get', {
+    return ajax('xproblem/', 'get', {
       params: params
     })
   },
@@ -257,6 +257,20 @@ export default {
   getACMACInfo (params) {
     return ajax('admin/contest/acm_helper', 'get', {
       params
+    })
+  },
+  admireProblem (problemID) {
+    return ajax('problem/admire', 'post', {
+      params: {
+        problem_id: problemID
+      }
+    })
+  },
+  belittleProblem (problemID) {
+    return ajax('problem/belittle', 'post', {
+      params: {
+        problem_id: problemID
+      }
     })
   },
   updateACInfoCheckedStatus (data) {

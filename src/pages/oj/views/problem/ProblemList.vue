@@ -63,7 +63,7 @@
 
       <Button long id="pick-one" @click="pickone">
         <Icon type="shuffle"></Icon>
-        选一个标签吧
+        随便来一道题吧
       </Button>
     </Panel>
     <Spin v-if="loadings.tag" fix size="large"></Spin>

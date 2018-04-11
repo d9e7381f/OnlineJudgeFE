@@ -36,7 +36,7 @@
         btnLoading: false,
         contributions: [
           {
-            name: 'admin',
+            name: 'root',
             contribution: 100,
             classes: '2016级软件1班'
           },
@@ -70,7 +70,8 @@
         })
       },
       goUser (username) {
-        console.log('username:' + username)
+        console.log('visit username:' + username)
+        this.$router.push({path: '/user-home?username=' + username})
       }
     }
   }

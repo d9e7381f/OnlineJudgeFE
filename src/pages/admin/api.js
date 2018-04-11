@@ -11,7 +11,7 @@ axios.defaults.xsrfCookieName = 'csrftoken'
 export default {
   // 登录
   login (username, password) {
-    return ajax('login', 'post', {
+    return ajax('xlogin/', 'post', {
       data: {
         username,
         password
@@ -212,12 +212,7 @@ export default {
     })
   },
   createProblem (data) {
-    return ajax('admin/problem', 'post', {
-      data
-    })
-  },
-  createxProblem (data) {
-    return ajax('http://219.222.189.39/api/xproblem', 'post', {
+    return ajax('xproblem/', 'post', {
       data
     })
   },
@@ -242,7 +237,7 @@ export default {
   },
   getProblemList (params) {
     params = utils.filterEmptyValue(params)
-    return ajax('admin/problem', 'get', {
+    return ajax('xproblem', 'get', {
       params
     })
   },
@@ -309,10 +304,10 @@ export default {
     })
   },
   getCollection () {
-    return ajax('http://219.222.189.39/api/collection/', 'get')
+    return ajax('collection/', 'get')
   },
   getCourse () {
-    return ajax('http://219.222.189.39/api/course/', 'get')
+    return ajax('course/', 'get')
   }
 }
 

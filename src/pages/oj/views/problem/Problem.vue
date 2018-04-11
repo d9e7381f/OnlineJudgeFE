@@ -139,10 +139,10 @@
         </div>
         <div>
           <Badge count="120" max="99">
-            <Button type="primary" shape="circle">赞</Button>
+            <Button type="primary" shape="circle" @click="admireProblem">赞</Button>
           </Badge>
           <Badge count="120" max="99">
-            <Button type="ghost" shape="circle">踩</Button>
+            <Button type="ghost" shape="circle" @click="belittleProblem">踩</Button>
           </Badge>
         </div>
       </Card>
@@ -315,6 +315,14 @@
         }, () => {
           this.$Loading.error()
         })
+      },
+      admireProblem () {
+        console.log('admire problemid :' + this.problem.id)
+        api.admireProblem(this.problem.id)
+      },
+      belittleProblem () {
+        console.log('belittleProblem: ' + this.problem.id)
+        api.belittleProblem(this.problem.id)
       },
       changePie (problemData) {
         // 只显示特定的一些状态
