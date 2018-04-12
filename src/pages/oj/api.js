@@ -260,9 +260,9 @@ export default {
     })
   },
   admireProblem (problemID) {
-    return ajax('problem/admire', 'post', {
+    return ajax('xproblem/' + problemID + '/vote/', 'post', {
       params: {
-        problem_id: problemID
+        is_up: true
       }
     })
   },

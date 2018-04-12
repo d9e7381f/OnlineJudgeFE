@@ -6,7 +6,7 @@
           <el-col :span="8">
             <el-cascader :options="collectionList" 
               :props="cascaderprops"
-              change-on-select="true"
+              :change-on-select="true"
               @change="handleCollectionChange"
               placeholder="选择题目分类">
             </el-cascader>
@@ -45,7 +45,7 @@
           <el-col :span="8">
             <el-cascader :options="courseList" 
               :props="cascaderprops"
-              change-on-select="true"
+              :change-on-select="true"
               @change="handleCourseChange"
               placeholder="请选择操作课程">
             </el-cascader>
