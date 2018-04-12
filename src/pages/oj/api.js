@@ -259,18 +259,9 @@ export default {
       params
     })
   },
-  admireProblem (problemID) {
+  evaluateProblem (problemID, data) {
     return ajax('xproblem/' + problemID + '/vote/', 'post', {
-      params: {
-        is_up: true
-      }
-    })
-  },
-  belittleProblem (problemID) {
-    return ajax('problem/belittle', 'post', {
-      params: {
-        problem_id: problemID
-      }
+      data
     })
   },
   updateACInfoCheckedStatus (data) {

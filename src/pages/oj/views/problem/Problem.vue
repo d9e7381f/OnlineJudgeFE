@@ -244,6 +244,12 @@
         result: {
           result: 9
         },
+        admireOption: {
+          is_up: true
+        },
+        belittleOption: {
+          is_up: false
+        },
         problem: {
           title: '',
           description: '',
@@ -318,11 +324,11 @@
       },
       admireProblem () {
         console.log('admire problemid :' + this.problem.id)
-        api.admireProblem(this.problem.id)
+        api.evaluateProblem(this.problem.id, this.admireOption)
       },
       belittleProblem () {
         console.log('belittleProblem: ' + this.problem.id)
-        api.belittleProblem(this.problem.id)
+        api.evaluateProblem(this.problem.id, this.belittleOption)
       },
       changePie (problemData) {
         // 只显示特定的一些状态
