@@ -42,7 +42,6 @@ export default {
     return ajax('captcha', 'get')
   },
   getUserInfo (username = undefined) {
-    console.log('username:' + username)
     return ajax('profile', 'get', {
       params: {
         username

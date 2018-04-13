@@ -47,7 +47,7 @@
           </div>
 
           <!--测试文件下载 -->
-          <div >
+          <div v-if="problem.is_open_test_case">
             <p class="title">测试数据下载</p>
             <p class="content">测试文件</p>
           </div>
