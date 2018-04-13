@@ -51,6 +51,11 @@
 
     <Col :span="5">
     <Panel :padding="10">
+      <div slot="title" class="taglist-title">全部分类</div>
+      <Cascader :data="collectionList" v-model="collectionID" @on-change="handleCollectionChange" placeholder="选择分类"></Cascader>
+    </Panel>
+
+    <Panel :padding="10"  style="margin-top:10px">
       <div slot="title" class="taglist-title">全部标签</div>
       <Button v-for="tag in tagList"
               :key="tag.name"
@@ -86,6 +91,12 @@
     },
     data () {
       return {
+        collectionList: [],
+        collectionID: [],
+        cascaderprops: {
+          value: 'id',
+          label: 'name'
+        },
         tagList: [],
         problemTableColumns: [
           {
@@ -166,6 +177,7 @@
         },
         routeName: '',
         query: {
+          collection_id: '',
           keyword: '',
           difficulty: '',
           tag: '',
@@ -191,6 +203,7 @@
           this.getTagList()
         }
         this.getProblemList()
+        this.getCollectionList()
       },
       pushRouter () {
         this.$router.push({
@@ -198,8 +211,33 @@
           query: utils.filterEmptyValue(this.query)
         })
       },
+      getCollectionList () {
+        console.log('getCollectionList')
+        api.getCollection().then(res => {
+          this.collectionList = res.data.data.collection
+          this.handleCollectionList(this.collectionList)
+        }).catch(() => {
+        })
+      },
+      handleCollectionChange (value) {
+        this.query.collection_id = value[ value.length - 1 ]
+        this.query.page = 1
+        this.pushRouter()
+      },
+      handleCollectionList (list) {
+        for (var item of list) {
+          item[ 'label' ] = item[ 'name' ]
+          item[ 'value' ] = item[ 'id' ]
+          delete item[ 'id' ]
+          delete item[ 'name' ]
+          if (item['children'].length === 0) {
+            delete item[ 'children' ]
+          } else {
+            this.handleCollectionList(item['children'])
+          }
+        }
+      },
       getProblemList () {
-        console.log('hello')
         let offset = (this.query.page - 1) * this.limit
         this.loadings.table = true
         api.getProblemList(offset, this.limit, this.query).then(res => {

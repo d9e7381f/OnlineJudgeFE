@@ -65,6 +65,9 @@ export default {
       data
     })
   },
+  getCollection () {
+    return ajax('collection/', 'get')
+  },
   tfaRequiredCheck (username) {
     return ajax('tfa_required', 'post', {
       data: {
