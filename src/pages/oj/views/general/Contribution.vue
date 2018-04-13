@@ -1,26 +1,36 @@
 <template>
-  <Panel shadow :padding="10">
-    <div slot="title">
-      {{title}}
-    </div>
-    <transition-group mode="in-out">
-      <div class="no-contribution" v-if="!contributions.length" key="no-contributiont">
-        <p>暂无数据</p>
-      </div>
-      <template>
-        <ul class="contribution-container" key="list">
-          <li v-for="contribution in contributions">
-            <div class="flex-container">
-              <div class="title"><a class="entry" @click="goUser(contribution.name)">
-                {{contribution.name}}</a></div>
-              <div class="date">班级:{{contribution.classes }}</div>
-              <div class="creator"> 贡献值 {{contribution.contribution}}</div>
-            </div>
-          </li>
-        </ul>
-      </template>
-    </transition-group>
-  </Panel>
+  <Row type="flex" :gutter="18">
+    <Col :span=19>
+      <Panel shadow :padding="10">
+        <div slot="title">
+          {{title}}
+        </div>
+        <transition-group mode="in-out">
+          <div class="no-contribution" v-if="!contributions.length" key="no-contributiont">
+            <p>暂无数据</p>
+          </div>
+          <template>
+            <ul class="contribution-container" key="list">
+              <li v-for="contribution in contributions">
+                <div class="flex-container">
+                  <div class="title"><a class="entry" @click="goUser(contribution.name)">
+                    {{contribution.name}}</a></div>
+                  <div class="date">班级:{{contribution.classes }}</div>
+                  <div class="creator"> 贡献值 {{contribution.contribution}}</div>
+                </div>
+              </li>
+            </ul>
+          </template>
+        </transition-group>
+      </Panel>
+    </Col>
+
+    <Col :span="5">
+      <Panel :padding="10">
+        <div slot="title" >用户信息</div>
+      </Panel>
+    </Col>
+  </Row>
 </template>
 
 <script>
