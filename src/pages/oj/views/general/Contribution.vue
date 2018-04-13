@@ -22,6 +22,34 @@
             </ul>
           </template>
         </transition-group>
+        <template>
+          <Row>
+              <Col span="8">
+                  <Card style="margin-top: 20px">
+                      <p slot="title">The standard card</p>
+                      <p>Content of card</p>
+                      <p>Content of card</p>
+                      <p>Content of card</p>
+                  </Card>
+              </Col>
+              <Col span="8">
+                  <Card>
+                      <p slot="title">The standard card</p>
+                      <p>Content of card</p>
+                      <p>Content of card</p>
+                      <p>Content of card</p>
+                  </Card>
+              </Col>
+              <Col span="8">
+                  <Card style="margin-top: 25px">
+                      <p slot="title">The standard card</p>
+                      <p>Content of card</p>
+                      <p>Content of card</p>
+                      <p>Content of card</p>
+                  </Card>
+              </Col>
+          </Row>
+      </template>
       </Panel>
     </Col>
 
