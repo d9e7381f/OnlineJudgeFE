@@ -89,8 +89,8 @@
         tagList: [],
         problemTableColumns: [
           {
-            title: '序号',
-            key: '_id',
+            title: '#',
+            key: 'id',
             render: (h, params) => {
               return h('Button', {
                 props: {

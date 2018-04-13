@@ -138,10 +138,10 @@
           <span class="card-title">评价</span>
         </div>
         <div>
-          <Badge count="120" max="99">
+          <Badge :count="problem.vote_ups" max="99">
             <Button type="primary" shape="circle" @click="admireProblem">赞</Button>
           </Badge>
-          <Badge count="120" max="99">
+          <Badge :count="problem.vote_downs" max="99">
             <Button type="ghost" shape="circle" @click="belittleProblem">踩</Button>
           </Badge>
         </div>
@@ -324,11 +324,17 @@
       },
       admireProblem () {
         console.log('admire problemid :' + this.problem.id)
-        api.evaluateProblem(this.problem.id, this.admireOption)
+        api.evaluateProblem(this.problem.id, this.admireOption).then(res => {
+          this.problem.vote_ups++
+        }).catch(() => {
+        })
       },
       belittleProblem () {
         console.log('belittleProblem: ' + this.problem.id)
-        api.evaluateProblem(this.problem.id, this.belittleOption)
+        api.evaluateProblem(this.problem.id, this.belittleOption).then(res => {
+          this.problem.vote_downs++
+        }).catch(() => {
+        })
       },
       changePie (problemData) {
         // 只显示特定的一些状态
