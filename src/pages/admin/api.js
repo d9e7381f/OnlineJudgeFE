@@ -279,13 +279,31 @@ export default {
       }
     })
   },
-  addCourse (id, name) {
-    return ajax('course/' + id + '/', 'post', {
-      name: name
+  addCourse (data) {
+    return ajax('course/', 'post', {
+      data
     })
   },
   deleteCourse (id) {
-    return ajax('course/' + id + '/', 'delete')
+    return ajax('course/' + id + '/delete', 'get')
+  },
+  renCourse (id, data) {
+    return ajax('course/' + id + '/', 'put', {
+      data
+    })
+  },
+  addCollection (data) {
+    return ajax('collection/', 'post', {
+      data
+    })
+  },
+  deleteCollection (id) {
+    return ajax('collection/' + id + '/delete', 'get')
+  },
+  renCollection (id, data) {
+    return ajax('collection/' + id + '/', 'put', {
+      data
+    })
   },
   makeContestProblemPublic (data) {
     return ajax('admin/contest_problem/make_public', 'post', {

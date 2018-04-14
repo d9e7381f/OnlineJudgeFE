@@ -179,14 +179,23 @@
         } else if (this.addCourseName === '') {
           Vue.prototype.$error('课程名称不能为空')
         } else {
-          api.addCourse(this.courseID, this.addCourseName)
+          let courseoptions = {
+            parent: '/api/course/' + this.courseID,
+            name: this.addCourseName
+          }
+          console.log(this.addCourseName)
+          api.addCourse(courseoptions).catch(() => {})
         }
       },
       deleteCourse () {
         if (this.courseID === '') {
           Vue.prototype.$error('请先选择要操作的分类')
         } else {
-          api.deleteCourse(this.courseID)
+          api.deleteCourse(this.courseID).then(res => {
+            if (res.data.error === null) {
+              this.getCourseList()
+            }
+          })
         }
       },
       changeCourseRenameAndDelete () {
