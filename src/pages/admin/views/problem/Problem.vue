@@ -176,7 +176,7 @@
           <el-col :span="4">
             <el-form-item label="测试实例" :error="error.testcase">
               <el-upload
-                action="/api/admin/test_case"
+                action="/api/test_case"
                 name="file"
                 :data="{spj: problem.spj}"
                 :show-file-list="false"
@@ -463,7 +463,7 @@
       },
       getCourse () {
         api.getCourse().then(res => {
-          this.courseList = res.data.data
+          this.courseList = res.data.data.collection
           this.changeChildren(this.courseList)
         }).catch(() => {
         })

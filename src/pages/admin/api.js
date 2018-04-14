@@ -279,6 +279,14 @@ export default {
       }
     })
   },
+  addCourse (id, name) {
+    return ajax('course/' + id + '/', 'post', {
+      name: name
+    })
+  },
+  deleteCourse (id) {
+    return ajax('course/' + id + '/', 'delete')
+  },
   makeContestProblemPublic (data) {
     return ajax('admin/contest_problem/make_public', 'post', {
       data

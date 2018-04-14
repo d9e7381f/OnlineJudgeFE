@@ -53,7 +53,7 @@
           <el-col :span="6">
             <el-row  type="flex" justify="space-between">
               <el-col :span="14">
-                <el-input v-model="newCourseName" placeholder="重命名分类"></el-input>
+                <el-input v-model="newCourseName" placeholder="重命名课程"></el-input>
               </el-col>
              <el-col :span="8">
                <el-button type="primary" icon="el-icon-edit" circle :disabled="disabledCourseRenameAndDelete" @click="renCourse"></el-button>
@@ -116,7 +116,7 @@
         api.getCollection().then(res => {
           this.collectionList.push({
             id: -1,
-            name: 'root',
+            name: '顶层分类',
             children: []
           })
           this.collectionList[0][ 'children' ] = res.data.data.collection
@@ -153,13 +153,13 @@
         this.disabledCollectionRenameAndDelete = (this.collectionID === '' || this.collectionID === -1)
       },
       getCourseList () {
-        api.getCollection().then(res => {
+        api.getCourse().then(res => {
           this.courseList.push({
             id: -1,
-            name: 'root',
+            name: '顶层课程',
             children: []
           })
-          this.courseList[0][ 'children' ] = res.data.data.collection
+          this.courseList[0][ 'children' ] = res.data.data.course
           this.changeChildren(this.courseList)
         }).catch(() => {
         })
@@ -179,14 +179,14 @@
         } else if (this.addCourseName === '') {
           Vue.prototype.$error('课程名称不能为空')
         } else {
-          console.log('id' + this.courseID + ' addCollectionName:' + this.addCourseName)
+          api.addCourse(this.courseID, this.addCourseName)
         }
       },
       deleteCourse () {
         if (this.courseID === '') {
           Vue.prototype.$error('请先选择要操作的分类')
         } else {
-          console.log('id' + this.courseID + ' deleteCollection')
+          api.deleteCourse(this.courseID)
         }
       },
       changeCourseRenameAndDelete () {

@@ -5,7 +5,7 @@
         <el-row :gutter="20">
           <el-col :span="8">
             <el-button v-show="selectedUsers.length"
-                       type="warning" icon="el-icon-fa-trash"
+                       type="warning" icon="el-icon-delete"
                        @click="deleteUsers(selectedUserIDs)">Delete
             </el-button>
           </el-col>
@@ -52,7 +52,7 @@
         <el-table-column fixed="right" label="操作" width="200">
           <template slot-scope="{row}">
             <icon-btn name="编辑" icon="edit" @click.native="openUserDialog(row.id)"></icon-btn>
-            <icon-btn name="删除" icon="trash" @click.native="deleteUsers([row.id])"></icon-btn>
+            <icon-btn name="删除" icon="delete" @click.native="deleteUsers([row.id])"></icon-btn>
           </template>
         </el-table-column>
       </el-table>

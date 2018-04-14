@@ -88,7 +88,7 @@
   import { mapGetters, mapActions } from 'vuex'
   import login from '@oj/views/user/Login'
   import register from '@oj/views/user/Register'
-
+  import api from '@oj/api.js'
   export default {
     components: {
       login,
@@ -103,7 +103,13 @@
         if (route && route.indexOf('admin') < 0) {
           this.$router.push(route)
         } else {
-          window.open('/admin/')
+          api.getUserInfo().then(res => {
+            if (res.data.data.user.admin_type === 'Regular User') {
+              window.open('/admin/problems')
+            } else {
+              window.open('/admin/')
+            }
+          }).catch(() => {})
         }
       },
       handleBtnClick (mode) {

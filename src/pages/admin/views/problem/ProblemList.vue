@@ -244,7 +244,8 @@
           keyword: this.keyword,
           contest_id: this.contestId,
           in_course: this.EduProblemList,
-          in_valid: this.checkProblem
+          has_perm: true,
+          is_valid: this.checkProblem
         }
         api[funcName](params).then(res => {
           this.loading = false

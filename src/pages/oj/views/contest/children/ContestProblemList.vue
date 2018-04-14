@@ -1,7 +1,7 @@
 <template>
   <div>
     <Panel>
-      <div slot="title">Problems List</div>
+      <div slot="title">题目列表</div>
       <Table v-if="contestRuleType == 'ACM' || OIContestRealTimePermission"
              :columns="ACMTableColumns"
              :data="problems"
@@ -33,15 +33,15 @@
             width: 150
           },
           {
-            title: 'Title',
+            title: '标题',
             key: 'title'
           },
           {
-            title: 'Total',
+            title: '总提交',
             key: 'submission_number'
           },
           {
-            title: 'AC Rate',
+            title: '通过率',
             render: (h, params) => {
               return h('span', this.getACRate(params.row.accepted_number, params.row.submission_number))
             }
@@ -54,7 +54,7 @@
             width: 150
           },
           {
-            title: 'Title',
+            title: '标题',
             key: 'title'
           }
         ]
