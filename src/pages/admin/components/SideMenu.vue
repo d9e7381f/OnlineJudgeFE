@@ -4,7 +4,7 @@
     <div class="logo">
       <img src="../../../assets/logo.svg" alt="oj admin"/>
     </div>
-    <el-menu-item index="/"><i class="el-icon-fa-dashboard"></i>指示板</el-menu-item>
+    <el-menu-item index="/" v-if="isAdminRole"><i class="el-icon-fa-dashboard"></i>指示板</el-menu-item>
     <el-submenu v-if="isSuperAdmin" index="general">
       <template slot="title"><i class="el-icon-menu"></i>通用</template>
       <el-menu-item index="/user">用户</el-menu-item>
@@ -14,7 +14,7 @@
       <el-menu-item index="/prune-test-case">旧测试实例</el-menu-item>
       <el-menu-item index="/course-collection">课程和分类</el-menu-item>
     </el-submenu>
-    <el-submenu index="problem" v-if="hasProblemPermission">
+    <el-submenu index="problem">
       <template slot="title"><i class="el-icon-fa-bars"></i>题目</template>
       <el-menu-item index="/problems">题目列表</el-menu-item>
       <el-menu-item v-if="isAdminRole" index="/problems/edus">教学题库</el-menu-item>

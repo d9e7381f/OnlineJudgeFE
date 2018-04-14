@@ -451,9 +451,20 @@
         this.problem.course = value[ value.length - 1 ]
       },
       init () {
+        this.getCollection()
+        this.getCourse()
+      },
+      getCollection () {
         api.getCollection().then(res => {
           this.collectionList = res.data.data.collection
           this.changeChildren(this.collectionList)
+        }).catch(() => {
+        })
+      },
+      getCourse () {
+        api.getCourse().then(res => {
+          this.courseList = res.data.data
+          this.changeChildren(this.courseList)
         }).catch(() => {
         })
       },

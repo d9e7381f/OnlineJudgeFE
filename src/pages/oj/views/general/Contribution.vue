@@ -10,41 +10,54 @@
             <p>暂无数据</p>
           </div>
           <template>
-            <Row key="list">
-                <Col span="8">
-                    <Card style="margin-top: 20px">
-                        <p slot="title">The standard card</p>
-                        <p>Content of card</p>
-                        <p>Content of card</p>
-                        <p>Content of card</p>
-                    </Card>
-                </Col>
-                <Col span="8">
-                    <Card>
-                        <p slot="title">The standard card</p>
-                        <p>Content of card</p>
-                        <p>Content of card</p>
-                        <p>Content of card</p>
-                    </Card>
-                </Col>
-                <Col span="8">
-                    <Card style="margin-top: 20px">
-                        <p slot="title">The standard card</p>
-                        <p>Content of card</p>
-                        <p>Content of card</p>
-                        <p>Content of card</p>
-                    </Card>
-                </Col>
+            <Row key="top3-list">
+              <Col span="8">
+                  <Card style="margin-top: 20px">
+                      <p slot="title">The standard card</p>
+                      <p>Content of card</p>
+                      <p>Content of card</p>
+                      <p>Content of card</p>
+                  </Card>
+              </Col>
+              <Col span="8">
+                  <Card>
+                      <img class="avatar" :src="user.avatar"/>
+                  </Card>
+              </Col>
+              <Col span="8">
+                  <Card style="margin-top: 20px">
+                      <p slot="title">The standard card</p>
+                      <p>Content of card</p>
+                      <p>Content of card</p>
+                      <p>Content of card</p>
+                  </Card>
+              </Col>
             </Row>
           </template>
+          <template>
+            <ul class="contribution-container" key="list">
+              <li v-for="contribution in contributions">
+                <div class="flex-container">
+                  <div class="title"><a class="entry" @click="goUser(contribution.name)">
+                    {{contribution.name}}</a></div>
+                  <div class="date">班级:{{contribution.classes }}</div>
+                  <div class="creator"> 贡献值 {{contribution.contribution}}</div>
+                </div>
+              </li>
+            </ul>
+          </template>
         </transition-group>
-        
       </Panel>
     </Col>
 
     <Col :span="5">
-      <Panel :padding="10">
+      <Panel :padding="10" align="center">
         <div slot="title" >用户信息</div>
+        <img class="avatar" :src="user.avatar"/>
+        <p class="userinfo-label">用户名: {{user.user.username}}</p>
+        <p v-if="user.major != null">专业:{{user.major}}</p>
+        <p class="userinfo-label">解决问题:{{user.accecpted_number}}</p>
+        <p v-if="user.github != null" class="userinfo-label">github: {{user.github}}</p>
       </Panel>
     </Col>
   </Row>
@@ -61,6 +74,7 @@
         limit: 10,
         total: 10,
         btnLoading: false,
+        user: {},
         contributions: [
           {
             name: 'root',
@@ -80,7 +94,7 @@
     },
     methods: {
       init () {
-
+        this.getUser('root')
       },
       getContributionList (page = 1) {
         let params = {
@@ -96,6 +110,13 @@
           this.btnLoading = false
         })
       },
+      getUser (username) {
+        console.log('getUser By username:' + username)
+        api.getUserInfo(username).then(res => {
+          this.user = res.data.data
+        }).catch(() => {
+        })
+      },
       goUser (username) {
         console.log('visit username:' + username)
         this.$router.push({path: '/user-home?username=' + username})
@@ -106,7 +127,7 @@
 
 <style scoped lang="less">
   .contribution-container {
-    margin-top: -10px;
+    margin-top: 20px;
     margin-bottom: 10px;
     li {
       list-style: none;
@@ -156,5 +177,16 @@
 
   .contribution-animate-enter-active {
     animation: fadeIn 1s;
+  }
+
+  .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        box-shadow: 0 1px 1px 0;
+  }
+
+  #userinfo-label{
+    margin-top: 10px;
   }
 </style>

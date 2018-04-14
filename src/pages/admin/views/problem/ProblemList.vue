@@ -53,7 +53,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="created_by.username"
+          prop="created_by"
           label="作者">
         </el-table-column>
         <el-table-column
@@ -235,8 +235,8 @@
         let funcName = {
           'problem-list': 'getProblemList',
           'contest-problem-list': 'getContestProblemList',
-          'edu-problem-list': 'getEduProblemList',
-          'uncheck-problem-list': 'getUncheckProblemList'
+          'edu-problem-list': 'getProblemList',
+          'uncheck-problem-list': 'getProblemList'
         }[this.routeName]
         let params = {
           limit: this.pageSize,
