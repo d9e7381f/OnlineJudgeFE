@@ -212,7 +212,6 @@
         })
       },
       getCollectionList () {
-        console.log('getCollectionList')
         api.getCollection().then(res => {
           this.collectionList = res.data.data.collection
           this.handleCollectionList(this.collectionList)

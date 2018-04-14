@@ -54,10 +54,6 @@
       <Panel :padding="10" align="center">
         <div slot="title" >用户信息</div>
         <img class="avatar" :src="user.avatar"/>
-        <p class="userinfo-label">用户名: {{user.user.username}}</p>
-        <p v-if="user.major != null">专业:{{user.major}}</p>
-        <p class="userinfo-label">解决问题:{{user.accecpted_number}}</p>
-        <p v-if="user.github != null" class="userinfo-label">github: {{user.github}}</p>
       </Panel>
     </Col>
   </Row>
@@ -94,7 +90,6 @@
     },
     methods: {
       init () {
-        this.getUser('root')
       },
       getContributionList (page = 1) {
         let params = {

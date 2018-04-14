@@ -51,7 +51,7 @@
   import Pagination from '@/pages/oj/components/Pagination'
 
   export default {
-    name: 'submissionList',
+    name: 'submissions',
     components: {
       Pagination
     },
