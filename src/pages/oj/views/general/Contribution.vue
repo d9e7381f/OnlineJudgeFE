@@ -9,43 +9,6 @@
           <div class="no-contribution" v-if="!contributions.length" key="no-contributiont">
             <p>暂无数据</p>
           </div>
-          <template>
-            <Row key="top3-list">
-              <Col span="8">
-                  <Card style="margin-top: 20px">
-                      <p slot="title">The standard card</p>
-                      <p>Content of card</p>
-                      <p>Content of card</p>
-                      <p>Content of card</p>
-                  </Card>
-              </Col>
-              <Col span="8">
-                  <Card>
-                      <img class="avatar" :src="user.avatar"/>
-                  </Card>
-              </Col>
-              <Col span="8">
-                  <Card style="margin-top: 20px">
-                      <p slot="title">The standard card</p>
-                      <p>Content of card</p>
-                      <p>Content of card</p>
-                      <p>Content of card</p>
-                  </Card>
-              </Col>
-            </Row>
-          </template>
-          <template>
-            <ul class="contribution-container" key="list">
-              <li v-for="contribution in contributions">
-                <div class="flex-container">
-                  <div class="title"><a class="entry" @click="goUser(contribution.name)">
-                    {{contribution.name}}</a></div>
-                  <div class="date">班级:{{contribution.classes }}</div>
-                  <div class="creator"> 贡献值 {{contribution.contribution}}</div>
-                </div>
-              </li>
-            </ul>
-          </template>
         </transition-group>
       </Panel>
     </Col>

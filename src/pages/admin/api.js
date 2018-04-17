@@ -228,6 +228,9 @@ export default {
       }
     })
   },
+  validateProblem (id) {
+    return ajax('xproblem/' + id + '/validate/', 'put')
+  },
   getProblem (id) {
     return ajax('admin/problem', 'get', {
       params: {
@@ -237,17 +240,17 @@ export default {
   },
   getProblemList (params) {
     params = utils.filterEmptyValue(params)
-    return ajax('xproblem', 'get', {
+    return ajax('xproblem/', 'get', {
       params
     })
   },
   getEduProblemList (params) {
     params = utils.filterEmptyValue(params)
-    return ajax('xproblem', 'get', {params})
+    return ajax('xproblem/', 'get', {params})
   },
   getUncheckProblemList (params) {
     params = utils.filterEmptyValue(params)
-    return ajax('xproblem', 'get', {params})
+    return ajax('xproblem/', 'get', {params})
   },
   getContestProblemList (params) {
     params = utils.filterEmptyValue(params)
@@ -285,7 +288,7 @@ export default {
     })
   },
   deleteCourse (id) {
-    return ajax('course/' + id + '/delete', 'get')
+    return ajax('course/' + id + '/', 'delete')
   },
   renCourse (id, data) {
     return ajax('course/' + id + '/', 'put', {
@@ -298,7 +301,7 @@ export default {
     })
   },
   deleteCollection (id) {
-    return ajax('collection/' + id + '/delete', 'get')
+    return ajax('collection/' + id + '/', 'delete')
   },
   renCollection (id, data) {
     return ajax('collection/' + id + '/', 'put', {
