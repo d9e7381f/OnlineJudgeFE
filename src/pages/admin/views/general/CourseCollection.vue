@@ -37,7 +37,7 @@
         </el-row>
       </div>
        <el-table
-        v-loading="loadingTable"
+        v-loading="collectionLoadingTable"
         element-loading-text="loading"
         @selection-change=""
         ref="table"
@@ -63,21 +63,14 @@
           </template>
         </el-table-column>
 
-
-        <el-table-column fixed="right" label="操作" width="200">
-          <template slot-scope="{row}">
-            <icon-btn name="编辑" icon="edit" ></icon-btn>
-            <icon-btn name="删除" icon="delete"></icon-btn>
-          </template>
-        </el-table-column>
       </el-table>
       <div class="panel-options">
         <el-pagination
           class="page"
           layout="prev, pager, next"
           @current-change="currentChange"
-          :page-size="pageSize"
-          :total="total">
+          :page-size="collectionPageSize"
+          :total="collectionTotal">
         </el-pagination>
         </div>
     </Panel>
@@ -119,8 +112,46 @@
           </el-col>
         </el-row>
       </div>
-    </Panel>
 
+        <el-table
+        v-loading="collectionLoadingTable"
+        element-loading-text="loading"
+        @selection-change=""
+        ref="table"
+        :data="courseProblemList"
+        style="width: 100%;margin-top: 20px;">
+        <el-table-column type="selection" width="55"></el-table-column>
+
+        <el-table-column prop="id" label="ID"></el-table-column>
+
+        <el-table-column prop="title" label="标题"></el-table-column>
+
+        <el-table-column prop="create_time" label="创建时间">
+          <template slot-scope="scope">
+            {{scope.row.create_time | localtime }}
+          </template>
+        </el-table-column>
+
+        <el-table-column label="分类">
+            <template slot-scope="scope">
+              <el-tag v-for="(course,index) in scope.row.courses" :key="course.name">
+                 {{course.name}}
+              </el-tag>
+          </template>
+        </el-table-column>
+
+      </el-table>
+      <div class="panel-options">
+        <el-pagination
+          class="page"
+          layout="prev, pager, next"
+          @current-change="currentChange"
+          :page-size="coursePageSize"
+          :total="courseTotal">
+        </el-pagination>
+        </div>
+
+    </Panel>
   </div>
 </template>
 
@@ -146,13 +177,19 @@
         addCourseName: '',
         newCourseName: '',
         disabledCourseRenameAndDelete: true,
-        pageSize: 10,
-        total: 0,
-        loading: false,
-        currentPage: 1,
-        loadingTable: false,
+        collectionPageSize: 10,
+        collectionTotal: 0,
+        collectionLoading: false,
+        collectionCurrentPage: 1,
+        collectionLoadingTable: false,
         selectCollectionProblem: [],
-        collectionProblemList: []
+        collectionProblemList: [],
+        coursePageSize: 10,
+        courseTotal: 0,
+        courseLoading: false,
+        courseCurrentPage: 1,
+        courseLoadingTable: false,
+        courseProblemList: []
       }
     },
     mounted () {
@@ -162,28 +199,46 @@
       init () {
         this.getCollectionList()
         this.getCourseList()
-        this.getCollectionProblemList(this.currentPage)
+        this.getCollectionProblemList(this.collectionCurrentPage)
+        this.getCourseProblemList(this.courseCurrentPage)
       },
-      getCollectionProblemList (page = 1) {
+      getCollectionProblemList (collectionPage = 1) {
         let params = {
-          limit: this.pageSize,
-          offset: (page - 1) * this.pageSize,
-          keyword: this.keyword,
-          contest_id: this.contestId,
-          in_course: this.EduProblemList,
+          limit: this.collectionPageSize,
+          offset: (collectionPage - 1) * this.collectionPageSize,
+          in_course: false,
           has_perm: true,
-          is_valid: this.checkProblem
+          is_valid: true
         }
         api.getProblemList(params).then(res => {
-          this.loading = false
-          this.total = res.data.data.total
+          this.collectionLoading = false
+          this.collectionTotal = res.data.data.total
           for (let problem of res.data.data.results) {
             problem.isEditing = false
           }
           this.collectionProblemList = res.data.data.results
           console.log(this.collectionProblemList[0].collections.length)
         }, res => {
-          this.loading = false
+          this.collectionLoading = false
+        })
+      },
+      getCourseProblemList (coursePage = 1) {
+        let params = {
+          limit: this.coursePageSize,
+          offset: (coursePage - 1) * this.coursePageSize,
+          in_course: true,
+          has_perm: true,
+          is_valid: true
+        }
+        api.getProblemList(params).then(res => {
+          this.courseLoading = false
+          this.courseTotal = res.data.data.total
+          for (let problem of res.data.data.results) {
+            problem.isEditing = false
+          }
+          this.courseProblemList = res.data.data.results
+        }, res => {
+          this.courseLoading = false
         })
       },
       handleSelectionChange (val) {
