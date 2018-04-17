@@ -36,6 +36,48 @@
           </el-col>
         </el-row>
       </div>
+       <el-table
+        v-loading="loadingTable"
+        element-loading-text="loading"
+        @selection-change=""
+        ref="table"
+        :data="collectionProblemList"
+        style="width: 100%;margin-top: 20px;">
+        <el-table-column type="selection" width="55"></el-table-column>
+
+        <el-table-column prop="id" label="ID"></el-table-column>
+
+        <el-table-column prop="title" label="标题"></el-table-column>
+
+        <el-table-column prop="create_time" label="创建时间">
+          <template slot-scope="scope">
+            {{scope.row.create_time | localtime }}
+          </template>
+        </el-table-column>
+
+        <el-table-column prop="collection" label="最后登录">
+          <template slot-scope="scope">
+          test
+          </template>
+        </el-table-column>
+
+
+        <el-table-column fixed="right" label="操作" width="200">
+          <template slot-scope="{row}">
+            <icon-btn name="编辑" icon="edit" ></icon-btn>
+            <icon-btn name="删除" icon="delete"></icon-btn>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="panel-options">
+        <el-pagination
+          class="page"
+          layout="prev, pager, next"
+          @current-change="currentChange"
+          :page-size="pageSize"
+          :total="total">
+        </el-pagination>
+        </div>
     </Panel>
 
     <Panel>
@@ -101,7 +143,14 @@
         courseId: [],
         addCourseName: '',
         newCourseName: '',
-        disabledCourseRenameAndDelete: true
+        disabledCourseRenameAndDelete: true,
+        pageSize: 10,
+        total: 0,
+        loading: false,
+        currentPage: 1,
+        loadingTable: false,
+        selectCollectionProblem: [],
+        collectionProblemList: []
       }
     },
     mounted () {
@@ -111,6 +160,35 @@
       init () {
         this.getCollectionList()
         this.getCourseList()
+        this.getCollectionProblemList(this.currentPage)
+      },
+      getCollectionProblemList (page = 1) {
+        let params = {
+          limit: this.pageSize,
+          offset: (page - 1) * this.pageSize,
+          keyword: this.keyword,
+          contest_id: this.contestId,
+          in_course: this.EduProblemList,
+          has_perm: true,
+          is_valid: this.checkProblem
+        }
+        api.getProblemList(params).then(res => {
+          this.loading = false
+          this.total = res.data.data.total
+          for (let problem of res.data.data.results) {
+            problem.isEditing = false
+          }
+          this.collectionProblemList = res.data.data.results
+        }, res => {
+          this.loading = false
+        })
+      },
+      handleSelectionChange (val) {
+        this.selectCollectionProblem = val
+      },
+      currentChange (page) {
+        this.currentPage = page
+        this.getCollectionProblemList(page)
       },
       getCollectionList () {
         api.getCollection().then(res => {

@@ -282,11 +282,6 @@ export default {
       }
     })
   },
-  addCourse (data) {
-    return ajax('course/', 'post', {
-      data
-    })
-  },
   deleteCourse (id) {
     return ajax('course/' + id + '/', 'delete')
   },
