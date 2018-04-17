@@ -217,12 +217,12 @@ export default {
     })
   },
   editProblem (data) {
-    return ajax('admin/problem', 'put', {
+    return ajax('xproblem/17/', 'put', {
       data
     })
   },
   deleteProblem (id) {
-    return ajax('admin/problem', 'delete', {
+    return ajax('xproblem/', 'delete', {
       params: {
         id
       }
@@ -232,11 +232,7 @@ export default {
     return ajax('xproblem/' + id + '/validate/', 'put')
   },
   getProblem (id) {
-    return ajax('admin/problem', 'get', {
-      params: {
-        id
-      }
-    })
+    return ajax('xproblem/' + id + '/', 'get', {})
   },
   getProblemList (params) {
     params = utils.filterEmptyValue(params)
@@ -280,6 +276,11 @@ export default {
       params: {
         id
       }
+    })
+  },
+  addCourse (data) {
+    return ajax('course/', 'post', {
+      data
     })
   },
   deleteCourse (id) {

@@ -55,9 +55,11 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="collection" label="最后登录">
-          <template slot-scope="scope">
-          test
+        <el-table-column label="分类">
+            <template slot-scope="scope">
+              <el-tag v-for="(collection,index) in scope.row.collections" :key="collection.name">
+                 {{collection.name}}
+              </el-tag>
           </template>
         </el-table-column>
 
@@ -179,6 +181,7 @@
             problem.isEditing = false
           }
           this.collectionProblemList = res.data.data.results
+          console.log(this.collectionProblemList[0].collections.length)
         }, res => {
           this.loading = false
         })

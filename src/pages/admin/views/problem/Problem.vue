@@ -228,6 +228,7 @@
         <el-form-item label="分类"  required>
           <el-cascader :options="collectionList" 
               :props="cascaderprops"
+              v-model="collection"
               @change="handleCollectionChange"
               placeholder="选择题目分类">
         </el-cascader>
@@ -248,6 +249,7 @@
            <el-form-item v-if="behoofvalue" label="课程"  required>
             <el-cascader :options="courseList" 
                 :props="cascaderprops"
+                v-model='course'
                 @change="handleCourseChange"
                 placeholder="选择题目所属课程">
             </el-cascader>
@@ -297,7 +299,7 @@
             value: 1
           }
         ],
-        behoofvalue: 0,
+        behoofvalue: 1,
         contest: {},
         problem: {
           languages: []
@@ -310,7 +312,9 @@
         inputVisible: false,
         tagInput: '',
         collectionList: [],
+        collection: [],
         courseList: [],
+        course: [],
         template: {},
         isEduProblem: false,
         title: '',
@@ -363,7 +367,7 @@
           hint: '',
           selection: '',
           collection: '',
-          course: '',
+          courses: [],
           source: ''
         }
         let contestID = this.$route.params.contestId
@@ -393,6 +397,22 @@
             data.spj_language = data.spj_language || 'C'
             this.problem = data
             this.testCaseUploaded = true
+            if (this.problem.courses.length > 0) {
+              this.behoofvalue = 1
+            } else {
+              this.behoofvalue = 0
+            }
+            var item
+            for (item of this.problem.courses) {
+              this.course.push(item['id'])
+            }
+            for (item of this.problem.collections) {
+              this.collection.push(item['id'])
+            }
+            delete this.problem.courses
+            delete this.problem.collections
+            this.problem.collection = this.collection[this.collection.length - 1]
+            this.problem.course = this.course[this.course.length - 1]
           })
         } else {
           this.title = '创建题目'
@@ -463,7 +483,7 @@
       },
       getCourse () {
         api.getCourse().then(res => {
-          this.courseList = res.data.data.collection
+          this.courseList = res.data.data.course
           this.changeChildren(this.courseList)
         }).catch(() => {
         })

@@ -207,10 +207,11 @@
         return this.routeName === 'uncheck-problem-list'
       },
       goEdit (problemId) {
-        if (this.routeName === 'problem-list') {
+        if (this.routeName === 'contest-problem-list') {
           this.$router.push({name: 'edit-problem', params: {problemId}})
-        } else if (this.routeName === 'contest-problem-list') {
           this.$router.push({name: 'edit-contest-problem', params: {problemId: problemId, contestId: this.contestId}})
+        } else {
+          this.$router.push({name: 'edit-problem', params: {problemId}})
         }
       },
       openViewProblem (problemId) {
