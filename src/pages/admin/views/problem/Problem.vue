@@ -246,21 +246,26 @@
         </el-form-item>
 
         <el-form-item v-if="behoofvalue" label="课程"  required>
-          <div v-for="(course,index) in selectCourse" :key="index">
-              <el-row :gutter="20" style="margin-bottom: 15px">
-                    <el-col :span="8">
-                      <el-cascader :options="courseList" 
-                        :props="cascaderprops"
-                        @change="handleCourseChange"
-                        placeholder="选择题目所属课程">
-                      </el-cascader>
-                    </el-col>
-                      <el-col :span="16">
-                      <el-button plain icon="el-icon-fa-plus" @click="addCourseCascader"></el-button>
-                      <el-button plain icon="el-icon-fa-trash" @click="removeCourseCascader(course)"></el-button>
-                    </el-col>
-              </el-row>
-            </div>
+          <el-row :gutter="20" style="margin-bottom: 15px">
+              <el-col :span="8">
+                <el-cascader :options="courseList" 
+                  :props="cascaderprops"
+                  v-model="cascaderCourseID"
+                  placeholder="选择题目所属课程">
+                </el-cascader>
+              </el-col>
+                <el-col :span="16">
+                <el-button plain icon="el-icon-fa-plus" @click="addCourseCascader"></el-button>
+              </el-col>
+          </el-row>
+          <el-row :gutter="20" style="margin-top: 15px;margin-left: 5px;">
+            <el-tag v-for="tag in courseTag"
+              :key="tag.name"
+              style="margin-right:5px"
+              closable>
+              {{tag.name}}
+            </el-tag>
+          </el-row>
         </el-form-item>
 
         <el-form-item label="来源">
@@ -306,6 +311,7 @@
           }
         ],
         behoofvalue: 0,
+        cascaderCourseID: [],
         contest: {},
         problem: {
           languages: []
@@ -320,9 +326,7 @@
         collectionList: [],
         collection: [],
         courseList: [],
-        course: [],
-        selectCourse: [[
-        ]],
+        courseTag: [],
         template: {},
         isEduProblem: false,
         title: '',
@@ -396,7 +400,7 @@
 
         // get problem after getting languages list to avoid find undefined value in `watch problem.languages`
         if (this.mode === 'edit') {
-          this.title = 'Edit Problem'
+          this.title = '题目编辑'
           let funcName = {'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
           api[funcName](this.$route.params.problemId).then(problemRes => {
             let data = problemRes.data.data
@@ -411,9 +415,12 @@
             } else {
               this.behoofvalue = 0
             }
-            var item
+            let item
             for (item of this.problem.courses) {
-              this.course.push(item['id'])
+              this.courseTag.push({
+                id: item[item.length - 1].id,
+                name: item[item.length - 1].name
+              })
             }
             for (item of this.problem.collections) {
               this.collection.push(item['id'])
@@ -421,7 +428,6 @@
             delete this.problem.courses
             delete this.problem.collections
             this.problem.collection = this.collection[this.collection.length - 1]
-            this.problem.course = this.course[this.course.length - 1]
           })
         } else {
           this.title = '创建题目'
@@ -464,14 +470,22 @@
       }
     },
     methods: {
-      removeCourseCascader (course) {
-        let index = this.selectCourse.indexOf(course)
-        if (index !== -1 && this.selectCourse.length > 1) {
-          this.selectCourse.splice(index, 1)
-        }
-      },
       addCourseCascader () {
-        this.selectCourse.push([])
+        let courseID = this.cascaderCourseID[this.cascaderCourseID.length - 1]
+        let course = this.findCourseByID(courseID)
+        this.courseTag.push({
+          name: course.name,
+          id: course.id
+        })
+      },
+      findCourseByID (courseID, courseList = this.courseList) {
+        for (let course of courseList) {
+          if (course.id === courseID) {
+            return course
+          } else if (course.children !== undefined && course.children.length !== 0) {
+            return this.findCourseByID(courseID, course.children)
+          }
+        }
       },
       changeChildren (list) {
         for (var listitem of list) {
@@ -486,7 +500,6 @@
         this.problem.collection = value[ value.length - 1 ]
       },
       handleCourseChange (value) {
-        console.log(this.problem.course)
         let courseKey = value[ value.length - 1 ]
         for (let item of this.problem.course) {
           if (item === courseKey) {
@@ -659,6 +672,10 @@
           console.log('collection is null')
           this.$error('未设置题目分类')
           return
+        }
+        this.problem.course = []
+        for (let item of this.courseTag) {
+          this.problem.course.push(item.id)
         }
         this.problem.languages = this.problem.languages.sort()
         this.problem.template = {}
