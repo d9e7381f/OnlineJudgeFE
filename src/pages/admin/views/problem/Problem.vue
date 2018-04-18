@@ -255,14 +255,15 @@
                 </el-cascader>
               </el-col>
                 <el-col :span="16">
-                <el-button plain icon="el-icon-fa-plus" @click="addCourseCascader"></el-button>
+                <el-button plain icon="el-icon-fa-plus" @click="addCourseTag"></el-button>
               </el-col>
           </el-row>
           <el-row :gutter="20" style="margin-top: 15px;margin-left: 5px;">
             <el-tag v-for="tag in courseTag"
               :key="tag.name"
               style="margin-right:5px"
-              closable>
+              closable
+              @close="closeCourseTag(tag.id)">
               {{tag.name}}
             </el-tag>
           </el-row>
@@ -281,6 +282,7 @@
   import Simditor from '../../components/Simditor'
   import Accordion from '../../components/Accordion'
   import CodeMirror from '../../components/CodeMirror'
+  import Vue from 'vue'
   import api from '../../api'
 
   export default {
@@ -377,7 +379,6 @@
           test_case_score: [],
           rule_type: 'ACM',
           hint: '',
-          selection: '',
           collection: '',
           courses: [],
           course: [],
@@ -470,8 +471,15 @@
       }
     },
     methods: {
-      addCourseCascader () {
+      closeCourseTag (tagID) {
+        this.courseTag.splice(this.courseTag.findIndex(item => item.id === tagID), 1)
+      },
+      addCourseTag () {
         let courseID = this.cascaderCourseID[this.cascaderCourseID.length - 1]
+        if (this.courseTag.findIndex(item => item.id === courseID) !== -1) {
+          Vue.prototype.$error('已经选择了该课程')
+          return
+        }
         let course = this.findCourseByID(courseID)
         this.courseTag.push({
           name: course.name,
@@ -498,15 +506,6 @@
       },
       handleCollectionChange (value) {
         this.problem.collection = value[ value.length - 1 ]
-      },
-      handleCourseChange (value) {
-        let courseKey = value[ value.length - 1 ]
-        for (let item of this.problem.course) {
-          if (item === courseKey) {
-            return
-          }
-        }
-        this.problem.course.push(courseKey)
       },
       init () {
         this.getCollection()
@@ -668,14 +667,18 @@
             }
           }
         }
+        this.problem.course = []
+        for (let item of this.courseTag) {
+          this.problem.course.push(item.id)
+        }
         if (this.problem.collection === '') {
           console.log('collection is null')
           this.$error('未设置题目分类')
           return
         }
-        this.problem.course = []
-        for (let item of this.courseTag) {
-          this.problem.course.push(item.id)
+        if (this.problem.course.length === 0 && this.behoofvalue === 1) {
+          this.$error('请至少设置一个课程')
+          return
         }
         this.problem.languages = this.problem.languages.sort()
         this.problem.template = {}
