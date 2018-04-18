@@ -245,17 +245,23 @@
         </el-select>
         </el-form-item>
 
-        <transition name="el-zoom-in-top">
-           <el-form-item v-if="behoofvalue" label="课程"  required>
-            <el-cascader :options="courseList" 
-                :props="cascaderprops"
-                v-model='course'
-                @change="handleCourseChange"
-                placeholder="选择题目所属课程">
-            </el-cascader>
-          </el-form-item>
-        </transition>
-       
+        <el-form-item v-if="behoofvalue" label="课程"  required>
+          <div v-for="(course,index) in selectCourse" :key="index">
+              <el-row :gutter="20" style="margin-bottom: 15px">
+                    <el-col :span="8">
+                      <el-cascader :options="courseList" 
+                        :props="cascaderprops"
+                        @change="handleCourseChange"
+                        placeholder="选择题目所属课程">
+                      </el-cascader>
+                    </el-col>
+                      <el-col :span="16">
+                      <el-button plain icon="el-icon-fa-plus" @click="addCourseCascader"></el-button>
+                      <el-button plain icon="el-icon-fa-trash" @click="removeCourseCascader(course)"></el-button>
+                    </el-col>
+              </el-row>
+            </div>
+        </el-form-item>
 
         <el-form-item label="来源">
           <el-input placeholder="输入题目来源" v-model="problem.source"></el-input>
@@ -299,7 +305,7 @@
             value: 1
           }
         ],
-        behoofvalue: 1,
+        behoofvalue: 0,
         contest: {},
         problem: {
           languages: []
@@ -315,6 +321,8 @@
         collection: [],
         courseList: [],
         course: [],
+        selectCourse: [[
+        ]],
         template: {},
         isEduProblem: false,
         title: '',
@@ -368,6 +376,7 @@
           selection: '',
           collection: '',
           courses: [],
+          course: [],
           source: ''
         }
         let contestID = this.$route.params.contestId
@@ -455,6 +464,15 @@
       }
     },
     methods: {
+      removeCourseCascader (course) {
+        let index = this.selectCourse.indexOf(course)
+        if (index !== -1 && this.selectCourse.length > 1) {
+          this.selectCourse.splice(index, 1)
+        }
+      },
+      addCourseCascader () {
+        this.selectCourse.push([])
+      },
       changeChildren (list) {
         for (var listitem of list) {
           if (listitem[ 'children' ].length === 0) {
@@ -468,7 +486,14 @@
         this.problem.collection = value[ value.length - 1 ]
       },
       handleCourseChange (value) {
-        this.problem.course = value[ value.length - 1 ]
+        console.log(this.problem.course)
+        let courseKey = value[ value.length - 1 ]
+        for (let item of this.problem.course) {
+          if (item === courseKey) {
+            return
+          }
+        }
+        this.problem.course.push(courseKey)
       },
       init () {
         this.getCollection()
