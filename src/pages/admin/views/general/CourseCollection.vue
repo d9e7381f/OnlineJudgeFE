@@ -132,7 +132,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="分类">
+        <el-table-column label="课程">
             <template slot-scope="scope">
               <el-tag v-for="(course,index) in scope.row.courses" :key="course.name">
                  {{course.name}}
@@ -235,6 +235,11 @@
           this.courseTotal = res.data.data.total
           for (let problem of res.data.data.results) {
             problem.isEditing = false
+            let courses = []
+            for (let item of problem.courses) {
+              courses.push(item[item.length - 1])
+            }
+            problem.courses = courses
           }
           this.courseProblemList = res.data.data.results
         }, res => {
