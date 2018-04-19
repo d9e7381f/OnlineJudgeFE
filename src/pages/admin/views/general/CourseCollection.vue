@@ -99,7 +99,7 @@
 
         <el-table-column label="课程">
             <template slot-scope="scope">
-              <el-tag v-for="(course,index) in scope.row.courses" :key="course.name" style="margin-left: 5px;">
+              <el-tag v-for="course in scope.row.courses" :key="course.name" style="margin-left: 5px;">
                  {{course.name}}
               </el-tag>
           </template>
@@ -140,7 +140,7 @@
         newCollectionName: '',
         disabledCollectionRenameAndDelete: true,
         courseList: [],
-        courseId: [],
+        courseId: '',
         addCourseName: '',
         newCourseName: '',
         disabledCourseRenameAndDelete: true,
@@ -163,6 +163,10 @@
         this.getCourseProblemList(this.courseCurrentPage)
       },
       addProblemCourse () {
+        if (this.courseId === '' || this.courseId[0][0] === '-1') {
+          Vue.prototype.$error('请先选择操作的课程')
+          return
+        }
         let problem = []
         for (let item of this.selectCourseProblemList) {
           problem.push(item.id)
@@ -170,10 +174,17 @@
         let data = {
           'problems': problem
         }
-        api.addProblemCourse(this.courseId[0], data)
-        this.getCourseProblemList(this.courseCurrentPage)
+        api.addProblemCourse(this.courseId[0], data).then(res => {
+          this.getCourseProblemList(this.courseCurrentPage)
+        }).catch(() => {
+          this.getCourseProblemList(this.courseCurrentPage)
+        }, () => {})
       },
       removeProblemCourse () {
+        if (this.courseId === '' || this.courseId[0][0] === '-1') {
+          Vue.prototype.$error('请先选择操作的课程')
+          return
+        }
         let problem = []
         for (let item of this.selectCourseProblemList) {
           problem.push(item.id)
@@ -181,8 +192,11 @@
         let data = {
           'problems': problem
         }
-        api.removeProblemCourse(this.courseId[0], data)
-        this.getCourseProblemList(this.courseCurrentPage)
+        api.removeProblemCourse(this.courseId[0], data).then(res => {
+          this.getCourseProblemList(this.courseCurrentPage)
+        }).catch(() => {
+          this.getCourseProblemList(this.courseCurrentPage)
+        }, () => {})
       },
       getCourseProblemList (coursePage = 1) {
         let params = {
@@ -236,10 +250,10 @@
             name: this.newCollectionName
           }
           api.renCollection(this.collectionId[0], collectionoptions).then(res => {
-            if (res.data.error === null) {
-              this.getCollectionList()
-            }
-          }).catch(() => {})
+            this.getCollectionList()
+          }).catch(() => {
+            this.getCollectionList()
+          }, () => {})
         }
       },
       addCollection () {
@@ -253,10 +267,10 @@
             name: this.addCollectionName
           }
           api.addCollection(courseoptions).then(res => {
-            if (res.data.error === null) {
-              this.getCollectionList()
-            }
-          }).catch(() => {})
+            this.getCollectionList()
+          }).catch(() => {
+            this.getCollectionList()
+          }, () => {})
         }
       },
       deleteCollection () {
@@ -264,10 +278,10 @@
           Vue.prototype.$error('请先选择要操作的分类')
         } else {
           api.deleteCollection(this.collectionId[0]).then(res => {
-            if (res.data.error === null) {
-              this.getCollectionList()
-            }
-          }).catch(() => {})
+            this.getCollectionList()
+          }).catch(() => {
+            this.getCollectionList()
+          }, () => {})
         }
       },
       changeCollectionRenameAndDelete () {
@@ -294,10 +308,11 @@
             name: this.newCourseName
           }
           api.renCourse(this.courseId[0], courseoptions).then(res => {
-            if (res.data.error === null) {
-              this.getCourseList()
-            }
-          }).catch(() => {})
+            this.getCourseList()
+            this.getCourseProblemList(this.courseCurrentPage)
+          }).catch(() => {
+            this.getCourseList()
+          }, () => {})
         }
       },
       addCourse () {
@@ -311,10 +326,11 @@
             name: this.addCourseName
           }
           api.addCourse(courseoptions).then(res => {
-            if (res.data.error === null) {
-              this.getCourseList()
-            }
-          }).catch(() => {})
+            this.getCourseList()
+            this.getCourseProblemList(this.courseCurrentPage)
+          }).catch(() => {
+            this.getCourseList()
+          }, () => {})
         }
       },
       deleteCourse () {
@@ -322,10 +338,11 @@
           Vue.prototype.$error('请先选择要操作的分类')
         } else {
           api.deleteCourse(this.courseId[0]).then(res => {
-            if (res.data.error === null) {
-              this.getCourseList()
-            }
-          }).catch(() => {})
+            this.getCourseList()
+            this.getCourseProblemList(this.courseCurrentPage)
+          }).catch(() => {
+            this.getCourseList()
+          }, () => {})
         }
       },
       changeCourseRenameAndDelete () {
