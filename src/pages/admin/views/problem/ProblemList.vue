@@ -154,6 +154,7 @@
     },
     data () {
       return {
+        admin_type: '',
         pageSize: 10,
         total: 0,
         problemList: [],
@@ -220,7 +221,6 @@
         this.viewProblemId = problemId
       },
       validate (problemId) {
-        console.log('validate' + problemId)
         api.validateProblem(problemId).then(res => {
           if (res.data.error === null) {
             this.getProblemList()
@@ -255,6 +255,10 @@
           in_course: this.EduProblemList,
           has_perm: true,
           is_valid: this.checkProblem
+        }
+        if (this.routeName === 'problem-list') {
+          console.log('delete')
+          delete params.is_valid
         }
         api[funcName](params).then(res => {
           this.loading = false
