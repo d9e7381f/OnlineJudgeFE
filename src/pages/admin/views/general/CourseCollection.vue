@@ -8,71 +8,35 @@
               :props="cascaderprops"
               :change-on-select="true"
               @change="handleCollectionChange"
+              size="small"
               placeholder="选择题目分类">
             </el-cascader>
           </el-col>
           <el-col :span="6">
             <el-row  type="flex" justify="space-between">
               <el-col :span="14">
-                <el-input v-model="newCollectionName" placeholder="重命名分类"></el-input>
+                <el-input v-model="newCollectionName" placeholder="重命名分类" size="small"></el-input>
               </el-col>
              <el-col :span="8">
-               <el-button type="primary" icon="el-icon-edit" circle :disabled="disabledCollectionRenameAndDelete" @click="renCollection"></el-button>
+               <el-button type="info"  round :disabled="disabledCollectionRenameAndDelete" @click="renCollection" size="small">提交</el-button>
              </el-col>
             </el-row>
           </el-col>
           <el-col :span="5">
             <el-row  type="flex" justify="space-between">
               <el-col :span="14">
-                <el-input placeholder="新建子分类" v-model="addCollectionName"></el-input>
+                <el-input placeholder="新建子分类" v-model="addCollectionName" size="small"></el-input>
               </el-col>
              <el-col :span="8">
-               <el-button type="success" icon="el-icon-check" circle @click="addCollection"></el-button>
+               <el-button type="primary" round @click="addCollection" size="small">提交</el-button>
              </el-col>
             </el-row>
           </el-col>
           <el-col :span="4">
-            <el-button type="danger" icon="el-icon-delete" circle :disabled="disabledCollectionRenameAndDelete" @click="deleteCollection"></el-button>
+            <el-button type="danger" round :disabled="disabledCollectionRenameAndDelete" @click="deleteCollection" size="small">删除</el-button>
           </el-col>
         </el-row>
       </div>
-       <el-table
-        v-loading="collectionLoadingTable"
-        element-loading-text="loading"
-        @selection-change=""
-        ref="table"
-        :data="collectionProblemList"
-        style="width: 100%;margin-top: 20px;">
-        <el-table-column type="selection" width="55"></el-table-column>
-
-        <el-table-column prop="id" label="ID"></el-table-column>
-
-        <el-table-column prop="title" label="标题"></el-table-column>
-
-        <el-table-column prop="create_time" label="创建时间">
-          <template slot-scope="scope">
-            {{scope.row.create_time | localtime }}
-          </template>
-        </el-table-column>
-
-        <el-table-column label="分类">
-            <template slot-scope="scope">
-              <el-tag v-for="(collection,index) in scope.row.collections" :key="collection.name">
-                 {{collection.name}}
-              </el-tag>
-          </template>
-        </el-table-column>
-
-      </el-table>
-      <div class="panel-options">
-        <el-pagination
-          class="page"
-          layout="prev, pager, next"
-          @current-change="currentChange"
-          :page-size="collectionPageSize"
-          :total="collectionTotal">
-        </el-pagination>
-        </div>
     </Panel>
 
     <Panel>
@@ -84,39 +48,40 @@
               :props="cascaderprops"
               :change-on-select="true"
               @change="handleCourseChange"
+              size="small"
               placeholder="请选择操作课程">
             </el-cascader>
           </el-col>
           <el-col :span="6">
             <el-row  type="flex" justify="space-between">
               <el-col :span="14">
-                <el-input v-model="newCourseName" placeholder="重命名课程"></el-input>
+                <el-input v-model="newCourseName" placeholder="重命名课程" size="small"></el-input>
               </el-col>
              <el-col :span="8">
-               <el-button type="primary" icon="el-icon-edit" circle :disabled="disabledCourseRenameAndDelete" @click="renCourse"></el-button>
+               <el-button type="info" round :disabled="disabledCourseRenameAndDelete" @click="renCourse" size="small">提交</el-button>
              </el-col>
             </el-row>
           </el-col>
           <el-col :span="5">
             <el-row  type="flex" justify="space-between">
               <el-col :span="14">
-                <el-input placeholder="新建子分类" v-model="addCourseName"></el-input>
+                <el-input placeholder="新建子分类" v-model="addCourseName" size="small"></el-input>
               </el-col>
              <el-col :span="8">
-               <el-button type="success" icon="el-icon-check" circle @click="addCourse"></el-button>
+              <el-button size="small" type="primary" @click="addCourse" round :disabled="disabledCourseRenameAndDelete">提交</el-button>
              </el-col>
             </el-row>
           </el-col>
           <el-col :span="4">
-            <el-button type="danger" icon="el-icon-delete" circle :disabled="disabledCourseRenameAndDelete" @click="deleteCourse"></el-button>
+            <el-button type="danger" round :disabled="disabledCourseRenameAndDelete" @click="deleteCourse" size="small">删除</el-button>
           </el-col>
         </el-row>
       </div>
 
         <el-table
-        v-loading="collectionLoadingTable"
+        v-loading="courseLoadingTable"
         element-loading-text="loading"
-        @selection-change=""
+        @selection-change="handleSelectionChange"
         ref="table"
         :data="courseProblemList"
         style="width: 100%;margin-top: 20px;">
@@ -134,7 +99,7 @@
 
         <el-table-column label="课程">
             <template slot-scope="scope">
-              <el-tag v-for="(course,index) in scope.row.courses" :key="course.name">
+              <el-tag v-for="(course,index) in scope.row.courses" :key="course.name" style="margin-left: 5px;">
                  {{course.name}}
               </el-tag>
           </template>
@@ -142,6 +107,8 @@
 
       </el-table>
       <div class="panel-options">
+        <el-button size="small" type="primary" round v-show="selectCourseProblemList.length" @click="addProblemCourse">题目新增该课程</el-button>
+        <el-button size="small" type="info" round v-show="selectCourseProblemList.length" @click="removeProblemCourse">题目移除该课程</el-button>
         <el-pagination
           class="page"
           layout="prev, pager, next"
@@ -177,18 +144,12 @@
         addCourseName: '',
         newCourseName: '',
         disabledCourseRenameAndDelete: true,
-        collectionPageSize: 10,
-        collectionTotal: 0,
-        collectionLoading: false,
-        collectionCurrentPage: 1,
-        collectionLoadingTable: false,
-        selectCollectionProblem: [],
-        collectionProblemList: [],
         coursePageSize: 10,
         courseTotal: 0,
         courseLoading: false,
         courseCurrentPage: 1,
         courseLoadingTable: false,
+        selectCourseProblemList: [],
         courseProblemList: []
       }
     },
@@ -199,28 +160,29 @@
       init () {
         this.getCollectionList()
         this.getCourseList()
-        this.getCollectionProblemList(this.collectionCurrentPage)
         this.getCourseProblemList(this.courseCurrentPage)
       },
-      getCollectionProblemList (collectionPage = 1) {
-        let params = {
-          limit: this.collectionPageSize,
-          offset: (collectionPage - 1) * this.collectionPageSize,
-          in_course: false,
-          has_perm: true,
-          is_valid: true
+      addProblemCourse () {
+        let problem = []
+        for (let item of this.selectCourseProblemList) {
+          problem.push(item.id)
         }
-        api.getProblemList(params).then(res => {
-          this.collectionLoading = false
-          this.collectionTotal = res.data.data.total
-          for (let problem of res.data.data.results) {
-            problem.isEditing = false
-          }
-          this.collectionProblemList = res.data.data.results
-          console.log(this.collectionProblemList[0].collections.length)
-        }, res => {
-          this.collectionLoading = false
-        })
+        let data = {
+          'problems': problem
+        }
+        api.addProblemCourse(this.courseId[0], data)
+        this.getCourseProblemList(this.courseCurrentPage)
+      },
+      removeProblemCourse () {
+        let problem = []
+        for (let item of this.selectCourseProblemList) {
+          problem.push(item.id)
+        }
+        let data = {
+          'problems': problem
+        }
+        api.removeProblemCourse(this.courseId[0], data)
+        this.getCourseProblemList(this.courseCurrentPage)
       },
       getCourseProblemList (coursePage = 1) {
         let params = {
@@ -247,7 +209,7 @@
         })
       },
       handleSelectionChange (val) {
-        this.selectCollectionProblem = val
+        this.selectCourseProblemList = val
       },
       currentChange (page) {
         this.currentPage = page

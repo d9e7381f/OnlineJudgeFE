@@ -217,7 +217,7 @@ export default {
     })
   },
   editProblem (data) {
-    return ajax('xproblem/17/', 'put', {
+    return ajax(`xproblem/${data.id}/`, 'put', {
       data
     })
   },
@@ -229,10 +229,10 @@ export default {
     })
   },
   validateProblem (id) {
-    return ajax('xproblem/' + id + '/validate/', 'put')
+    return ajax(`xproblem/${id}/validate/`, 'put')
   },
   getProblem (id) {
-    return ajax('xproblem/' + id + '/', 'get', {})
+    return ajax(`xproblem/${id}/`, 'get', {})
   },
   getProblemList (params) {
     params = utils.filterEmptyValue(params)
@@ -284,10 +284,10 @@ export default {
     })
   },
   deleteCourse (id) {
-    return ajax('course/' + id + '/', 'delete')
+    return ajax(`course/${id}/`, 'delete')
   },
   renCourse (id, data) {
-    return ajax('course/' + id + '/', 'put', {
+    return ajax(`course/${id}/`, 'put', {
       data
     })
   },
@@ -297,10 +297,10 @@ export default {
     })
   },
   deleteCollection (id) {
-    return ajax('collection/' + id + '/', 'delete')
+    return ajax(`collection/${id}/`, 'delete')
   },
   renCollection (id, data) {
-    return ajax('collection/' + id + '/', 'put', {
+    return ajax(`collection/${id}/`, 'put', {
       data
     })
   },
@@ -325,6 +325,16 @@ export default {
   },
   exportProblems (data) {
     return ajax('export_problem', 'post', {
+      data
+    })
+  },
+  addProblemCourse (courseID, data) {
+    return ajax(`course/${courseID}/add_problems/`, 'post', {
+      data
+    })
+  },
+  removeProblemCourse (courseID, data) {
+    return ajax(`course/${courseID}/remove_problems/`, 'post', {
       data
     })
   },
