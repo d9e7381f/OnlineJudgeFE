@@ -65,9 +65,10 @@
         let params = {
           offset: (page - 1) * this.limit,
           limit: this.limit,
+          in_course: true,
+          is_valid: true,
           rule_type: this.contest.rule_type
         }
-        console.log('getting problem list')
         api.getEduProblemList(params).then(res => {
           this.loading = false
           this.total = res.data.data.total

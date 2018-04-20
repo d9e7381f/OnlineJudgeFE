@@ -256,6 +256,10 @@
           has_perm: true,
           is_valid: this.checkProblem
         }
+        if (this.routeName === 'contest-problem-list') {
+          delete params.in_course
+          delete params.is_valid
+        }
         api.getProfile().then(res => {
           if (res.data.data.user.admin_type === 'Regular User') {
             console.log('delete')
