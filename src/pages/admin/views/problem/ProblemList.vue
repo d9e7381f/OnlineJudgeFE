@@ -256,19 +256,22 @@
           has_perm: true,
           is_valid: this.checkProblem
         }
-        if (this.routeName === 'problem-list') {
-          console.log('delete')
-          delete params.is_valid
-        }
-        api[funcName](params).then(res => {
-          this.loading = false
-          this.total = res.data.data.total
-          for (let problem of res.data.data.results) {
-            problem.isEditing = false
+        api.getProfile().then(res => {
+          if (res.data.data.user.admin_type === 'Regular User') {
+            console.log('delete')
+            delete params.is_valid
+            console.log(params)
           }
-          this.problemList = res.data.data.results
-        }, res => {
-          this.loading = false
+          api[funcName](params).then(res => {
+            this.loading = false
+            this.total = res.data.data.total
+            for (let problem of res.data.data.results) {
+              problem.isEditing = false
+            }
+            this.problemList = res.data.data.results
+          }, res => {
+            this.loading = false
+          })
         })
       },
       deleteProblem (id) {
