@@ -5,31 +5,19 @@
       <ul>
         <li>输入和输出在哪里?
           <p>你的程序数据讲从 <code>stdin</code>('标准输入')读取 然后从 <code>stdout</code>('标准输出')输出
-            For example,you can use <code>scanf</code> in C or <code>cin</code> in C++ to read from stdin,and use <code>printf</code> in C or <code>cout</code> in C++ to write to stdout.
-            User programs are not allowed to read or write files, or you will get a <code>Runtime Error</code>.
+            例如,你可以使用 C语言的<code>scanf</code> 函数或者 使用C++的<code>cin</code> 从标准输入流输入,同理你可以使用C语言的 <code>printf</code> 和C++的<code>cout</code>  从标准输出流中输出。
+            编写的程序不允许读写文件，否则将返回 <code>Runtime Error</code>.
           </p>
         </li>
-        <li>What's the meaning of the submission execution time?
-        <p>The onlinejudge might test your code multiple times with different input files.
-          If your code gives the correct answer within the time limit for each input file, the execution time displayed is the max of the time spent for each test case.
-          Otherwise, the execution time will have no sense.
+        <li>提交执行时间的含义是什么?
+        <p>oj系统会根据不同的输入测试文件多次测试你的代码。如果的代码在每个输入测试文件的时间限定内给出正确答案，那么显示的执行时间就算每个测试用例花费时间的最大值。
         </p>
         </li>
-        <li>How can I use C++ Int64?
-          <p>You should declare as <code>long long</code> and use with <code>cin/cout</code> or <code>%lld</code>, using<code> __int64</code> will result in <code>Compile Error</code>.</p>
+        <li>如何使用 C++ Int64?
+          <p>你应该声明变量为 <code>long long</code> 和使用 <code>cin/cout</code> 或 <code>%lld</code>, 使用<code> __int64</code> 将会导致返回<code>Compile Error</code>.</p>
         </li>
-        <li>Java specifications?
-          <p>All programs must begin in a static main method in a <code>Main</code> class. Do not use public classes: even <code>Main</code> must be non public to avoid compile error.Use buffered I/O to avoid time limit exceeded due to excesive flushing.</p>
-        </li>
-        <li>About presentation error?
-          <p>There is no presentation error in this oj.The judger will trim the blacks and wraps in your ouput's <b>last</b> line.
-            if it's still different with the correct output, the result will be <code>Wrong Answer</code>.</p>
-        </li>
-        <li>How to report bugs about this oj?
-          <p>The onlinejudge is open source, you can open an issue in <a href="https://github.com/QingdaoU/OnlineJudge">Github</a>.
-            The details(like env, version..) about a bug is required, which will help us a lot to solve the bug.
-            Certainly, we are very pleased to merge your pull requests.
-          </p>
+        <li>Java代码规范?
+          <p>所有的程序都必须以一个<code>Main</code>类中的静态main开始。不要使用公共类，以及<code>Main</code>必须是非public，以避免编译错误。使用缓冲I/O来避免由于过度刷新而引起的超时</p>
         </li>
       </ul>
     </div>

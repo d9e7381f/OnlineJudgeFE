@@ -25,10 +25,10 @@
             :	运行时错误，请检查你的代码的健壮性
           </li>
           <li><b>Time Limit Exceeded</b>
-            :	您的程序使用的CPU时间超过了限制。Java有三倍的时间限制
+            :	你的程序使用的CPU时间超过了限制。Java有三倍的时间限制
           </li>
-          <li><b>Memory Limit Exceeded</b> :	您的程序实际使用的内存超过了限制</li>
-          <li><b>System Error</b> :	哎呀，判断服务器出了问题。请将此报告给管理员。
+          <li><b>Memory Limit Exceeded</b> :	你的程序实际使用的内存超过了限制</li>
+          <li><b>System Error</b> :	判断服务器出了问题，请将此报告给管理员。
           </li>
         </ul>
       </div>
