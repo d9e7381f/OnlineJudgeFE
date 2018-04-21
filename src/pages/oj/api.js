@@ -131,11 +131,7 @@ export default {
     return ajax('pickone', 'get')
   },
   getProblem (problemID) {
-    return ajax('problem', 'get', {
-      params: {
-        problem_id: problemID
-      }
-    })
+    return ajax(`xproblem/${problemID}/`, 'get')
   },
   getContestList (offset, limit, searchParams) {
     let params = {
