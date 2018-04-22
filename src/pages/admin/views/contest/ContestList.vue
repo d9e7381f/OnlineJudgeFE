@@ -74,6 +74,7 @@
           label="操作">
           <div slot-scope="scope">
             <icon-btn name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
+            <icon-btn name="删除" icon="delete" @click.native="deleteContest(scope.row.id)"></icon-btn>
             <icon-btn name="题目列表" icon="tickets" @click.native="goContestProblemList(scope.row.id)"></icon-btn>
             <icon-btn name="公告" icon="date"
                       @click.native="goContestAnnouncement(scope.row.id)"></icon-btn>
@@ -131,6 +132,19 @@
           this.contestList = res.data.data.results
         }, res => {
           this.loading = false
+        })
+      },
+      deleteContest (contestId) {
+        this.$confirm('确定删除该比赛吗', '确认', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            message: '比赛删除成功',
+            type: 'success'
+          })
+          console.log('delete contest:' + contestId)
         })
       },
       goEdit (contestId) {

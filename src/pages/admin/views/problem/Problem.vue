@@ -694,7 +694,7 @@
         let funcName = {
           'create-problem': 'createProblem',
           'edit-problem': 'editProblem',
-          'create-contest-problem': 'createContestProblem',
+          'create-contest-problem': 'createProblem',
           'edit-contest-problem': 'editContestProblem'
         }[this.routeName]
         // edit contest problem 时, contest_id会被后来的请求覆盖掉

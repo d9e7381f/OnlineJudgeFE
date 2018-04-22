@@ -103,7 +103,7 @@
         </el-table-column>
       </el-table>
       <div class="panel-options">
-        <el-button v-if="ProblemList" type="primary" size="small"
+        <el-button type="primary" size="small"
                    @click="goCreateProblem" icon="el-icon-plus">创建题目
         </el-button>
         <el-button v-if="contestId" type="primary"
