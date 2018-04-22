@@ -4,9 +4,9 @@
     <Panel :title="title">
       <el-form ref="form" :model="problem" :rules="rules" label-position="top" label-width="70px">
         <el-row :gutter="20">
-          <el-col :span="6">
-            <el-form-item prop="_id" label="显示ID"
-                          :required="this.routeName === 'create-contest-problem' || this.routeName === 'edit-contet-problem'">
+          <el-col :span="6" v-if="mode == 'edit' ">
+            <el-form-item prop="_id" label="展示ID" 
+                          :required="this.routeName === 'edit-problem' || this.routeName === 'edit-contet-problem'">
               <el-input placeholder="用于题目展示" v-model="problem._id"></el-input>
             </el-form-item>
           </el-col>
@@ -439,10 +439,14 @@
       })
     },
     watch: {
-      '$route' () {
+      '$route' (newVal, oldVal) {
         this.$refs.form.resetFields()
         this.problem = this.reProblem
         this.init()
+        if (newVal.name === 'create-problem') {
+          this.mode = 'add'
+          console.log(this.mode)
+        }
       },
       'problem.languages' (newVal) {
         let data = {}
