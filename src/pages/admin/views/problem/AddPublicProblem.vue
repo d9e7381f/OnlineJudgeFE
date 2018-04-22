@@ -1,5 +1,14 @@
 <template>
   <div>
+    <div style="float: right;margin-top: -20px;">
+      <el-cascader 
+            size="small"
+            :options="courseList" 
+            :props="cascaderprops"
+            @change="handleCourseChange"
+            placeholder="课程筛选" clearable></el-cascader>
+    </div>
+
     <el-table :data="problems" v-loading="loading">
       <el-table-column
         label="ID"
@@ -49,10 +58,16 @@
         total: 0,
         loading: false,
         problems: [],
+        courseList: [],
+        cascaderprops: {
+          value: 'id',
+          label: 'name'
+        },
         contest: {}
       }
     },
     mounted () {
+      this.getCourse()
       api.getContest(this.contestID).then(res => {
         this.contest = res.data.data
         this.getEduProblem()
@@ -60,7 +75,42 @@
       })
     },
     methods: {
-      getEduProblem (page) {
+      pushRouter (page = 1, courseID) {
+        this.loading = true
+        let params = {
+          offset: (page - 1) * this.limit,
+          limit: this.limit,
+          in_course: true,
+          is_valid: true,
+          course_id: courseID,
+          rule_type: this.contest.rule_type
+        }
+        api.getEduProblemList(params).then(res => {
+          this.loading = false
+          this.total = res.data.data.total
+          this.problems = res.data.data.results
+        }).catch(() => {})
+      },
+      getCourse () {
+        api.getCourse().then(res => {
+          this.courseList = res.data.data.course
+          this.changeChildren(this.courseList)
+        }).catch(() => {
+        })
+      },
+      handleCourseChange (value) {
+        this.pushRouter(this.page, value[ value.length - 1 ])
+      },
+      changeChildren (list) {
+        for (var listitem of list) {
+          if (listitem[ 'children' ].length === 0) {
+            delete listitem[ 'children' ]
+          } else {
+            this.changeChildren(listitem[ 'children' ])
+          }
+        }
+      },
+      getEduProblem (page = 1) {
         this.loading = true
         let params = {
           offset: (page - 1) * this.limit,
