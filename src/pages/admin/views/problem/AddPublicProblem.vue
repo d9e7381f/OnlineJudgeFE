@@ -127,17 +127,13 @@
         })
       },
       handleAddProblem (problemID) {
-        this.$prompt('请为比赛题目设置展示ID', '确认').then(({value}) => {
-          let data = {
-            problem_id: problemID,
-            contest_id: this.contestID,
-            display_id: value
-          }
-          api.addProblemFromEdu(data).then(() => {
-            this.$emit('on-change')
-          }, () => {})
-        }, () => {
-        })
+        let data = {
+          problem_id: problemID,
+          contest_id: this.contestID
+        }
+        api.addProblemFromEdu(data).then(() => {
+          this.$emit('on-change')
+        }, () => {}).catch(() => {})
       }
     }
   }
