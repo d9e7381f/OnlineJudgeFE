@@ -222,11 +222,7 @@ export default {
     })
   },
   deleteProblem (id) {
-    return ajax('xproblem/', 'delete', {
-      params: {
-        id
-      }
-    })
+    return ajax(`xproblem/${id}/`, 'delete')
   },
   validateProblem (id) {
     return ajax(`xproblem/${id}/validate/`, 'put')
