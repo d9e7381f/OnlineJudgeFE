@@ -27,13 +27,16 @@
         @row-dblclick="handleDblclick"
         style="width: 100%">
         <el-table-column
+          v-if="showID"
+          :key="Math.random()"
           width="100"
           prop="id"
           label="ID">
         </el-table-column>
         <el-table-column
           width="150"
-          label="展示ID">
+          :key="Math.random()"
+          label="序号">
           <template slot-scope="{row}">
             <span v-show="!row.isEditing">{{row._id}}</span>
             <el-input v-show="row.isEditing" v-model="row._id"
@@ -43,6 +46,7 @@
           </template>
         </el-table-column>
         <el-table-column
+          :key="Math.random()"
           prop="title"
           label="标题">
           <template slot-scope="{row}">
@@ -53,10 +57,12 @@
           </template>
         </el-table-column>
         <el-table-column
+          :key="Math.random()"
           prop="created_by"
           label="作者">
         </el-table-column>
         <el-table-column
+          :key="Math.random()"
           width="200"
           prop="create_time"
           label="创建时间">
@@ -65,6 +71,7 @@
           </template>
         </el-table-column>
         <el-table-column
+          :key="Math.random()"
           v-if="ProblemList"
           width="100"
           prop="visible"
@@ -78,6 +85,7 @@
           </template>
         </el-table-column>
         <el-table-column
+          :key="Math.random()"
           fixed="right"
           label="操作"
           width="250">
@@ -157,6 +165,7 @@
         admin_type: '',
         pageSize: 10,
         total: 0,
+        showID: false,
         problemList: [],
         keyword: '',
         loading: false,
@@ -186,6 +195,7 @@
     methods: {
       init () {
         this.routeName = this.$route.name
+        this.showID = this.isShowID()
         this.ProblemList = this.isProblemList()
         this.UncheckProblemList = this.isUncheckProblemList()
         this.EduProblemList = this.isEduProblemList()
@@ -206,6 +216,9 @@
       },
       isUncheckProblemList () {
         return this.routeName === 'uncheck-problem-list'
+      },
+      isShowID () {
+        return this.routeName === 'contest-problem-list'
       },
       goEdit (problemId) {
         if (this.routeName === 'contest-problem-list') {

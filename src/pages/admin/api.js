@@ -246,7 +246,7 @@ export default {
   },
   getContestProblemList (params) {
     params = utils.filterEmptyValue(params)
-    return ajax('admin/contest/problem', 'get', {
+    return ajax('xproblem/', 'get', {
       params
     })
   },
