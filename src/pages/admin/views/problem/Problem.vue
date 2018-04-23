@@ -225,7 +225,7 @@
           <Simditor v-model="problem.hint" placeholder=""></Simditor>
         </el-form-item>
 
-        <el-form-item label="分类"  required>
+        <el-form-item label="分类" v-if="routeName !== 'create-contest-problem' " required>
           <el-cascader :options="collectionList" 
               :props="cascaderprops"
               v-model="collection"
@@ -234,7 +234,7 @@
         </el-cascader>
         </el-form-item>
         
-        <el-form-item label="题目用途" required>
+        <el-form-item label="题目用途" v-if="routeName !== 'create-contest-problem' " required>
            <el-select v-model="behoofvalue" placeholder="选择题目的类型" :disabled="behoofvalueDisable">
             <el-option
               v-for="item in behoof"
@@ -245,7 +245,7 @@
         </el-select>
         </el-form-item>
 
-        <el-form-item v-if="behoofvalue" label="课程"  required>
+        <el-form-item v-if="behoofvalue||routeName !== 'create-contest-problem'  " label="课程"  required>
           <el-row :gutter="20" style="margin-bottom: 15px">
               <el-col :span="8">
                 <el-cascader :options="courseList" 
@@ -358,7 +358,6 @@
         this.mode = 'add'
       }
       if (this.contestId !== null) {
-        this.behoofvalue = 1
         this.behoofvalueDisable = true
       }
       api.getLanguages().then(res => {
@@ -517,6 +516,7 @@
         this.problem.collection = value[ value.length - 1 ]
       },
       init () {
+        this.routeName = this.$route.name
         this.getCollection()
         this.getCourse()
       },
@@ -680,12 +680,12 @@
         for (let item of this.courseTag) {
           this.problem.course.push(item.id)
         }
-        if (this.problem.collection === '') {
+        if (this.routeName !== 'create-contest-problem' && this.problem.collection === '') {
           console.log('collection is null')
           this.$error('未设置题目分类')
           return
         }
-        if (this.problem.course.length === 0 && this.behoofvalue === 1) {
+        if (this.routeName !== 'create-contest-problem' && this.problem.course.length === 0 && this.behoofvalue === 1) {
           this.$error('请至少设置一个课程')
           return
         }

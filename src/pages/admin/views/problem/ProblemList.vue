@@ -296,7 +296,7 @@
           type: 'warning'
         }).then(() => {
           let funcName = this.routeName === 'problem-list' ? 'deleteProblem' : 'deleteContestProblem'
-          api[funcName](id).then(() => [
+          api['deleteProblem'](id).then(() => [
             this.getProblemList(this.currentPage - 1)
           ]).catch(() => {
           })
