@@ -140,11 +140,15 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message({
-            message: '比赛删除成功',
-            type: 'success'
-          })
-          console.log('delete contest:' + contestId)
+          api.deleteContest(contestId).then(res => {
+            if (res.error === null) {
+              this.getContestList(this.currentPage)
+              this.$message({
+                message: '比赛删除成功',
+                type: 'success'
+              })
+            }
+          }).catch(() => {})
         })
       },
       goEdit (contestId) {

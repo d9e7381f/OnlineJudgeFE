@@ -153,6 +153,9 @@ export default {
       }
     })
   },
+  deleteContest (contestID) {
+    return ajax(`xcontest/${contestID}/`, 'delete')
+  },
   createContest (data) {
     return ajax('admin/contest', 'post', {
       data
