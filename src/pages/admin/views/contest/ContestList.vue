@@ -141,13 +141,7 @@
           type: 'warning'
         }).then(() => {
           api.deleteContest(contestId).then(res => {
-            if (res.error === null) {
-              this.getContestList(this.currentPage)
-              this.$message({
-                message: '比赛删除成功',
-                type: 'success'
-              })
-            }
+            this.getContestList(this.currentPage)
           }).catch(() => {})
         })
       },

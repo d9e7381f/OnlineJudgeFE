@@ -235,7 +235,7 @@
         </el-form-item>
         
         <el-form-item label="题目用途" required>
-           <el-select v-model="behoofvalue" placeholder="选择题目的类型">
+           <el-select v-model="behoofvalue" placeholder="选择题目的类型" :disabled="behoofvalueDisable">
             <el-option
               v-for="item in behoof"
               :key="item.value"
@@ -313,6 +313,7 @@
           }
         ],
         behoofvalue: 0,
+        behoofvalueDisable: false,
         cascaderCourseID: [],
         contest: {},
         problem: {
@@ -356,6 +357,10 @@
       } else {
         this.mode = 'add'
       }
+      if (this.contestId !== null) {
+        this.behoofvalue = 1
+        this.behoofvalueDisable = true
+      }
       api.getLanguages().then(res => {
         this.problem = this.reProblem = {
           _id: '',
@@ -386,7 +391,7 @@
         }
         let contestID = this.$route.params.contestId
         if (contestID) {
-          this.problem.contest_id = this.reProblem.contest_id = contestID
+          this.problem.contest = this.reProblem.contest = contestID
           this.disableRuleType = true
           api.getContest(contestID).then(res => {
             this.problem.rule_type = this.reProblem.rule_type = res.data.data.rule_type
@@ -699,7 +704,7 @@
         }[this.routeName]
         // edit contest problem 时, contest_id会被后来的请求覆盖掉
         if (funcName === 'editContestProblem') {
-          this.problem.contest_id = this.contest.id
+          this.problem.contest = this.contest.id
         }
         api[funcName](this.problem).then(res => {
           if (this.routeName === 'create-contest-problem' || this.routeName === 'edit-contest-problem') {

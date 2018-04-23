@@ -138,10 +138,10 @@
           <span class="card-title">评价</span>
         </div>
         <div>
-          <Badge :count="problem.vote_ups" max="99">
+          <Badge :count="this.problem.vote.up" overflow-count="99">
             <Button type="primary" shape="circle" @click="admireProblem">赞</Button>
           </Badge>
-          <Badge :count="problem.vote_downs" max="99">
+          <Badge :count="this.problem.vote.down" overflow-count="99">
             <Button type="ghost" shape="circle" @click="belittleProblem">踩</Button>
           </Badge>
         </div>
@@ -163,7 +163,7 @@
             <p>{{problem.memory_limit}}MB</p></li>
           <li>
             <p>作者</p>
-            <p>{{problem.created_by.username}}</p></li>
+            <p>{{problem.created_by}}</p></li>
           <li v-if="problem.difficulty">
             <p>难度</p>
             <p>{{problem.difficulty}}</p></li>
@@ -256,6 +256,10 @@
           hint: '',
           my_status: '',
           template: {},
+          vote: {
+            up: 0,
+            down: 0
+          },
           languages: [],
           created_by: {
             username: ''
@@ -307,8 +311,7 @@
           })
           problem.languages = problem.languages.sort()
           this.problem = problem
-          this.changePie(problem)
-
+          // this.changePie(problem)
           // 在beforeRouteEnter中修改了, 说明本地有code， 无需加载template
           if (this.language !== 'C++' || this.code !== '' || this.problem.languages.indexOf(this.language) !== -1) {
             return
@@ -325,16 +328,14 @@
       admireProblem () {
         console.log('admire problemid :' + this.problem.id)
         api.evaluateProblem(this.problem.id, this.admireOption).then(res => {
-          this.problem.vote_ups++
-        }).catch(() => {
-        })
+          this.problem.vote.up++
+        }).catch(() => {})
       },
       belittleProblem () {
         console.log('belittleProblem: ' + this.problem.id)
         api.evaluateProblem(this.problem.id, this.belittleOption).then(res => {
-          this.problem.vote_downs++
-        }).catch(() => {
-        })
+          this.problem.vote.down++
+        }).catch(() => {})
       },
       changePie (problemData) {
         // 只显示特定的一些状态
