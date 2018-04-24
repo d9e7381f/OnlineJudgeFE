@@ -176,7 +176,7 @@
           <el-col :span="4">
             <el-form-item label="测试实例" :error="error.testcase">
               <el-upload
-                action="/api/test_case"
+                action="/api/test_case/"
                 name="file"
                 :data="{spj: problem.spj}"
                 :show-file-list="false"
@@ -225,7 +225,7 @@
           <Simditor v-model="problem.hint" placeholder=""></Simditor>
         </el-form-item>
 
-        <el-form-item label="分类" v-if="routeName !== 'create-contest-problem' " required>
+        <el-form-item label="分类" v-if="showOptional" required>
           <el-cascader :options="collectionList" 
               :props="cascaderprops"
               v-model="collection"
@@ -234,8 +234,8 @@
         </el-cascader>
         </el-form-item>
         
-        <el-form-item label="题目用途" v-if="routeName !== 'create-contest-problem' " required>
-           <el-select v-model="behoofvalue" placeholder="选择题目的类型" :disabled="behoofvalueDisable">
+        <el-form-item label="题目用途" v-if="showOptional" required>
+           <el-select v-model="behoofvalue" placeholder="选择题目的类型">
             <el-option
               v-for="item in behoof"
               :key="item.value"
@@ -245,7 +245,7 @@
         </el-select>
         </el-form-item>
 
-        <el-form-item v-if="behoofvalue||routeName !== 'create-contest-problem'  " label="课程"  required>
+        <el-form-item v-if="behoofvalue && showOptional" label="课程"  required>
           <el-row :gutter="20" style="margin-bottom: 15px">
               <el-col :span="8">
                 <el-cascader :options="courseList" 
@@ -357,9 +357,6 @@
       } else {
         this.mode = 'add'
       }
-      if (this.contestId !== null) {
-        this.behoofvalueDisable = true
-      }
       api.getLanguages().then(res => {
         this.problem = this.reProblem = {
           _id: '',
@@ -386,6 +383,7 @@
           collection: '',
           courses: [],
           course: [],
+          showOptional: true,
           source: ''
         }
         let contestID = this.$route.params.contestId
@@ -415,20 +413,22 @@
             data.spj_language = data.spj_language || 'C'
             this.problem = data
             this.testCaseUploaded = true
-            if (this.problem.courses.length > 0) {
+            let item
+            if (this.problem.courses !== undefined && this.problem.courses.length > 0) {
               this.behoofvalue = 1
+              for (item of this.problem.courses) {
+                this.courseTag.push({
+                  id: item[item.length - 1].id,
+                  name: item[item.length - 1].name
+                })
+              }
             } else {
               this.behoofvalue = 0
             }
-            let item
-            for (item of this.problem.courses) {
-              this.courseTag.push({
-                id: item[item.length - 1].id,
-                name: item[item.length - 1].name
-              })
-            }
-            for (item of this.problem.collections) {
-              this.collection.push(item['id'])
+            if (this.problem.collections !== undefined && this.problem.collections.length > 0) {
+              for (item of this.problem.collections) {
+                this.collection.push(item['id'])
+              }
             }
             delete this.problem.courses
             delete this.problem.collections
@@ -482,6 +482,13 @@
       closeCourseTag (tagID) {
         this.courseTag.splice(this.courseTag.findIndex(item => item.id === tagID), 1)
       },
+      isShowOptional () {
+        if (this.routeName !== 'create-contest-problem' && this.routeName !== 'edit-contest-problem') {
+          this.showOptional = true
+        } else {
+          this.showOptional = false
+        }
+      },
       addCourseTag () {
         let courseID = this.cascaderCourseID[this.cascaderCourseID.length - 1]
         if (this.courseTag.findIndex(item => item.id === courseID) !== -1) {
@@ -517,6 +524,7 @@
       },
       init () {
         this.routeName = this.$route.name
+        this.isShowOptional()
         this.getCollection()
         this.getCourse()
       },
@@ -685,7 +693,7 @@
           this.$error('未设置题目分类')
           return
         }
-        if (this.routeName !== 'create-contest-problem' && this.problem.course.length === 0 && this.behoofvalue === 1) {
+        if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.course.length === 0 && this.behoofvalue === 1) {
           this.$error('请至少设置一个课程')
           return
         }
