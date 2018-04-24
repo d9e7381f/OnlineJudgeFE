@@ -124,7 +124,6 @@ export default {
         params[element] = searchParams[element]
       }
     })
-    console.log(JSON.stringify(params))
     return ajax('xproblem/', 'get', {
       params: params
     })
@@ -253,6 +252,18 @@ export default {
   getContestRank (params) {
     return ajax('contest_rank', 'get', {
       params
+    })
+  },
+  getContributionList (offset, limit, voteCountDesc, problemCountDesc) {
+    let params = {
+      paging: true,
+      offset,
+      limit,
+      order_by_problem_count_desc: problemCountDesc,
+      order_by_vote_count_desc: voteCountDesc
+    }
+    return ajax('user/', 'get', {
+      params: params
     })
   },
   getACMACInfo (params) {

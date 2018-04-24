@@ -5,11 +5,16 @@
         <div slot="title">
           {{title}}
         </div>
-        <transition-group mode="in-out">
-          <div class="no-contribution" v-if="!contributions.length" key="no-contributiont">
-            <p>暂无数据</p>
-          </div>
-        </transition-group>
+        <div slot="extra">
+        </div>
+        
+        <div class="no-contribution" v-if="!contributions.length" key="no-contribution">
+          <p>暂无数据</p>
+        </div>
+        <div v-else key="has-contribution">
+          <p>have data</p>
+        </div>
+      
       </Panel>
     </Col>
 
@@ -32,20 +37,10 @@
         title: '贡献榜',
         limit: 10,
         total: 10,
+        page: 1,
         btnLoading: false,
         user: {},
-        contributions: [
-          {
-            name: 'root',
-            contribution: 100,
-            classes: '2016级软件1班'
-          },
-          {
-            name: 'teacher',
-            contribution: 100,
-            classes: '2016级软件1班'
-          }
-        ]
+        contributions: []
       }
     },
     mounted () {
@@ -53,31 +48,22 @@
     },
     methods: {
       init () {
+        this.getContributionList()
       },
       getContributionList (page = 1) {
-        let params = {
-          limit: this.limit,
-          offset: (page - 1) * this.limit
-        }
+        let offset = (page - 1) * this.limit
         this.btnLoading = true
-        api.getAnnouncementList(params).then(res => {
+        api.getContributionList(offset, this.limit, false, false).then(res => {
           this.btnLoading = false
-          this.announcements = res.data.data.results
+          this.contributions = res.data.data.results
           this.total = res.data.data.total
         }, () => {
           this.btnLoading = false
         })
       },
-      getUser (username) {
-        console.log('getUser By username:' + username)
-        api.getUserInfo(username).then(res => {
-          this.user = res.data.data
-        }).catch(() => {
-        })
-      },
       goUser (username) {
         console.log('visit username:' + username)
-        this.$router.push({path: '/user-home?username=' + username})
+        this.$router.push({path: `/user-home?username=${username}`})
       }
     }
   }
