@@ -111,11 +111,12 @@ export default {
   getProblemTagList () {
     return ajax('problem/tags', 'get')
   },
-  getProblemList (offset, limit, searchParams, inCourse = false) {
+  getProblemList (offset, limit, searchParams, inCourse = false, contestId = 0) {
     let params = {
       paging: true,
       offset,
       limit,
+      contest_id: contestId,
       in_course: inCourse
     }
     Object.keys(searchParams).forEach((element) => {
@@ -123,6 +124,7 @@ export default {
         params[element] = searchParams[element]
       }
     })
+    console.log(JSON.stringify(params))
     return ajax('xproblem/', 'get', {
       params: params
     })

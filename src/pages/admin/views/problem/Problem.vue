@@ -5,13 +5,12 @@
       <el-form ref="form" :model="problem" :rules="rules" label-position="top" label-width="70px">
         <el-row :gutter="20">
           <el-col :span="6" v-if="mode == 'edit' ">
-            <el-form-item prop="_id" label="展示ID" 
-                          :required="this.routeName === 'edit-problem' || this.routeName === 'edit-contet-problem'">
+            <el-form-item prop="_id" label="展示ID" >
               <el-input placeholder="用于题目展示" v-model="problem._id"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="18">
-            <el-form-item prop="title" label="标题" required>
+            <el-form-item prop="title" label="标题">
               <el-input placeholder="请输入标题" v-model="problem.title"></el-input>
             </el-form-item>
           </el-col>

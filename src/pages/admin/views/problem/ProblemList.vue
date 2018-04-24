@@ -295,8 +295,7 @@
         this.$confirm('你只能删除没有提交代码的题目，确定继续吗?', '删除题目', {
           type: 'warning'
         }).then(() => {
-          let funcName = this.routeName === 'problem-list' ? 'deleteProblem' : 'deleteContestProblem'
-          api['deleteProblem'](id).then(() => [
+          api.deleteProblem(id).then(() => [
             this.getProblemList(this.currentPage - 1)
           ]).catch(() => {
           })
