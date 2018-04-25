@@ -32,8 +32,11 @@
     </Col>
     <Col :span="5">
       <Panel :padding="10" align="center">
-        <div slot="title" >用户信息</div>
-        <img class="avatar" :src="user.avatar"/>
+        <div slot="title" >说明</div>
+        <div align="left">
+          <p>1.只要当提交的题目通过审核才会计入到贡献数目</p>
+          <p>2.当提交的题目得到其他人的点赞将会为你积累点赞值</p>
+        </div>
       </Panel>
     </Col>
   </Row>
@@ -66,7 +69,7 @@
             title: '排名',
             render: (h, parms) => {
               let index = parms.index + this.limit * (this.problemPage - 1)
-              if (index < 1) {
+              if (index < 4) {
                 return h('Avatar', {
                   attrs: {
                     align: 'center'
@@ -88,12 +91,27 @@
           },
           {
             title: '昵称',
-            width: '20%',
-            key: 'username'
+            width: '30%',
+            render: (h, params) => {
+              return h('Button', {
+                props: {
+                  type: 'text',
+                  size: 'large'
+                },
+                on: {
+                  click: () => {
+                    this.goUser(params.row.username)
+                  }
+                },
+                style: {
+                  padding: '2px 0'
+                }
+              }, params.row.username)
+            }
           },
           {
             title: '班级',
-            width: '40%',
+            width: '30%',
             key: 'group'
           },
           {
@@ -107,7 +125,7 @@
             title: '排名',
             render: (h, parms) => {
               let index = parms.index + this.limit * (this.votePage - 1)
-              if (index < 3) {
+              if (index < 4) {
                 return h('Avatar', {
                   shape: 'circle',
                   size: 'small',
@@ -116,18 +134,37 @@
                   }
                 }, index + 1)
               } else {
-                return h('p', {}, index + 1)
+                return h('p', {
+                  style: {
+                    margin: '10px'
+                  }
+                }, index + 1)
               }
             }
           },
           {
             title: '昵称',
-            width: '20%',
-            key: 'username'
+            width: '30%',
+            render: (h, params) => {
+              return h('Button', {
+                props: {
+                  type: 'text',
+                  size: 'large'
+                },
+                on: {
+                  click: () => {
+                    this.goUser(params.row.username)
+                  }
+                },
+                style: {
+                  padding: '2px 0'
+                }
+              }, params.row.username)
+            }
           },
           {
             title: '班级',
-            width: '40%',
+            width: '30%',
             key: 'group'
           },
           {
