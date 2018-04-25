@@ -203,7 +203,6 @@
         }, () => {})
       },
       goUser (username) {
-        console.log('visit username:' + username)
         this.$router.push({path: `/user-home?username=${username}`})
       }
     }

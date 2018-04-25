@@ -47,9 +47,9 @@
           </div>
 
           <!--测试文件下载 -->
-          <div v-if="problem.is_open_test_case">
+          <div>
             <p class="title">测试数据下载</p>
-            <p class="content">测试文件</p>
+            <Button type="primary" @click="downloadTestCase(problem.id)" shape="circle">下载</Button>
           </div>
         </div>
       </Panel>
@@ -210,6 +210,7 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
+  import utils from '@/utils/utils'
   import { types } from '../../../../store'
   import CodeMirror from '@oj/components/CodeMirror.vue'
   import storage from '@/utils/storage'
@@ -324,6 +325,11 @@
         }, () => {
           this.$Loading.error()
         })
+      },
+      downloadTestCase (problemID) {
+        console.log('downloadFile:' + problemID)
+        let url = '/admin/test_case?problem_id=' + problemID
+        utils.downloadFile(url)
       },
       admireProblem () {
         console.log('admire problemid :' + this.problem.id)

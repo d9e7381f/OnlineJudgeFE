@@ -100,10 +100,6 @@
         tagList: [],
         problemTableColumns: [
           {
-            title: 'id',
-            key: 'id'
-          },
-          {
             title: '编号',
             key: '_id',
             render: (h, params) => {
@@ -120,7 +116,7 @@
                 style: {
                   padding: '2px 0'
                 }
-              }, params.row.id)
+              }, params.row._id)
             }
           },
           {
