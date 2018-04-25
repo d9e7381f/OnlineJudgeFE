@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-container">
+  <div class="flex-container" onselectstart="return false;">
     <div id="problem-main">
       <!--problem main-->
       <Panel :padding="40" shadow>
@@ -648,4 +648,3 @@
     height: 480px;
   }
 </style>
-
