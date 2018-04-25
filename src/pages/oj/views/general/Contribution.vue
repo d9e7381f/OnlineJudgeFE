@@ -89,7 +89,7 @@
             }
           },
           {
-            title: '昵称',
+            title: '学号',
             width: '30%',
             render: (h, params) => {
               return h('Button', {
@@ -114,8 +114,8 @@
             key: 'group'
           },
           {
-            title: '贡献值',
-            width: '20%',
+            title: '题目贡献量',
+            width: '25%',
             key: 'problem_count'
           }
         ],
@@ -142,7 +142,7 @@
             }
           },
           {
-            title: '昵称',
+            title: '学号',
             width: '30%',
             render: (h, params) => {
               return h('Button', {
@@ -167,8 +167,8 @@
             key: 'group'
           },
           {
-            title: '贡献值',
-            width: '20%',
+            title: '题目被赞量',
+            width: '25%',
             key: 'vote_count'
           }
         ]
