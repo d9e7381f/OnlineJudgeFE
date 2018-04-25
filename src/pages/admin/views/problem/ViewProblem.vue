@@ -69,7 +69,6 @@
     },
     methods: {
       getProblem (params) {
-        console.log('method getProblem ')
         api.getProblem(this.problemId).then(problemRes => {
           this.problem = problemRes.data.data
         })

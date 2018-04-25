@@ -182,6 +182,10 @@
               </Poptip>
             </p>
           </li>
+          <li>
+            <p>类别</p>
+            <p>{{collection}}</p>
+          </li>
         </ul>
       </Card>
 
@@ -239,6 +243,7 @@
         contestID: '',
         problemID: '',
         submitting: false,
+        collection: '',
         code: '',
         language: 'C++',
         submissionId: '',
@@ -312,6 +317,7 @@
           })
           problem.languages = problem.languages.sort()
           this.problem = problem
+          this.collection = problem.collections[problem.collections.length - 1].name
           // this.changePie(problem)
           // 在beforeRouteEnter中修改了, 说明本地有code， 无需加载template
           if (this.language !== 'C++' || this.code !== '' || this.problem.languages.indexOf(this.language) !== -1) {
@@ -327,18 +333,15 @@
         })
       },
       downloadTestCase (problemID) {
-        console.log('downloadFile:' + problemID)
         let url = '/admin/test_case?problem_id=' + problemID
         utils.downloadFile(url)
       },
       admireProblem () {
-        console.log('admire problemid :' + this.problem.id)
         api.evaluateProblem(this.problem.id, this.admireOption).then(res => {
           this.problem.vote.up++
         }).catch(() => {})
       },
       belittleProblem () {
-        console.log('belittleProblem: ' + this.problem.id)
         api.evaluateProblem(this.problem.id, this.belittleOption).then(res => {
           this.problem.vote.down++
         }).catch(() => {})

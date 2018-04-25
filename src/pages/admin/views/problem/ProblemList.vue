@@ -229,7 +229,6 @@
         }
       },
       openViewProblem (problemId) {
-        console.log('view problemId: ' + problemId)
         this.viewProblem = true
         this.viewProblemId = problemId
       },
@@ -275,9 +274,7 @@
         }
         api.getProfile().then(res => {
           if (res.data.data.user.admin_type === 'Regular User') {
-            console.log('delete')
             delete params.is_valid
-            console.log(params)
           }
           api[funcName](params).then(res => {
             this.loading = false

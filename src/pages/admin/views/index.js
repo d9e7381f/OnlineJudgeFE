@@ -1,6 +1,5 @@
 import Dashboard from './general/Dashboard.vue'
 import Announcement from './general/Announcement.vue'
-import User from './general/User.vue'
 import Conf from './general/Conf.vue'
 import JudgeServer from './general/JudgeServer.vue'
 import CourseCollection from './general/CourseCollection.vue'
@@ -12,6 +11,6 @@ import Login from './general/Login.vue'
 import Home from './Home.vue'
 
 export {
-  Announcement, User, Conf, JudgeServer, Problem, ProblemList, Contest,
+  Announcement, Conf, JudgeServer, Problem, ProblemList, Contest,
   ContestList, Login, Home, Dashboard, CourseCollection
 }

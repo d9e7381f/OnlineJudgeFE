@@ -7,7 +7,6 @@
     <el-menu-item index="/" v-if="isAdminRole"><i class="el-icon-fa-dashboard"></i>指示板</el-menu-item>
     <el-submenu v-if="isSuperAdmin" index="general">
       <template slot="title"><i class="el-icon-menu"></i>通用</template>
-      <el-menu-item index="/user">用户</el-menu-item>
       <el-menu-item index="/announcement">公告</el-menu-item>
        <el-menu-item index="/course-collection">课程和分类</el-menu-item>
       <el-menu-item index="/conf">系统配置</el-menu-item>

@@ -448,7 +448,6 @@
         this.init()
         if (newVal.name === 'create-problem') {
           this.mode = 'add'
-          console.log(this.mode)
         }
       },
       'problem.languages' (newVal) {
@@ -688,7 +687,6 @@
           this.problem.course.push(item.id)
         }
         if (this.routeName !== 'create-contest-problem' && this.problem.collection === '') {
-          console.log('collection is null')
           this.$error('未设置题目分类')
           return
         }
