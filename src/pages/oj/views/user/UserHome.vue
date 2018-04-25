@@ -28,8 +28,8 @@
             <p class="emphasis">{{profile.total_score}}</p>
           </div>
             <div class="right">
-            <p>积分</p>
-            <p class="emphasis">100</p>
+            <p>班级</p>
+            <p class="emphasis">{{profile.group}}</p>
           </div>
         </div>
         <div id="problems">
@@ -66,7 +66,6 @@
 </template>
 <script>
   import { mapActions } from 'vuex'
-  import time from '@/utils/time'
   import api from '@oj/api'
 
   export default {
@@ -88,8 +87,6 @@
           this.changeDomTitle({title: res.data.data.user.username})
           this.profile = res.data.data
           this.getSolvedProblems()
-          let registerTime = time.utcToLocal(this.profile.user.create_time, 'YYYY-MM-D')
-          console.log('The guy registered at ' + registerTime + '.')
         })
       },
       getSolvedProblems () {

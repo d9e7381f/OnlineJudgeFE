@@ -59,7 +59,6 @@
         votePage: 1,
         problemTotal: 10,
         problemPage: 1,
-        btnLoading: false,
         user: {},
         problemContribution: [],
         voteContribution: [],
@@ -185,33 +184,23 @@
       },
       getProblemContributionList (page = 1) {
         let offset = (page - 1) * this.limit
-        this.btnLoading = true
         api.getContributionList(offset, this.limit, false, true).then(res => {
-          this.btnLoading = false
           res.data.data.results.sort((b, a) => {
             return a.problem_count === b.problem_count ? a.id - b.id : a.problem_count - b.problem_count
           })
           this.problemContribution = res.data.data.results
           this.problemTotal = res.data.data.total
-          console.log(JSON.stringify(this.problemContribution))
-        }, () => {
-          this.btnLoading = false
-        })
+        }, () => {})
       },
       getVoteContributionList (page = 1) {
         let offset = (page - 1) * this.limit
-        this.btnLoading = true
         api.getContributionList(offset, this.limit, true, false).then(res => {
-          this.btnLoading = false
           res.data.data.results.sort((b, a) => {
             return a.vote_count === b.vote_count ? a.id - b.id : a.vote_count - b.vote_count
           })
           this.voteContribution = res.data.data.results
           this.voteTotal = res.data.data.total
-          console.log('sort ' + JSON.stringify(this.voteContribution))
-        }, () => {
-          this.btnLoading = false
-        })
+        }, () => {})
       },
       goUser (username) {
         console.log('visit username:' + username)
