@@ -66,8 +66,11 @@
             title: '排名',
             render: (h, parms) => {
               let index = parms.index + this.limit * (this.problemPage - 1)
-              if (index < 3) {
+              if (index < 1) {
                 return h('Avatar', {
+                  attrs: {
+                    align: 'center'
+                  },
                   shape: 'circle',
                   size: 'small',
                   style: {
@@ -75,7 +78,11 @@
                   }
                 }, index + 1)
               } else {
-                return h('p', {}, index + 1)
+                return h('p', {
+                  style: {
+                    padding: '10px'
+                  }
+                }, index + 1)
               }
             }
           },
