@@ -209,6 +209,23 @@ export default {
   getProblemTagList () {
     return ajax('problem/tags', 'get')
   },
+  changeProblemDisplay (problemID, visible) {
+    let data = {
+      visible
+    }
+    return ajax(`xproblem/${problemID}/`, 'patch', {
+      data
+    })
+  },
+  changeProblemDisplayIDAndTitle (problemID, displayID, title) {
+    let data = {
+      title,
+      '_id': displayID
+    }
+    return ajax(`xproblem/${problemID}/`, 'patch', {
+      data
+    })
+  },
   compileSPJ (data) {
     return ajax('admin/compile_spj', 'post', {
       data

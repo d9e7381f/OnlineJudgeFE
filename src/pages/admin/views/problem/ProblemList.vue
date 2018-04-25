@@ -72,7 +72,6 @@
         </el-table-column>
         <el-table-column
           :key="Math.random()"
-          v-if="ProblemList"
           width="100"
           prop="visible"
           label="可见">
@@ -80,7 +79,7 @@
             <el-switch v-model="scope.row.visible"
                        active-text=""
                        inactive-text=""
-                       @change="updateProblem(scope.row)">
+                       @change="updateDisplay(scope.row.id,scope.row.visible)">
             </el-switch>
           </template>
         </el-table-column>
@@ -129,7 +128,7 @@
       </div>
       <span slot="footer">
         <cancel @click.native="InlineEditDialogVisible = false; getProblemList(currentPage)"></cancel>
-        <save @click.native="updateProblem(currentRow)"></save>
+        <save @click.native="updateDisplayIDAndTitle(currentRow.id,currentRow._id,currentRow.title)"></save>
       </span>
     </el-dialog>
      <el-dialog title="预览题目"
@@ -251,6 +250,22 @@
         this.currentPage = page
         this.getProblemList(page)
       },
+      updateDisplay (problemID, visible) {
+        api.changeProblemDisplay(problemID, visible).then(res => {
+          this.InlineEditDialogVisible = false
+          this.getProblemList(this.currentPage)
+        }).catch(() => {
+          this.InlineEditDialogVisible = false
+        })
+      },
+      updateDisplayIDAndTitle (problemID, displayID, title) {
+        api.changeProblemDisplayIDAndTitle(problemID, displayID, title).then(res => {
+          this.InlineEditDialogVisible = false
+          this.getProblemList(this.currentPage)
+        }).catch(() => {
+          this.InlineEditDialogVisible = false
+        })
+      },
       getProblemList (page = 1) {
         this.loading = true
         let funcName = {
@@ -305,28 +320,12 @@
         }, () => {
         })
       },
-      updateProblem (row) {
-        let data = Object.assign({}, row)
-        let funcName = ''
-        if (this.contestId) {
-          data.contest_id = this.contestId
-          funcName = 'editContestProblem'
-        } else {
-          funcName = 'editProblem'
-        }
-        api[funcName](data).then(res => {
-          this.InlineEditDialogVisible = false
-          this.getProblemList(this.currentPage)
-        }).catch(() => {
-          this.InlineEditDialogVisible = false
-        })
-      },
       handleInlineEdit (row) {
         this.currentRow = row
         this.InlineEditDialogVisible = true
       },
       downloadTestCase (problemID) {
-        let url = '/admin/test_case?problem_id=' + problemID
+        let url = '/test_case?problem_id=' + problemID
         utils.downloadFile(url)
       },
       getPublicProblem () {
