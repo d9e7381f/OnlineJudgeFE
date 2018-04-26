@@ -61,6 +61,22 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
+            <el-form-item label="允许班级">
+                <el-row :gutter="5" style="margin-bottom: 15px">
+                  <el-col :span="6">
+                    <el-cascader
+                      :options="groupList" 
+                      :props="cascaderprops"
+                      placeholder="选择班级">
+                      </el-cascader>
+                  </el-col>
+                  <el-col :span="10">
+                    <el-button plain icon="el-icon-fa-plus"></el-button>
+                  </el-col>
+                </el-row>              
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
             <el-form-item label="允许IP">
               <div v-for="(range, index) in contest.allowed_ip_ranges" :key="index">
                 <el-row :gutter="20" style="margin-bottom: 15px">
@@ -95,6 +111,11 @@
       return {
         title: '创建比赛',
         disableRuleType: false,
+        groupList: [],
+        cascaderprops: {
+          value: 'id',
+          label: 'name'
+        },
         contest: {
           title: '',
           description: '',
@@ -103,6 +124,7 @@
           rule_type: 'ACM',
           password: '',
           real_time_rank: true,
+          group: [],
           visible: true,
           allowed_ip_ranges: [{
             value: ''
