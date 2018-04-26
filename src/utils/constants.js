@@ -18,7 +18,7 @@ export const JUDGE_STATUS = {
     type: 'success'
   },
   '1': {
-    name: '时间超s出限制',
+    name: '时间超出限制',
     short: 'TLE',
     color: 'red',
     type: 'error'

@@ -27,7 +27,7 @@
               </i-switch>
             </li>
             <li>
-              <Input v-model="formFilter.username" placeholder="搜索作者" @on-enter="handleQueryChange"/>
+              <Input v-model="formFilter.username" placeholder="搜索用户" @on-enter="handleQueryChange"/>
             </li>
 
             <li>
@@ -149,7 +149,7 @@
             key: 'language'
           },
           {
-            title: '作者',
+            title: '用户',
             align: 'center',
             render: (h, params) => {
               return h('a', {

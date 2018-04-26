@@ -11,7 +11,7 @@
           <span>所用时间: {{submission.statistic_info.time_cost | submissionTime}}</span>
           <span>所用空间: {{submission.statistic_info.memory_cost | submissionMemory}}</span>
           <span>语言: {{submission.language}}</span>
-          <span>作者: {{submission.username}}</span>
+          <span>用户: {{submission.username}}</span>
         </template>
       </div>
     </Alert>
