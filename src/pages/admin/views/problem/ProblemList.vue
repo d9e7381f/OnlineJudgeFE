@@ -59,7 +59,7 @@
         <el-table-column
           :key="Math.random()"
           prop="created_by"
-          label="作者">
+          label="用户">
         </el-table-column>
         <el-table-column
           :key="Math.random()"

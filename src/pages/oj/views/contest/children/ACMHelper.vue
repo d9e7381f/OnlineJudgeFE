@@ -1,6 +1,6 @@
 <template>
   <panel shadow>
-    <div slot="title">ACM 助手</div>
+    <div slot="title">ACM工具</div>
     <div slot="extra">
       <ul class="filter">
         <li>

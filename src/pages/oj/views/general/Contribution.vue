@@ -167,7 +167,7 @@
             key: 'group'
           },
           {
-            title: '题目被赞量',
+            title: '题目好评量',
             width: '25%',
             key: 'vote_count'
           }

@@ -2,7 +2,7 @@
   <div class="flex-container">
     <div id="main">
       <Panel shadow>
-        <div slot="title">{{title}}</div>
+        <div slot="title">提交历史</div>
         <div slot="extra">
           <ul class="filter">
             <li>
