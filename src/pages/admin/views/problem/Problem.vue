@@ -245,8 +245,8 @@
         </el-form-item>
 
         <el-form-item v-if="behoofvalue && showOptional" label="课程"  required>
-          <el-row :gutter="20" style="margin-bottom: 15px">
-              <el-col :span="8">
+          <el-row :gutter="5" style="margin-bottom: 15px">
+              <el-col :span="6">
                 <el-cascader :options="courseList" 
                   :props="cascaderprops"
                   v-model="cascaderCourseID"
@@ -322,6 +322,7 @@
           languages: []
         },
         testCaseUploaded: false,
+        showOptional: true,
         allLanguage: {},
         inputVisible: false,
         tagInput: '',
@@ -382,7 +383,6 @@
           collection: '',
           courses: [],
           course: [],
-          showOptional: true,
           source: ''
         }
         let contestID = this.$route.params.contestId
