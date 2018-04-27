@@ -171,10 +171,10 @@ export default {
     })
   },
   getContest (id) {
-    return ajax(`xcontest/${id}`, 'get', {})
+    return ajax(`xcontest/${id}/`, 'get', {})
   },
   editContest (data) {
-    return ajax('xcontest/', 'put', {
+    return ajax(`xcontest/${data.id}/`, 'put', {
       data
     })
   },
