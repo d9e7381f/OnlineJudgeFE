@@ -85,6 +85,12 @@ export default {
       }
     })
   },
+  updateContestVisible (id, visible) {
+    let data = {
+      visible
+    }
+    return ajax(`xcontest/${id}/`, 'patch', {data})
+  },
   importUsers (users) {
     return ajax('admin/user', 'post', {
       data: {

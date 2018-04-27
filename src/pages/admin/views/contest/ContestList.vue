@@ -155,7 +155,7 @@
         this.$router.push({name: 'contest-problem-list', params: {contestId}})
       },
       handleVisibleSwitch (row) {
-        api.editContest(row)
+        api.updateContestVisible(row.id, row.visible).catch(() => {})
       }
     },
     watch: {
