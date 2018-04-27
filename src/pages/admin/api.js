@@ -160,19 +160,15 @@ export default {
     return ajax(`xcontest/${contestID}/`, 'delete')
   },
   createContest (data) {
-    return ajax('admin/contest', 'post', {
+    return ajax('xcontest/', 'post', {
       data
     })
   },
   getContest (id) {
-    return ajax('admin/contest', 'get', {
-      params: {
-        id
-      }
-    })
+    return ajax(`xcontest/${id}`, 'get', {})
   },
   editContest (data) {
-    return ajax('admin/contest', 'put', {
+    return ajax('xcontest/', 'put', {
       data
     })
   },

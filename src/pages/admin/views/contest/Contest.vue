@@ -61,7 +61,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="24">
-            <el-form-item label="允许班级">
+            <el-form-item label="参加班级">
                 <el-row :gutter="5" style="margin-bottom: 15px">
                   <el-col :span="6">
                     <el-cascader
@@ -170,18 +170,19 @@
         this.contest.allowed_ip_ranges.push({value: ''})
       },
       getGroupList () {
+        let i = 0
         api.getUserGroupList().then(res => {
           let yearKeys = Object.keys(res.data.data)
           for (let yearKeysName of yearKeys) {
             let yearObject = {
-              id: -1,
+              id: i++,
               name: yearKeysName,
               children: []
             }
             let majorKeys = Object.keys(res.data.data[yearKeysName])
             for (let majorKeysName of majorKeys) {
               let majorObject = {
-                id: -1,
+                id: i++,
                 name: majorKeysName,
                 children: []
               }
@@ -209,7 +210,7 @@
       addGroupTag () {
         let classID = this.cascaderClassID[this.cascaderClassID.length - 1]
         if (this.groupTag.findIndex(item => item.id === classID) !== -1) {
-          Vue.prototype.$error('已经选择了该课程')
+          Vue.prototype.$error('已经选择了该班级')
           return
         }
         let classItem = this.findClassByClassID(classID)
@@ -231,10 +232,18 @@
     mounted () {
       this.getGroupList()
       if (this.$route.name === 'edit-contest') {
-        this.title = 'Edit Contest'
+        this.title = '编辑竞赛'
         this.disableRuleType = true
         api.getContest(this.$route.params.contestId).then(res => {
           let data = res.data.data
+          let groupTag = []
+          for (let v of res.data.data.groups) {
+            groupTag.push({
+              id: v.id,
+              name: v.name
+            })
+          }
+          this.groupTag = groupTag
           let ranges = []
           for (let v of data.allowed_ip_ranges) {
             ranges.push({value: v})
