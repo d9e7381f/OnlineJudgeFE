@@ -92,6 +92,9 @@ export default {
       }
     })
   },
+  getUserGroupList () {
+    return ajax('group/', 'get')
+  },
   generateUser (data) {
     return ajax('admin/generate_user', 'post', {
       data

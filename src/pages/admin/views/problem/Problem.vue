@@ -253,7 +253,7 @@
                   placeholder="选择题目所属课程">
                 </el-cascader>
               </el-col>
-                <el-col :span="16">
+              <el-col :span="16">
                 <el-button plain icon="el-icon-fa-plus" @click="addCourseTag"></el-button>
               </el-col>
           </el-row>
