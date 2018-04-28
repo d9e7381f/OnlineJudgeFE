@@ -29,6 +29,8 @@ export default {
           this.applyToChart(res.data.data.results.slice(0, 10))
         }
         this.applyToTable(res.data.data.results)
+      }).catch(() => {
+        this.$refs.chart.hideLoading()
       })
     },
     handleAutoRefresh (status) {
