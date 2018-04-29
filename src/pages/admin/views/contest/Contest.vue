@@ -171,6 +171,7 @@
       },
       getGroupList () {
         let i = 0
+        let groupList = []
         api.getUserGroupList().then(res => {
           let yearKeys = Object.keys(res.data.data)
           for (let yearKeysName of yearKeys) {
@@ -189,7 +190,8 @@
               let classSet = res.data.data[yearKeysName][majorKeysName]
               for (let classItemObject of classSet) {
                 let classItem = {
-                  name: classItemObject.name,
+                  fullName: classItemObject.name,
+                  name: classItemObject.class_num,
                   id: classItemObject.id
                 }
                 this.classSet.push(classItem)
@@ -197,9 +199,10 @@
               }
               yearObject.children.push(majorObject)
             }
-            this.groupList.push(yearObject)
+            groupList.unshift(yearObject)
           }
         })
+        this.groupList = groupList
       },
       findClassByClassID (classID) {
         let classItem = this.classSet.find((value, index, arr) => {
@@ -215,7 +218,7 @@
         }
         let classItem = this.findClassByClassID(classID)
         this.groupTag.push({
-          name: classItem.name,
+          name: classItem.fullName,
           id: classItem.id
         })
       },
