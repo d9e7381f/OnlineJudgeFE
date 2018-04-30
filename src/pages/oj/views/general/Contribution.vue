@@ -6,24 +6,21 @@
           {{title}}
         </div>
         <div slot="extra">
+           <i-switch size="large" @on-change="handleOrderBy" v-model='mode'>
+              <span slot="open">题目</span>
+              <span slot="close">好评</span>
+            </i-switch>
         </div>
         <div key="Math.random()">
           <Row :gutter="20">
-            <Col :span="12">
+            <Col :span="24">
               <Table
-                :columns="problemTableColumns"
-               :data="problemContribution"
+                :columns="tableColumns"
+               :data="contributionList"
+               :loading="loadings"
                size="large"
                disabled-hover></Table>
-               <Pagination :total="problemTotal" :page-size="limit" :current.sync="problemPage" @on-change="getProblemContributionList(problemPage)"></Pagination>
-            </Col>
-            <Col :span="12" style="float: right">
-              <Table
-                :columns="voteTableColumns"
-                :data="voteContribution"
-                size="large"
-                disabled-hover></Table>
-                <Pagination :total="voteTotal" :page-size="limit" :current.sync="votePage" @on-change="getVoteContributionList(votePage)"></Pagination>
+               <Pagination :total="total" :page-size="limit" :current.sync="page" @on-change="getContributionList(problemPage)"></Pagination>
             </Col>
           </Row>
         </div>
@@ -54,20 +51,19 @@
     data () {
       return {
         title: '贡献榜',
+        loadings: true,
         limit: 10,
-        voteTotal: 10,
-        votePage: 1,
-        problemTotal: 10,
-        problemPage: 1,
-        user: {},
-        problemContribution: [],
-        voteContribution: [],
+        total: 10,
+        page: 1,
+        mode: true,
+        contributionList: [],
         avatarColor: ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'],
-        problemTableColumns: [
+        tableColumns: [
           {
             title: '排名',
+            width: '10%',
             render: (h, parms) => {
-              let index = parms.index + this.limit * (this.problemPage - 1)
+              let index = parms.index + this.limit * (this.page - 1)
               if (index < 4) {
                 return h('Avatar', {
                   attrs: {
@@ -90,7 +86,7 @@
           },
           {
             title: '学号',
-            width: '30%',
+            width: '15%',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -109,67 +105,32 @@
             }
           },
           {
+            title: '姓名',
+            width: '10%',
+            render: (h, params) => {
+              return h('p', {}, params.row.profile.real_name)
+            }
+          },
+          {
             title: '班级',
-            width: '30%',
+            width: '20%',
             key: 'group'
           },
           {
             title: '题目贡献量',
-            width: '25%',
+            width: '15%',
             key: 'problem_count'
-          }
-        ],
-        voteTableColumns: [
-          {
-            title: '排名',
-            render: (h, parms) => {
-              let index = parms.index + this.limit * (this.votePage - 1)
-              if (index < 4) {
-                return h('Avatar', {
-                  shape: 'circle',
-                  size: 'small',
-                  style: {
-                    background: this.avatarColor[parms.index]
-                  }
-                }, index + 1)
-              } else {
-                return h('p', {
-                  style: {
-                    margin: '10px'
-                  }
-                }, index + 1)
-              }
-            }
-          },
-          {
-            title: '学号',
-            width: '30%',
-            render: (h, params) => {
-              return h('Button', {
-                props: {
-                  type: 'text',
-                  size: 'large'
-                },
-                on: {
-                  click: () => {
-                    this.goUser(params.row.username)
-                  }
-                },
-                style: {
-                  padding: '2px 0'
-                }
-              }, params.row.username)
-            }
-          },
-          {
-            title: '班级',
-            width: '30%',
-            key: 'group'
           },
           {
             title: '题目好评量',
-            width: '25%',
+            width: '15%',
             key: 'vote_count'
+          },
+          {
+            title: '心情',
+            render: (h, params) => {
+              return h('p', {}, params.row.profile.mood)
+            }
           }
         ]
       }
@@ -179,28 +140,56 @@
     },
     methods: {
       init () {
-        this.getProblemContributionList()
-        this.getVoteContributionList()
+        if (this.mode) {
+          this.getVoteContributionList()
+        } else {
+          this.getProblemContributionList()
+        }
+      },
+      getContributionList (page) {
+        if (this.mode) {
+          this.getVoteContributionList(page)
+        } else {
+          this.getProblemContributionList(page)
+        }
+      },
+      handleOrderBy (value) {
+        this.loadings = true
+        this.page = 1
+        if (value) {
+          this.getVoteContributionList()
+        } else {
+          this.getProblemContributionList()
+        }
+        this.loadings = false
       },
       getProblemContributionList (page = 1) {
         let offset = (page - 1) * this.limit
+        this.loadings = true
         api.getContributionList(offset, this.limit, false, true).then(res => {
           res.data.data.results.sort((b, a) => {
             return a.problem_count === b.problem_count ? a.id - b.id : a.problem_count - b.problem_count
           })
-          this.problemContribution = res.data.data.results
-          this.problemTotal = res.data.data.total
-        }, () => {})
+          this.contributionList = res.data.data.results
+          this.total = res.data.data.total
+        }, () => {}).catch(() => {
+          this.loadings = false
+        })
+        this.loadings = false
       },
       getVoteContributionList (page = 1) {
         let offset = (page - 1) * this.limit
+        this.loadings = true
         api.getContributionList(offset, this.limit, true, false).then(res => {
           res.data.data.results.sort((b, a) => {
             return a.vote_count === b.vote_count ? a.id - b.id : a.vote_count - b.vote_count
           })
-          this.voteContribution = res.data.data.results
-          this.voteTotal = res.data.data.total
-        }, () => {})
+          this.contributionList = res.data.data.results
+          this.total = res.data.data.total
+        }, () => {}).catch(() => {
+          this.loadings = false
+        })
+        this.loadings = false
       },
       goUser (username) {
         this.$router.push({path: `/user-home?username=${username}`})
