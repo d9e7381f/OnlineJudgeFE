@@ -20,7 +20,7 @@
                :loading="loadings"
                size="large"
                disabled-hover></Table>
-               <Pagination :total="total" :page-size="limit" :current.sync="page" @on-change="getContributionList(problemPage)"></Pagination>
+               <Pagination :total="total" :page-size="limit" :current.sync="page" @on-change="getContributionList(page)"></Pagination>
             </Col>
           </Row>
         </div>
