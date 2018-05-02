@@ -8,7 +8,8 @@ import {
   Home,
   Logout,
   NotFound,
-  Contribution,
+  AssessContribution,
+  ProblemContribution,
   OIRank,
   Problem,
   ProblemList,
@@ -116,9 +117,15 @@ export default [
   },
   {
     name: 'contribution',
-    path: '/contribution',
+    path: '/contribution-problem',
     meta: {title: '贡献榜'},
-    component: Contribution
+    component: ProblemContribution
+  },
+  {
+    name: 'contribution',
+    path: '/contribution-assess',
+    meta: {title: '贡献榜'},
+    component: AssessContribution
   },
   {
     name: 'acm-rank',

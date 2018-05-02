@@ -313,6 +313,11 @@
             }
           })
           let problem = res.data.data
+          if (problem.vote_status === 1) {
+            this.thumbsupType = 'primary'
+          } else if (problem.vote_status === 2) {
+            this.thumbsdownType = 'primary'
+          }
           this.changeDomTitle({title: problem.title})
           api.submissionExists(problem.id).then(res => {
             this.submissionExists = res.data.data
@@ -340,8 +345,7 @@
       },
       admireProblem () {
         api.evaluateProblem(this.problem.id, this.admireOption).then(res => {
-          console.log(res.error)
-          if (res.error === undefined) {
+          if (res.data.error === null) {
             this.problem.vote.up++
             this.thumbsupType = 'primary'
           }
@@ -349,7 +353,7 @@
       },
       belittleProblem () {
         api.evaluateProblem(this.problem.id, this.belittleOption).then(res => {
-          if (res.data.error === undefined) {
+          if (res.data.error === null) {
             this.problem.vote.down++
             this.thumbsdownType = 'primary'
           }

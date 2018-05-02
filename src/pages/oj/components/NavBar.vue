@@ -14,10 +14,18 @@
         <Icon type="trophy"></Icon>
         竞赛
       </Menu-item>
-      <Menu-item name="/contribution">
-        <Icon type="ios-flag"></Icon>
-        贡献榜
-      </Menu-item>
+      <Submenu name="">
+        <template slot="title">
+          <Icon type="ios-flag"></Icon>
+          贡献榜
+        </template>
+        <Menu-item name="/contribution-problem">
+          题目贡献
+        </Menu-item>
+        <Menu-item name="/contribution-assess">
+          题目好评
+        </Menu-item>
+      </Submenu>
       <Menu-item name="/status">
         <Icon type="ios-pulse-strong"></Icon>
         提交

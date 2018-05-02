@@ -5,12 +5,6 @@
         <div slot="title">
           {{title}}
         </div>
-        <div slot="extra">
-           <i-switch size="large" @on-change="handleOrderBy" v-model='mode'>
-              <span slot="open">题目</span>
-              <span slot="close">好评</span>
-            </i-switch>
-        </div>
         <div key="Math.random()">
           <Row :gutter="20">
             <Col :span="24">
@@ -110,11 +104,6 @@
             key: 'group'
           },
           {
-            title: '题目贡献量',
-            width: '15%',
-            key: 'problem_count'
-          },
-          {
             title: '题目好评量',
             width: '15%',
             key: 'vote_count'
@@ -134,41 +123,15 @@
     },
     methods: {
       init () {
-        if (this.mode) {
-          this.getVoteContributionList()
-        } else {
-          this.getProblemContributionList()
-        }
+        this.getVoteContributionList()
       },
       getContributionList (page) {
-        if (this.mode) {
-          this.getVoteContributionList(page)
-        } else {
-          this.getProblemContributionList(page)
-        }
+        this.getVoteContributionList(page)
       },
       handleOrderBy (value) {
         this.loadings = true
         this.page = 1
-        if (value) {
-          this.getVoteContributionList()
-        } else {
-          this.getProblemContributionList()
-        }
-        this.loadings = false
-      },
-      getProblemContributionList (page = 1) {
-        let offset = (page - 1) * this.limit
-        this.loadings = true
-        api.getContributionList(offset, this.limit, false, true).then(res => {
-          res.data.data.results.sort((b, a) => {
-            return a.problem_count === b.problem_count ? a.id - b.id : a.problem_count - b.problem_count
-          })
-          this.contributionList = res.data.data.results
-          this.total = res.data.data.total
-        }, () => {}).catch(() => {
-          this.loadings = false
-        })
+        this.getVoteContributionList()
         this.loadings = false
       },
       getVoteContributionList (page = 1) {
@@ -244,16 +207,5 @@
 
   .contribution-animate-enter-active {
     animation: fadeIn 1s;
-  }
-
-  .avatar {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        box-shadow: 0 1px 1px 0;
-  }
-
-  #userinfo-label{
-    margin-top: 10px;
   }
 </style>
