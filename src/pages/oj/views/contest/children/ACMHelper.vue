@@ -40,16 +40,16 @@
         loadingTable: false,
         columns: [
           {
-            title: 'AC Time',
+            title: '通过时间',
             key: 'ac_time'
           },
           {
-            title: 'ProblemID',
+            title: '题目序号',
             align: 'center',
             key: 'problem_display_id'
           },
           {
-            title: 'First Blood',
+            title: '率先通过',
             align: 'center',
             render: (h, {row}) => {
               if (row.ac_info.is_first_ac) {
@@ -64,7 +64,7 @@
             }
           },
           {
-            title: 'Username',
+            title: '用户',
             align: 'center',
             render: (h, {row}) => {
               return h('a', {
@@ -80,34 +80,22 @@
                     })
                   }
                 }
-              }, row.username)
-            }
-          },
-          {
-            title: 'RealName',
-            align: 'center',
-            render: (h, {row}) => {
-              return h('span', {
-                style: {
-                  display: 'inline-block',
-                  'max-width': '150px'
-                }
               }, row.real_name)
             }
           },
           {
-            title: 'Status',
+            title: '状态',
             align: 'center',
             render: (h, {row}) => {
               return h('Tag', {
                 props: {
                   color: row.checked ? 'green' : 'yellow'
                 }
-              }, row.checked ? 'Checked' : 'Not Checked')
+              }, row.checked ? '通过' : '未通过')
             }
           },
           {
-            title: 'Option',
+            title: '操作',
             fixed: 'right',
             align: 'center',
             width: 100,
@@ -124,7 +112,7 @@
                     this.updateCheckedStatus(row)
                   }
                 }
-              }, 'Check It')
+              }, '更新')
             }
           }
         ],

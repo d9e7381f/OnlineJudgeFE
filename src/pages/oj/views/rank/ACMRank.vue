@@ -95,7 +95,7 @@
             trigger: 'axis'
           },
           legend: {
-            data: ['通过', '总量']
+            data: ['通过数', '总提交数']
           },
           grid: {
             x: '3%',
@@ -133,7 +133,7 @@
           ],
           series: [
             {
-              name: '通过',
+              name: '通过数',
               type: 'bar',
               data: [0],
               markPoint: {
@@ -143,7 +143,7 @@
               }
             },
             {
-              name: '总量',
+              name: '总提交数',
               type: 'bar',
               data: [0],
               markPoint: {

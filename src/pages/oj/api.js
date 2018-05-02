@@ -187,12 +187,7 @@ export default {
     })
   },
   getContestProblem (problemID, contestID) {
-    return ajax('contest/problem', 'get', {
-      params: {
-        contest_id: contestID,
-        problem_id: problemID
-      }
-    })
+    return ajax(`xproblem/${problemID}/`, 'get', {})
   },
   submitCode (data) {
     return ajax('submission', 'post', {

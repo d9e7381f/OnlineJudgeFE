@@ -80,7 +80,7 @@
           name: 'contest-problem-details',
           params: {
             contestID: this.$route.params.contestID,
-            problemID: row._id
+            problemID: row.id
           }
         })
       }

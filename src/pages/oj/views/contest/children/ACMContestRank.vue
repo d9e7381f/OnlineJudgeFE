@@ -70,7 +70,7 @@
             }
           },
           {
-            title: 'User',
+            title: '用户',
             align: 'center',
             render: (h, params) => {
               return h('a', {
@@ -87,11 +87,11 @@
                       })
                   }
                 }
-              }, params.row.user.username)
+              }, params.row.real_name)
             }
           },
           {
-            title: 'AC / Total',
+            title: '通过量/总提交量',
             align: 'center',
             width: 100,
             render: (h, params) => {
@@ -111,7 +111,7 @@
             }
           },
           {
-            title: 'TotalTime',
+            title: '总用时',
             align: 'center',
             render: (h, params) => {
               return h('span', this.parseTotalTime(params.row.total_time))
@@ -121,7 +121,7 @@
         dataRank: [],
         options: {
           title: {
-            text: 'Top 10 Teams',
+            text: '前十队伍',
             left: 'center'
           },
           dataZoom: [
@@ -276,12 +276,12 @@
                       name: 'contest-problem-details',
                       params: {
                         contestID: this.contestID,
-                        problemID: problem._id
+                        problemID: problem.id
                       }
                     })
                   }
                 }
-              }, problem._id)
+              }, problem.id)
             },
             render: (h, params) => {
               if (params.row[problem.id]) {

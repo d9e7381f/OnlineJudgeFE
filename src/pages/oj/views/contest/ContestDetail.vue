@@ -95,27 +95,27 @@
         contestPassword: '',
         columns: [
           {
-            title: 'StartAt',
+            title: '起始时间',
             render: (h, params) => {
               return h('span', time.utcToLocal(params.row.start_time))
             }
           },
           {
-            title: 'EndAt',
+            title: '结束时间',
             render: (h, params) => {
               return h('span', time.utcToLocal(params.row.end_time))
             }
           },
           {
-            title: 'ContestType',
+            title: '比赛类型',
             key: 'contest_type'
           },
           {
-            title: 'Rule',
+            title: '规则',
             key: 'rule_type'
           },
           {
-            title: 'Creator',
+            title: '用户',
             render: (h, data) => {
               return h('span', data.row.created_by.username)
             }
