@@ -194,6 +194,9 @@
 <style scoped lang="less">
   pre {
     display: inline-block;
+    padding: 5px 10px;
+    white-space: pre-wrap;
+    margin-top: 15px;
   }
 
   #countdown {
