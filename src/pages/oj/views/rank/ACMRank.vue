@@ -181,7 +181,7 @@
       changeCharts (rankData) {
         let [usernames, acData, totalData] = [[], [], []]
         rankData.forEach(ele => {
-          usernames.push(ele.user.username)
+          usernames.push(ele.real_name)
           acData.push(ele.accepted_number)
           totalData.push(ele.submission_number)
         })
