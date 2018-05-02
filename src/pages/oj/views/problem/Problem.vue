@@ -139,10 +139,10 @@
         </div>
         <div>
           <Badge :count="this.problem.vote.up" overflow-count="99">
-            <Button type="primary" shape="circle" @click="admireProblem" icon="thumbsup" size="large"></Button>
+            <Button :type="thumbsupType" shape="circle" @click="admireProblem" icon="thumbsup" size="large"></Button>
           </Badge>
           <Badge :count="this.problem.vote.down" overflow-count="99">
-            <Button type="ghost" shape="circle" @click="belittleProblem" icon="thumbsdown" size="large"></Button>
+            <Button :type="thumbsdownType" shape="circle" @click="belittleProblem" icon="thumbsdown" size="large"></Button>
           </Badge>
         </div>
       </Card>
@@ -247,6 +247,8 @@
         code: '',
         language: 'C++',
         submissionId: '',
+        thumbsupType: 'ghost',
+        thumbsdownType: 'ghost',
         result: {
           result: 9
         },
@@ -338,12 +340,19 @@
       },
       admireProblem () {
         api.evaluateProblem(this.problem.id, this.admireOption).then(res => {
-          this.problem.vote.up++
+          console.log(res.error)
+          if (res.error === undefined) {
+            this.problem.vote.up++
+            this.thumbsupType = 'primary'
+          }
         }).catch(() => {})
       },
       belittleProblem () {
         api.evaluateProblem(this.problem.id, this.belittleOption).then(res => {
-          this.problem.vote.down++
+          if (res.data.error === undefined) {
+            this.problem.vote.down++
+            this.thumbsdownType = 'primary'
+          }
         }).catch(() => {})
       },
       changePie (problemData) {
