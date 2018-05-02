@@ -1,11 +1,12 @@
 const pieColorMap = {
-  'AC': {color: '#19be6b'},
-  'WA': {color: '#ed3f14'},
-  'TLE': {color: '#ff9300'},
-  'MLE': {color: '#f7de00'},
-  'RE': {color: '#ff6104'},
-  'CE': {color: '#80848f'},
-  'PAC': {color: '#2d8cf0'}
+  '正确': {color: '#19be6b'},
+  '错误': {color: '#ed3f14'},
+  '答案错误': {color: '#ed3f14'},
+  '时间超出限制': {color: '#ff9300'},
+  '内存超出限制': {color: '#f7de00'},
+  '运行错误': {color: '#ff6104'},
+  '编译错误': {color: '#80848f'},
+  '部分通过': {color: '#2d8cf0'}
 }
 
 function getItemColor (obj) {
@@ -17,7 +18,7 @@ const pie = {
     left: 'center',
     top: '10',
     orient: 'horizontal',
-    data: ['AC', 'WA']
+    data: ['正确', '错误']
   },
   series: [
     {
@@ -29,8 +30,8 @@ const pie = {
         normal: {color: getItemColor}
       },
       data: [
-        {value: 0, name: 'WA'},
-        {value: 0, name: 'AC'}
+        {value: 0, name: '错误'},
+        {value: 0, name: '正确'}
       ],
       label: {
         normal: {
@@ -56,7 +57,7 @@ const largePie = {
     itemGap:
       20,
     data:
-      ['AC', 'RE', 'WA', 'TLE', 'PAC', 'MLE']
+      ['正确', '运行错误', '错误', '时间超出限制', '部分通过', '内存超出限制']
   },
   series: [
     {
@@ -68,12 +69,12 @@ const largePie = {
         normal: {color: getItemColor}
       },
       data: [
-        {value: 0, name: 'RE'},
-        {value: 0, name: 'WA'},
-        {value: 0, name: 'TLE'},
-        {value: 0, name: 'AC'},
-        {value: 0, name: 'MLE'},
-        {value: 0, name: 'PAC'}
+        {value: 0, name: '运行错误'},
+        {value: 0, name: '错误'},
+        {value: 0, name: '时间超出限制'},
+        {value: 0, name: '正确'},
+        {value: 0, name: '内存超出限制'},
+        {value: 0, name: '部分通过'}
       ],
       label: {
         normal: {
@@ -93,8 +94,8 @@ const largePie = {
         normal: {color: getItemColor}
       },
       data: [
-        {value: '0', name: 'WA'},
-        {value: 0, name: 'AC', selected: true}
+        {value: '0', name: '错误'},
+        {value: 0, name: '正确', selected: true}
       ],
       label: {
         normal: {

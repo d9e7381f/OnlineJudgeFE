@@ -207,7 +207,7 @@
           is_valid: true
         }
         api.getProblemList(params).then(res => {
-          this.courseLoading = false
+          this.courseLoading = true
           this.courseTotal = res.data.data.total
           for (let problem of res.data.data.results) {
             problem.isEditing = false
@@ -219,6 +219,8 @@
           }
           this.courseProblemList = res.data.data.results
         }, res => {
+          this.courseLoading = false
+        }).catch(() => {
           this.courseLoading = false
         })
       },

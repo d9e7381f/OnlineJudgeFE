@@ -318,7 +318,7 @@
           problem.languages = problem.languages.sort()
           this.problem = problem
           this.collection = problem.collections[problem.collections.length - 1].name
-          // this.changePie(problem)
+          this.changePie(problem)
           // 在beforeRouteEnter中修改了, 说明本地有code， 无需加载template
           if (this.language !== 'C++' || this.code !== '' || this.problem.languages.indexOf(this.language) !== -1) {
             return
@@ -355,8 +355,8 @@
         }
         let acNum = problemData.accepted_number
         let data = [
-          {name: 'WA', value: problemData.submission_number - acNum},
-          {name: 'AC', value: acNum}
+          {name: '错误', value: problemData.submission_number - acNum},
+          {name: '正确', value: acNum}
         ]
         this.pie.series[0].data = data
         // 只把大图的AC selected下，这里需要做一下deepcopy
@@ -365,9 +365,9 @@
         this.largePie.series[1].data = data2
 
         // 根据结果设置legend,没有提交过的legend不显示
-        let legend = Object.keys(problemData.statistic_info).map(ele => JUDGE_STATUS[ele].short)
+        let legend = Object.keys(problemData.statistic_info).map(ele => JUDGE_STATUS[ele].name)
         if (legend.length === 0) {
-          legend.push('AC', 'WA')
+          legend.push('正确', '错误')
         }
         this.largePie.legend.data = legend
 
@@ -377,9 +377,9 @@
 
         let largePieData = []
         Object.keys(problemData.statistic_info).forEach(ele => {
-          largePieData.push({name: JUDGE_STATUS[ele].short, value: problemData.statistic_info[ele]})
+          largePieData.push({name: JUDGE_STATUS[ele].name, value: problemData.statistic_info[ele]})
         })
-        largePieData.push({name: 'AC', value: acCount})
+        largePieData.push({name: '正确', value: acCount})
         this.largePie.series[0].data = largePieData
       },
       handleRoute (route) {
@@ -391,7 +391,7 @@
             this.code = this.problem.template[newLang]
           } else {
             this.$Modal.confirm({
-              content: 'The problem has template for ' + newLang + ', Do you want to replace your code with template?',
+              content: `这道题目拥有 ${newLang} 的代码模板, 你希望模板代码替换你的代码吗?`,
               onOk: () => {
                 this.code = this.problem.template[newLang]
               }
