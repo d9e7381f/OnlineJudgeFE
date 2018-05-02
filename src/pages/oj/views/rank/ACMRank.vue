@@ -59,11 +59,16 @@
                       })
                   }
                 }
-              }, params.row.user.username)
+              }, params.row.real_name)
             }
           },
           {
-            title: '心情',
+            title: '班级',
+            align: 'center',
+            key: 'group'
+          },
+          {
+            title: '个性签名',
             align: 'center',
             key: 'mood'
           },
@@ -73,7 +78,7 @@
             key: 'accepted_number'
           },
           {
-            title: '总用时',
+            title: '总提交量',
             align: 'center',
             key: 'submission_number'
           },
@@ -90,7 +95,7 @@
             trigger: 'axis'
           },
           legend: {
-            data: ['AC', 'Total']
+            data: ['通过', '总量']
           },
           grid: {
             x: '3%',
@@ -128,7 +133,7 @@
           ],
           series: [
             {
-              name: 'AC',
+              name: '通过',
               type: 'bar',
               data: [0],
               markPoint: {
@@ -138,7 +143,7 @@
               }
             },
             {
-              name: 'Total',
+              name: '总量',
               type: 'bar',
               data: [0],
               markPoint: {

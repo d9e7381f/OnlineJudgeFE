@@ -7,7 +7,7 @@
         <ul class="filter">
           <li>
             <Dropdown @on-click="filterByDifficulty">
-              <span>{{query.difficulty === '' ? '难度' : query.difficulty}}
+              <span>{{query.difficulty === '' ? '难度' : difficulty}}
                 <Icon type="arrow-down-b"></Icon>
               </span>
               <Dropdown-menu slot="list">
@@ -121,7 +121,6 @@
           },
           {
             title: '标题',
-            width: '35%',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -171,6 +170,7 @@
           table: true,
           tag: true
         },
+        difficulty: '',
         routeName: '',
         query: {
           collection_id: '',
@@ -260,7 +260,9 @@
         this.pushRouter()
       },
       filterByDifficulty (difficulty) {
+        let params = {'Low': '简单', 'Mid': '中等', 'High': '困难'}
         this.query.difficulty = difficulty
+        this.difficulty = params[this.query.difficulty]
         this.query.page = 1
         this.pushRouter()
       },

@@ -33,7 +33,7 @@
           </el-table-column>
           <el-table-column
             prop="created_by.username"
-            label="作者">
+            label="用户">
           </el-table-column>
           <el-table-column
             width="100"

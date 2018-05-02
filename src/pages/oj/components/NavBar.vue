@@ -63,7 +63,7 @@
       </template>
       <template v-else>
         <Dropdown class="drop-menu" @on-click="handleRoute" placement="bottom" trigger="click">
-          <Button type="text" class="drop-menu-title">{{ user.username }}
+          <Button type="text" class="drop-menu-title">{{ profile.real_name }}
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <Dropdown-menu slot="list">
@@ -120,7 +120,7 @@
       }
     },
     computed: {
-      ...mapGetters(['website', 'modalStatus', 'user', 'isAuthenticated', 'isAdminRole']),
+      ...mapGetters(['website', 'modalStatus', 'user', 'isAuthenticated', 'isAdminRole', 'profile']),
       // 跟随路由变化
       activeMenu () {
         return '/' + this.$route.path.split('/')[1]

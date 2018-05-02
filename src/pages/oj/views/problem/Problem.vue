@@ -139,10 +139,10 @@
         </div>
         <div>
           <Badge :count="this.problem.vote.up" overflow-count="99">
-            <Button type="primary" shape="circle" @click="admireProblem">赞</Button>
+            <Button type="primary" shape="circle" @click="admireProblem" icon="thumbsup" size="large"></Button>
           </Badge>
           <Badge :count="this.problem.vote.down" overflow-count="99">
-            <Button type="ghost" shape="circle" @click="belittleProblem">踩</Button>
+            <Button type="ghost" shape="circle" @click="belittleProblem" icon="thumbsdown" size="large"></Button>
           </Badge>
         </div>
       </Card>

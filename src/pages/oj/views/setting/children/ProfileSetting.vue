@@ -54,44 +54,32 @@
     <Modal v-model="uploadModalVisible"
            title="Upload the avatar">
       <div class="upload-modal">
-        <p class="notice">Your avatar will be set to:</p>
+        <p class="notice">你的头像将被设置为:</p>
         <img :src="uploadImgSrc"/>
       </div>
       <div slot="footer">
-        <Button @click="uploadAvatar" :loading="loadingUploadBtn">upload</Button>
+        <Button @click="uploadAvatar" :loading="loadingUploadBtn">上传</Button>
       </div>
     </Modal>
 
     <div class="section-title">个人信息设置</div>
     <Form ref="formProfile" :model="formProfile">
-      <Row type="flex" :gutter="30" justify="space-around">
-        <Col :span="11">
-        <FormItem label="真实姓名">
-          <Input v-model="formProfile.real_name"/>
-        </FormItem>
-        <Form-item label="学校">
-          <Input v-model="formProfile.school"/>
-        </Form-item>
-        <Form-item label="专业">
-          <Input v-model="formProfile.major"/>
-        </Form-item>
-        <Form-item>
-          <Button type="primary" @click="updateProfile" :loading="loadingSaveBtn">Save All</Button>
-        </Form-item>
-        </Col>
-
-        <Col :span="11">
-        <Form-item label="心情">
+       <Row>
+         <Col :span="10">
+          <Form-item label="个性签名">
           <Input v-model="formProfile.mood"/>
-        </Form-item>
-        <Form-item label="博客">
-          <Input v-model="formProfile.blog"/>
-        </Form-item>
-        <Form-item label="Github">
-          <Input v-model="formProfile.github"/>
-        </Form-item>
-        </Col>
-      </Row>
+          </Form-item>
+          <Form-item label="博客">
+            <Input v-model="formProfile.blog"/>
+          </Form-item>
+          <Form-item label="Github">
+            <Input v-model="formProfile.github"/>
+          </Form-item>
+          <Form-item>
+            <Button type="primary" @click="updateProfile" :loading="loadingSaveBtn">保存</Button>
+          </Form-item>
+         </Col>
+       </Row>
     </Form>
   </div>
 </template>

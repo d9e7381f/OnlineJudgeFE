@@ -103,7 +103,7 @@
             }
           },
           {
-            title: '题目序号',
+            title: '题目名称',
             align: 'center',
             render: (h, params) => {
               return h('span',
@@ -166,7 +166,13 @@
                       })
                   }
                 }
-              }, params.row.username)
+              }, params.row.userprofile.real_name)
+            }
+          },
+          {
+            title: '班级',
+            render: (h, params) => {
+              return h('p', {}, params.row.userprofile.group)
             }
           }
         ],
@@ -179,6 +185,7 @@
         problemID: '',
         routeName: '',
         JUDGE_STATUS: '',
+        status: '状态',
         rejudge_column: false
       }
     },
@@ -251,7 +258,7 @@
           return
         }
         const judgeColumn = {
-          title: 'Option',
+          title: '操作',
           fixed: 'right',
           align: 'center',
           width: 90,
@@ -267,13 +274,28 @@
                   this.handleRejudge(params.row.id, params.index)
                 }
               }
-            }, 'Rejudge')
+            }, '重判')
           }
         }
         this.columns.push(judgeColumn)
         this.rejudge_column = true
       },
       handleResultChange (status) {
+        let params = {
+          '-2': '编译错误',
+          '-1': '答案错误',
+          '0': '通过',
+          '1': '时间超出限制',
+          '2': '时间超出限制',
+          '3': '内存超出限制',
+          '4': '运行错误',
+          '5': '系统错误',
+          '6': '等待中',
+          '7': '判断中',
+          '8': '部分通过',
+          '9': '提交中'
+        }
+        this.status = params[status]
         this.page = 1
         this.formFilter.result = status
         this.changeRoute()

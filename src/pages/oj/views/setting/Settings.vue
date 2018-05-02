@@ -19,8 +19,6 @@
             </div>
 
             <Menu-item name="/setting/profile">个人信息</Menu-item>
-            <Menu-item name="/setting/account">账号</Menu-item>
-            <Menu-item name="/setting/security">安全</Menu-item>
           </Menu>
         </div>
         <div class="panel">

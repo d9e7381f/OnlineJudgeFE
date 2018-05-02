@@ -155,13 +155,6 @@ export default {
   getInvalidTestCaseList () {
     return ajax('admin/prune_test_case', 'get')
   },
-  pruneTestCase (id) {
-    return ajax('admin/prune_test_case', 'delete', {
-      params: {
-        id
-      }
-    })
-  },
   deleteContest (contestID) {
     return ajax(`xcontest/${contestID}/`, 'delete')
   },
@@ -334,9 +327,6 @@ export default {
     return ajax('admin/contest/add_problem_from_public', 'post', {
       data
     })
-  },
-  getReleaseNotes () {
-    return ajax('admin/versions', 'get')
   },
   getDashboardInfo () {
     return ajax('admin/dashboard_info', 'get')

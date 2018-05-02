@@ -153,18 +153,6 @@ export default [
         path: 'profile',
         meta: {requiresAuth: true, title: '个人信息设置'},
         component: Setting.ProfileSetting
-      },
-      {
-        name: 'account-setting',
-        path: 'account',
-        meta: {requiresAuth: true, title: '帐号设置'},
-        component: Setting.AccountSetting
-      },
-      {
-        name: 'security-setting',
-        path: 'security',
-        meta: {requiresAuth: true, title: '安全设置'},
-        component: Setting.SecuritySetting
       }
     ]
   },

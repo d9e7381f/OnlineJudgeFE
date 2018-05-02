@@ -85,8 +85,8 @@
             }
           },
           {
-            title: '学号',
-            width: '15%',
+            title: '姓名',
+            width: '10%',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -101,14 +101,7 @@
                 style: {
                   padding: '2px 0'
                 }
-              }, params.row.username)
-            }
-          },
-          {
-            title: '姓名',
-            width: '10%',
-            render: (h, params) => {
-              return h('p', {}, params.row.profile.real_name)
+              }, params.row.profile.real_name)
             }
           },
           {
@@ -127,7 +120,8 @@
             key: 'vote_count'
           },
           {
-            title: '心情',
+            title: '个性签名',
+            width: '30%',
             render: (h, params) => {
               return h('p', {}, params.row.profile.mood)
             }
