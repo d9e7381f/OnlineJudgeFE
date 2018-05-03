@@ -319,15 +319,12 @@
       ...mapGetters(['isAuthenticated', 'user']),
       title () {
         if (!this.contestID) {
-          return 'Status'
+          return '状态'
         } else if (this.problemID) {
-          return 'Problem Submissions'
+          return '题目提交历史'
         } else {
-          return 'Submissions'
+          return '提交历史'
         }
-      },
-      status () {
-        return this.formFilter.result === '' ? 'Status' : JUDGE_STATUS[this.formFilter.result].name
       },
       rejudgeColumnVisible () {
         return !this.contestID && this.user.admin_type === USER_TYPE.SUPER_ADMIN

@@ -58,7 +58,7 @@
         </el-table-column>
         <el-table-column
           :key="Math.random()"
-          prop="created_by"
+          prop="userprofile.real_name"
           label="创建人">
         </el-table-column>
         <el-table-column

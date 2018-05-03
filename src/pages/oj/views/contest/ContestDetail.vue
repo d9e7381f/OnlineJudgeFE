@@ -93,6 +93,7 @@
         btnLoading: false,
         contestID: '',
         contestPassword: '',
+        realName: '',
         columns: [
           {
             title: '起始时间',
@@ -116,8 +117,8 @@
           },
           {
             title: '用户',
-            render: (h, data) => {
-              return h('span', data.row.created_by.real_name)
+            render: (h, params) => {
+              return h('span', params.row.real_name)
             }
           }
         ]
@@ -129,6 +130,7 @@
       this.$store.dispatch('getContest').then(res => {
         this.changeDomTitle({title: res.data.data.title})
         let data = res.data.data
+        res.data.data.real_name = res.data.data.userprofile.real_name
         let endTime = moment(data.end_time)
         if (endTime.isAfter(moment(data.now))) {
           this.timer = setInterval(() => {
