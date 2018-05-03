@@ -117,7 +117,7 @@
           {
             title: '用户',
             render: (h, data) => {
-              return h('span', data.row.created_by.username)
+              return h('span', data.row.created_by.real_name)
             }
           }
         ]

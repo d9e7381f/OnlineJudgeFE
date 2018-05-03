@@ -116,13 +116,13 @@ export default [
     ]
   },
   {
-    name: 'contribution',
+    name: 'ProblemContribution',
     path: '/contribution-problem',
     meta: {title: '贡献榜'},
     component: ProblemContribution
   },
   {
-    name: 'contribution',
+    name: 'AssessContribution',
     path: '/contribution-assess',
     meta: {title: '贡献榜'},
     component: AssessContribution

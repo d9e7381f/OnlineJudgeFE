@@ -122,7 +122,7 @@
           },
           {
             title: '标题',
-            width: '30%',
+            width: '45%',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -142,7 +142,7 @@
           },
           {
             title: '难度',
-            width: '10%',
+            width: '15%',
             render: (h, params) => {
               let t = params.row.difficulty
               let color = 'blue'
@@ -157,12 +157,12 @@
           },
           {
             title: '提交量',
-            width: '10%',
+            width: '15%',
             key: 'submission_number'
           },
           {
             title: '通过率',
-            width: '10%',
+            width: '15%',
             render: (h, params) => {
               return h('span', this.getACRate(params.row.accepted_number, params.row.submission_number))
             }
