@@ -87,21 +87,35 @@
         style="width: 100%;margin-top: 20px;">
         <el-table-column type="selection" width="55"></el-table-column>
 
-        <el-table-column prop="id" label="ID"></el-table-column>
+        <el-table-column prop="id" label="ID" width="60"></el-table-column>
 
-        <el-table-column prop="title" label="标题"></el-table-column>
+        <el-table-column prop="title" label="标题" width="100"></el-table-column>
 
-        <el-table-column prop="create_time" label="创建时间">
+        <el-table-column prop="create_time" label="创建时间" width="100">
           <template slot-scope="scope">
             {{scope.row.create_time | localtime }}
           </template>
         </el-table-column>
 
-        <el-table-column label="课程">
+        <el-table-column label="课程" width="100">
             <template slot-scope="scope">
               <el-tag v-for="course in scope.row.courses" :key="course.name" style="margin-left: 5px;">
                  {{course.name}}
               </el-tag>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <icon-btn name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
+            <el-cascader :options="courseList" 
+              :props="cascaderprops"
+              :change-on-select="true"
+              @change="handleCourseChange"
+              size="small"
+              placeholder="请选择操作课程">
+            </el-cascader>
+            <el-button size="small" type="primary" round >添加</el-button>
           </template>
         </el-table-column>
 
@@ -161,6 +175,10 @@
         this.getCollectionList()
         this.getCourseList()
         this.getCourseProblemList(this.courseCurrentPage)
+      },
+      goEdit (problemId) {
+        console.log(problemId)
+        this.$router.push({name: 'edit-problem', params: {problemId}})
       },
       addProblemCourse () {
         if (this.courseId === '' || this.courseId[0][0] === '-1') {
