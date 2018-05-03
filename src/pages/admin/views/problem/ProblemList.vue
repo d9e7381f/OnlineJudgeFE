@@ -243,6 +243,8 @@
           this.$router.push({name: 'create-problem'})
         } else if (this.routeName === 'contest-problem-list') {
           this.$router.push({name: 'create-contest-problem', params: {contestId: this.contestId}})
+        } else {
+          this.$router.push({name: 'create-problem'})
         }
       },
       // 切换页码回调

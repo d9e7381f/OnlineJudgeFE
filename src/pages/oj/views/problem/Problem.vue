@@ -47,7 +47,7 @@
           </div>
 
           <!--测试文件下载 -->
-          <div>
+          <div v-if="!contestID">
             <p class="title">测试数据下载</p>
             <Button type="primary" @click="downloadTestCase(problem.id)" shape="circle">下载</Button>
           </div>
@@ -324,7 +324,9 @@
           })
           problem.languages = problem.languages.sort()
           this.problem = problem
-          this.collection = problem.collections[problem.collections.length - 1].name
+          if (problem.collections !== null && problem.collections.length !== 0) {
+            this.collection = problem.collections[problem.collections.length - 1].name
+          }
           this.changePie(problem)
           // 在beforeRouteEnter中修改了, 说明本地有code， 无需加载template
           if (this.language !== 'C++' || this.code !== '' || this.problem.languages.indexOf(this.language) !== -1) {

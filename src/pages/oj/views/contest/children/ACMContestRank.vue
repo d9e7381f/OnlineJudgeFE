@@ -18,10 +18,6 @@
           </p>
           <template v-if="isContestAdmin">
             <p>
-              <span>真实姓名</span>
-              <i-switch v-model="showRealName"></i-switch>
-            </p>
-            <p>
               <span>强制刷新</span>
               <i-switch :disabled="refreshDisabled" v-model="forceUpdate"></i-switch>
             </p>
