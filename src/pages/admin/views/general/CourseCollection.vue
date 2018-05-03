@@ -97,7 +97,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="课程" width="100">
+        <el-table-column label="课程" width="500">
             <template slot-scope="scope">
               <el-tag v-for="course in scope.row.courses" :key="course.name" style="margin-left: 5px;">
                  {{course.name}}
@@ -108,14 +108,6 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <icon-btn name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
-            <el-cascader :options="courseList" 
-              :props="cascaderprops"
-              :change-on-select="true"
-              @change="handleCourseChange"
-              size="small"
-              placeholder="请选择操作课程">
-            </el-cascader>
-            <el-button size="small" type="primary" round >添加</el-button>
           </template>
         </el-table-column>
 
@@ -148,6 +140,8 @@
           value: 'id',
           label: 'name'
         },
+        value: [],
+        selectValue: [],
         collectionList: [],
         collectionId: [],
         addCollectionName: '',
@@ -176,8 +170,37 @@
         this.getCourseList()
         this.getCourseProblemList(this.courseCurrentPage)
       },
+      closeCourseTag (row, removeID) {
+        let problem = row.id
+        let courses = []
+        for (let item of row.courses) {
+          if (item.id !== removeID) {
+            courses.push(item.id)
+          }
+        }
+        let data = {
+          'courses': courses
+        }
+        api.updateProblem(problem, data).then(res => {}).catch(() => {})
+        console.log('problem:' + problem + 'removeID:' + removeID)
+      },
+      addCourseByID (row) {
+        let problem = row.id
+        let courses = []
+        for (let item of row.courses) {
+          courses.push(item.id)
+        }
+        courses.push(this.selectValue[problem])
+        let data = {
+          'courses': courses
+        }
+        api.updateProblem(problem, data).then(res => {}).catch(() => {})
+      },
+      handleProblemCourseChange (problemId) {
+        this.selectValue[problemId] = this.value[problemId][this.value[problemId].length - 1]
+        this.selectValue[problemId] = this.selectValue[problemId][0]
+      },
       goEdit (problemId) {
-        console.log(problemId)
         this.$router.push({name: 'edit-problem', params: {problemId}})
       },
       addProblemCourse () {

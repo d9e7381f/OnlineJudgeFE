@@ -41,7 +41,9 @@
       layout="prev, pager, next"
       @current-change="getEduProblem"
       :page-size="limit"
-      :total="total">
+      :total="total"
+      :current-page.sync="page"
+      >
     </el-pagination>
   </div>
 </template>
@@ -63,6 +65,9 @@
           value: 'id',
           label: 'name'
         },
+        query: {
+          course: ''
+        },
         contest: {}
       }
     },
@@ -75,14 +80,14 @@
       })
     },
     methods: {
-      pushRouter (page = 1, courseID) {
+      pushRouter (page = 1) {
         this.loading = true
         let params = {
           offset: (page - 1) * this.limit,
           limit: this.limit,
           in_course: true,
           is_valid: true,
-          course_id: courseID,
+          course_id: this.query.course,
           rule_type: this.contest.rule_type
         }
         api.getEduProblemList(params).then(res => {
@@ -99,7 +104,9 @@
         })
       },
       handleCourseChange (value) {
-        this.pushRouter(this.page, value[ value.length - 1 ])
+        this.query.course = value[ value.length - 1 ]
+        this.page = 1
+        this.pushRouter(this.page)
       },
       changeChildren (list) {
         for (var listitem of list) {
@@ -117,6 +124,7 @@
           limit: this.limit,
           in_course: true,
           is_valid: true,
+          course: this.query.course,
           rule_type: this.contest.rule_type
         }
         api.getEduProblemList(params).then(res => {

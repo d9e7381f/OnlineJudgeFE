@@ -281,6 +281,11 @@ export default {
       data
     })
   },
+  updateProblem (problemID, data) {
+    return ajax(`xproblem/${problemID}/`, 'patch', {
+      data
+    })
+  },
   deleteContestProblem (id) {
     return ajax('admin/contest/problem', 'delete', {
       params: {
