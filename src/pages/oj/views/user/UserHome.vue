@@ -53,9 +53,6 @@
           <a :href="profile.github">
             <Icon type="social-github-outline" size="30"></Icon>
           </a>
-          <a :href="'mailto:'+ profile.user.email">
-            <Icon class="icon" type="ios-email-outline" size="30"></Icon>
-          </a>
           <a :href="profile.blog">
             <Icon class="icon" type="ios-world-outline" size="30"></Icon>
           </a>

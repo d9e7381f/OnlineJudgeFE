@@ -14,7 +14,7 @@
                 <Dropdown-item name="">全部</Dropdown-item>
                 <Dropdown-item name="Low">简单</Dropdown-item>
                 <Dropdown-item name="Mid">中等</Dropdown-item>
-                <Dropdown-item name="High">难题</Dropdown-item>
+                <Dropdown-item name="High">困难</Dropdown-item>
               </Dropdown-menu>
             </Dropdown>
           </li>
@@ -101,6 +101,7 @@
         problemTableColumns: [
           {
             title: '编号',
+            width: '10%',
             key: '_id',
             render: (h, params) => {
               return h('Button', {
@@ -121,6 +122,7 @@
           },
           {
             title: '标题',
+            width: '30%',
             render: (h, params) => {
               return h('Button', {
                 props: {
@@ -140,11 +142,12 @@
           },
           {
             title: '难度',
+            width: '10%',
             render: (h, params) => {
               let t = params.row.difficulty
               let color = 'blue'
-              if (t === 'Low') color = 'green'
-              else if (t === 'High') color = 'yellow'
+              if (t === '简单') color = 'green'
+              else if (t === '困难') color = 'yellow'
               return h('Tag', {
                 props: {
                   color: color
@@ -154,10 +157,12 @@
           },
           {
             title: '提交量',
+            width: '10%',
             key: 'submission_number'
           },
           {
             title: '通过率',
+            width: '10%',
             render: (h, params) => {
               return h('span', this.getACRate(params.row.accepted_number, params.row.submission_number))
             }
@@ -276,7 +281,7 @@
             {
               title: 'Tags',
               align: 'center',
-              width: '200px',
+              width: '10%',
               render: (h, params) => {
                 let tags = []
                 params.row.tags.forEach(tag => {

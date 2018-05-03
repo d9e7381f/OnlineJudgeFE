@@ -21,9 +21,9 @@
             <div v-html="contest.description" class="markdown-body"></div>
             <div v-if="passwordFormVisible" class="contest-password">
               <Input v-model="contestPassword" type="password"
-                     placeholder="contest password" class="contest-password-input"
+                     placeholder="请输入比赛密码" class="contest-password-input"
                      @on-enter="checkPassword"/>
-              <Button type="info" @click="checkPassword">Enter</Button>
+              <Button type="info" @click="checkPassword">确定</Button>
             </div>
           </Panel>
           <Table :columns="columns" :data="contest_table" disabled-hover style="margin-bottom: 40px;"></Table>
@@ -144,7 +144,7 @@
       },
       checkPassword () {
         if (this.contestPassword === '') {
-          this.$error('Password can\'t be empty')
+          this.$error('密码不能为空')
           return
         }
         this.btnLoading = true
@@ -192,13 +192,7 @@
 </script>
 
 <style scoped lang="less">
-  pre {
-    display: inline-block;
-    padding: 5px 10px;
-    white-space: pre-wrap;
-    margin-top: 15px;
-  }
-
+  
   #countdown {
     font-size: 16px;
   }

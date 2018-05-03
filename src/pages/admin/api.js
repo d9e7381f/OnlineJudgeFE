@@ -269,11 +269,7 @@ export default {
     })
   },
   getContestProblem (id) {
-    return ajax('admin/contest/problem', 'get', {
-      params: {
-        id
-      }
-    })
+    return ajax(`xproblem/${id}`, 'get')
   },
   createContestProblem (data) {
     return ajax('admin/contest/problem', 'post', {
@@ -281,7 +277,7 @@ export default {
     })
   },
   editContestProblem (data) {
-    return ajax('admin/contest/problem', 'put', {
+    return ajax(`xproblem/${data.id}/`, 'put', {
       data
     })
   },

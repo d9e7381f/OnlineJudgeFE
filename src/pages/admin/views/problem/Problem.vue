@@ -220,11 +220,11 @@
             </el-table>
           </el-col>
         </el-row>
-        <el-form-item style="margin-top: 20px" label="展示代码">
+        <el-form-item style="margin-top: 20px" label="提示">
           <Simditor v-model="problem.hint" placeholder=""></Simditor>
         </el-form-item>
 
-        <el-form-item label="分类" v-if="showOptional" required>
+        <el-form-item label="分类" v-if="showOptional">
           <el-cascader :options="collectionList" 
               :props="cascaderprops"
               v-model="collection"
@@ -233,7 +233,7 @@
         </el-cascader>
         </el-form-item>
         
-        <el-form-item label="题目用途" v-if="showOptional" required>
+        <el-form-item label="题目用途" v-if="showOptional">
            <el-select v-model="behoofvalue" placeholder="选择题目的类型">
             <el-option
               v-for="item in behoof"
@@ -244,7 +244,7 @@
         </el-select>
         </el-form-item>
 
-        <el-form-item v-if="behoofvalue && showOptional" label="课程"  required>
+        <el-form-item v-if="behoofvalue && showOptional" label="课程">
           <el-row :gutter="5" style="margin-bottom: 15px">
               <el-col :span="6">
                 <el-cascader :options="courseList" 
@@ -683,6 +683,16 @@
           }
         }
         this.problem.course = []
+        let difficulty = {
+          '简单': 'Low',
+          '中等': 'Mid',
+          '困难': 'High',
+          'Low': 'Low',
+          'Mid': 'Mid',
+          'High': 'High'
+        }
+        this.problem.difficulty = difficulty[this.problem.difficulty]
+        console.log(this.problem.difficulty)
         for (let item of this.courseTag) {
           this.problem.course.push(item.id)
         }
