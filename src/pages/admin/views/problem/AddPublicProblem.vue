@@ -41,7 +41,7 @@
       layout="prev, pager, next"
       @current-change="getEduProblem"
       :page-size="limit"
-      :total="total"
+      :total.sync="total"
       :current-page.sync="page"
       >
     </el-pagination>
@@ -118,13 +118,14 @@
         }
       },
       getEduProblem (page = 1) {
+        this.page = page
         this.loading = true
         let params = {
           offset: (page - 1) * this.limit,
           limit: this.limit,
           in_course: true,
           is_valid: true,
-          course: this.query.course,
+          course_id: this.query.course,
           rule_type: this.contest.rule_type
         }
         api.getEduProblemList(params).then(res => {

@@ -382,6 +382,7 @@
           hint: '',
           collection: '',
           courses: [],
+          courseObj: {},
           course: [],
           source: ''
         }
@@ -502,9 +503,13 @@
       findCourseByID (courseID, courseList = this.courseList) {
         for (let course of courseList) {
           if (course.id === courseID) {
+            console.log(JSON.stringify(course))
             return course
           } else if (course.children !== undefined && course.children.length !== 0) {
-            return this.findCourseByID(courseID, course.children)
+            let courseObj = this.findCourseByID(courseID, course.children)
+            if (courseObj) {
+              return courseObj
+            }
           }
         }
       },

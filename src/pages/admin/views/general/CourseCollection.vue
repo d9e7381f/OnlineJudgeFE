@@ -3,7 +3,7 @@
     <Panel title="分类管理">
       <div>
        <el-row type="flex">
-          <el-col :span="8">
+          <el-col :span="6">
             <el-cascader :options="collectionList" 
               :props="cascaderprops"
               :change-on-select="true"
@@ -22,7 +22,7 @@
              </el-col>
             </el-row>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="6">
             <el-row  type="flex" justify="space-between">
               <el-col :span="14">
                 <el-input placeholder="新建子分类" v-model="addCollectionName" size="small"></el-input>
@@ -32,7 +32,7 @@
              </el-col>
             </el-row>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <el-button type="danger" round :disabled="disabledCollectionRenameAndDelete" @click="deleteCollection" size="small">删除</el-button>
           </el-col>
         </el-row>
@@ -43,7 +43,7 @@
       <span slot="title">课程管理</span>
       <div>
        <el-row type="flex">
-          <el-col :span="8">
+          <el-col :span="6">
             <el-cascader :options="courseList" 
               :props="cascaderprops"
               :change-on-select="true"
@@ -51,6 +51,10 @@
               size="small"
               placeholder="请选择操作课程">
             </el-cascader>
+            <p v-if="filter" style="font-size=10px;">已筛选:{{courseName}}</p>
+          </el-col>
+          <el-col :span="6">
+            <el-button type="ghost" round size="small" @click="problemFilter">筛选</el-button>
           </el-col>
           <el-col :span="6">
             <el-row  type="flex" justify="space-between">
@@ -62,7 +66,7 @@
              </el-col>
             </el-row>
           </el-col>
-          <el-col :span="5">
+          <el-col :span="6">
             <el-row  type="flex" justify="space-between">
               <el-col :span="14">
                 <el-input placeholder="新建子分类" v-model="addCourseName" size="small"></el-input>
@@ -72,7 +76,7 @@
              </el-col>
             </el-row>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="6">
             <el-button type="danger" round :disabled="disabledCourseRenameAndDelete" @click="deleteCourse" size="small">删除</el-button>
           </el-col>
         </el-row>
@@ -87,17 +91,17 @@
         style="width: 100%;margin-top: 20px;">
         <el-table-column type="selection" width="55"></el-table-column>
 
-        <el-table-column prop="id" label="ID" width="60"></el-table-column>
+        <el-table-column prop="id" label="ID"></el-table-column>
 
-        <el-table-column prop="title" label="标题" width="100"></el-table-column>
+        <el-table-column prop="title" label="标题"></el-table-column>
 
-        <el-table-column prop="create_time" label="创建时间" width="100">
+        <el-table-column prop="create_time" label="创建时间">
           <template slot-scope="scope">
             {{scope.row.create_time | localtime }}
           </template>
         </el-table-column>
 
-        <el-table-column label="课程" width="500">
+        <el-table-column label="课程">
             <template slot-scope="scope">
               <el-tag v-for="course in scope.row.courses" :key="course.name" style="margin-left: 5px;">
                  {{course.name}}
@@ -105,7 +109,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column label="操作" >
           <template slot-scope="scope">
             <icon-btn name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
           </template>
@@ -119,6 +123,7 @@
           class="page"
           layout="prev, pager, next"
           @current-change="currentChange"
+          :current-page.sync="coursePage"
           :page-size="coursePageSize"
           :total="courseTotal">
         </el-pagination>
@@ -149,10 +154,13 @@
         disabledCollectionRenameAndDelete: true,
         courseList: [],
         courseId: '',
+        courseName: '',
+        filter: false,
         addCourseName: '',
         newCourseName: '',
         disabledCourseRenameAndDelete: true,
         coursePageSize: 10,
+        coursePage: 1,
         courseTotal: 0,
         courseLoading: false,
         courseCurrentPage: 1,
@@ -182,7 +190,6 @@
           'courses': courses
         }
         api.updateProblem(problem, data).then(res => {}).catch(() => {})
-        console.log('problem:' + problem + 'removeID:' + removeID)
       },
       addCourseByID (row) {
         let problem = row.id
@@ -195,6 +202,10 @@
           'courses': courses
         }
         api.updateProblem(problem, data).then(res => {}).catch(() => {})
+      },
+      problemFilter () {
+        this.filter = true
+        this.getCourseProblemList(this.coursePage)
       },
       handleProblemCourseChange (problemId) {
         this.selectValue[problemId] = this.value[problemId][this.value[problemId].length - 1]
@@ -247,6 +258,9 @@
           has_perm: true,
           is_valid: true
         }
+        if (this.filter) {
+          params['course_id'] = this.courseId[0]
+        }
         api.getProblemList(params).then(res => {
           this.courseLoading = true
           this.courseTotal = res.data.data.total
@@ -269,8 +283,8 @@
         this.selectCourseProblemList = val
       },
       currentChange (page) {
-        this.currentPage = page
-        this.getCollectionProblemList(page)
+        this.coursePage = page
+        this.getCourseProblemList(page)
       },
       getCollectionList () {
         api.getCollection().then(res => {
@@ -333,7 +347,7 @@
       getCourseList () {
         api.getCourse().then(res => {
           this.courseList[0] = {
-            id: ['-1', ''],
+            id: ['-1', '', ''],
             name: '顶层课程',
             children: []
           }
@@ -393,7 +407,7 @@
       },
       changeChildren (list) {
         for (var listitem of list) {
-          listitem['id'] = [listitem['id'], listitem['url']]
+          listitem['id'] = [listitem['id'], listitem['url'], listitem['name']]
           if (listitem[ 'children' ].length === 0) {
             delete listitem[ 'children' ]
           } else {
@@ -402,7 +416,9 @@
         }
       },
       handleCourseChange (value) {
+        this.filter = false
         this.courseId = value[ value.length - 1 ]
+        this.courseName = this.courseId[2]
         this.changeCourseRenameAndDelete()
       },
       handleCollectionChange (value) {

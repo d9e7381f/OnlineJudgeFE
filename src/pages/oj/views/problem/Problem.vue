@@ -186,6 +186,10 @@
             <p>类别</p>
             <p>{{collection}}</p>
           </li>
+          <li>
+            <p>状态</p>
+            <p>{{problem.is_valid === true? '已审核':'未审核'}}</p>
+          </li>
         </ul>
       </Card>
 

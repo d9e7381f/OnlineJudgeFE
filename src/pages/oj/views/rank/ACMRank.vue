@@ -78,7 +78,7 @@
             key: 'accepted_number'
           },
           {
-            title: '总提交量',
+            title: '总提交数',
             align: 'center',
             key: 'submission_number'
           },
