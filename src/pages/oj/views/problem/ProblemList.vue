@@ -25,6 +25,12 @@
             </i-switch>
           </li>
           <li>
+            <i-switch size="large" @on-change="handleValid" :value="true">
+              <span slot="open">审核</span>
+              <span slot="close">审核</span>
+            </i-switch>
+          </li>
+          <li>
             <Input v-model="query.keyword"
                    @on-enter="filterByKeyword"
                    @on-click="filterByKeyword"
@@ -177,6 +183,7 @@
         },
         difficulty: '',
         routeName: '',
+        isValid: true,
         query: {
           collection_id: '',
           keyword: '',
@@ -205,6 +212,12 @@
         }
         this.getProblemList()
         this.getCollectionList()
+      },
+      handleValid (value) {
+        console.log(value)
+        this.page = 1
+        this.isValid = value
+        this.getProblemList()
       },
       pushRouter () {
         this.$router.push({
@@ -240,7 +253,7 @@
       getProblemList () {
         let offset = (this.query.page - 1) * this.limit
         this.loadings.table = true
-        api.getProblemList(offset, this.limit, this.query).then(res => {
+        api.getProblemList(offset, this.limit, this.isValid, this.query).then(res => {
           this.loadings.table = false
           this.total = res.data.data.total
           this.problemList = res.data.data.results

@@ -111,11 +111,12 @@ export default {
   getProblemTagList () {
     return ajax('problem/tags', 'get')
   },
-  getProblemList (offset, limit, searchParams, inCourse = false, contestId = 0) {
+  getProblemList (offset, limit, valid, searchParams, inCourse = false, contestId = 0) {
     let params = {
       paging: true,
       offset,
       limit,
+      is_valid: valid,
       contest_id: contestId,
       in_course: inCourse
     }
