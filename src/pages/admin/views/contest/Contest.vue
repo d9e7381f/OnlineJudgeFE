@@ -32,11 +32,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="口令">
-              <el-input v-model="contest.password" placeholder="请设置比赛口令"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
             <el-form-item label="比赛得分规则">
               <el-radio class="radio" v-model="contest.rule_type" label="ACM" :disabled="disableRuleType">ACM</el-radio>
               <el-radio class="radio" v-model="contest.rule_type" label="OI" :disabled="disableRuleType">OI</el-radio>

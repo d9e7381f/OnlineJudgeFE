@@ -42,7 +42,7 @@
           label="比赛类型"
           width="180">
           <template slot-scope="scope">
-            <el-tag :type="scope.row.contest_type === 'Public' ? 'success' : 'primary'">
+            <el-tag :type="scope.row.contest_type === '公开' ? 'success' : 'primary'">
               {{ scope.row.contest_type}}
             </el-tag>
           </template>
@@ -129,6 +129,9 @@
         api.getContestList((page - 1) * this.pageSize, this.pageSize, this.keyword).then(res => {
           this.loading = false
           this.total = res.data.data.total
+          for (let item of res.data.data.results) {
+            item.contest_type = item.contest_type === 'Public' ? '公开' : '仅对部分班级开放'
+          }
           this.contestList = res.data.data.results
         }, res => {
           this.loading = false

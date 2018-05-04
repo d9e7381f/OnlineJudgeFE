@@ -319,10 +319,7 @@
         })
       },
       makeContestProblemPublic (problemID) {
-        this.$prompt('请给公共题目设置编号', '确认').then(({value}) => {
-          api.makeContestProblemPublic({id: problemID, display_id: value}).catch()
-        }, () => {
-        })
+        api.makeContestProblemPublic({id: problemID}).catch(() => {})
       },
       handleInlineEdit (row) {
         this.currentRow = row

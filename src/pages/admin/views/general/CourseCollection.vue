@@ -334,11 +334,13 @@
         if (this.collectionId[0] === '') {
           Vue.prototype.$error('请先选择要操作的分类')
         } else {
-          api.deleteCollection(this.collectionId[0]).then(res => {
-            this.getCollectionList()
-          }).catch(() => {
-            this.getCollectionList()
-          }, () => {})
+          this.$confirm('确认删除该分类吗？').then(_ => {
+            api.deleteCollection(this.collectionId[0]).then(res => {
+              this.getCollectionList()
+            }).catch(() => {
+              this.getCollectionList()
+            }, () => {})
+          })
         }
       },
       changeCollectionRenameAndDelete () {
@@ -394,12 +396,14 @@
         if (this.courseId === '') {
           Vue.prototype.$error('请先选择要操作的分类')
         } else {
-          api.deleteCourse(this.courseId[0]).then(res => {
-            this.getCourseList()
-            this.getCourseProblemList(this.courseCurrentPage)
-          }).catch(() => {
-            this.getCourseList()
-          }, () => {})
+          this.$confirm('确认删除该分类?').then(_ => {
+            api.deleteCourse(this.courseId[0]).then(res => {
+              this.getCourseList()
+              this.getCourseProblemList(this.courseCurrentPage)
+            }).catch(() => {
+              this.getCourseList()
+            }, () => {})
+          })
         }
       },
       changeCourseRenameAndDelete () {

@@ -4,7 +4,7 @@
     <Panel :title="title">
       <el-form ref="form" :model="problem" :rules="rules" label-position="top" label-width="70px">
         <el-row :gutter="20">
-          <el-col :span="6" v-if="mode == 'edit' ">
+          <el-col :span="6" v-if="mode == 'edit-contest' ">
             <el-form-item prop="_id" label="展示ID" >
               <el-input placeholder="用于题目展示" v-model="problem._id"></el-input>
             </el-form-item>
@@ -352,8 +352,10 @@
     mounted () {
       this.init()
       this.routeName = this.$route.name
-      if (this.routeName === 'edit-problem' || this.routeName === 'edit-contest-problem') {
+      if (this.routeName === 'edit-problem') {
         this.mode = 'edit'
+      } else if (this.routeName === 'edit-contest-problem') {
+        this.mode = 'edit-contest'
       } else {
         this.mode = 'add'
       }
@@ -402,7 +404,7 @@
         this.allLanguage = allLanguage
 
         // get problem after getting languages list to avoid find undefined value in `watch problem.languages`
-        if (this.mode === 'edit') {
+        if (this.mode === 'edit' || this.mode === 'edit-contest') {
           this.title = '题目编辑'
           let funcName = {'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
           api[funcName](this.$route.params.problemId).then(problemRes => {
