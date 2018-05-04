@@ -19,12 +19,6 @@
               </Tag>
             </div>
             <div v-html="contest.description" class="markdown-body"></div>
-            <div v-if="passwordFormVisible" class="contest-password">
-              <Input v-model="contestPassword" type="password"
-                     placeholder="请输入比赛密码" class="contest-password-input"
-                     @on-enter="checkPassword"/>
-              <Button type="info" @click="checkPassword">确定</Button>
-            </div>
           </Panel>
           <Table :columns="columns" :data="contest_table" disabled-hover style="margin-bottom: 40px;"></Table>
         </div>
@@ -77,7 +71,6 @@
 
 <script>
   import moment from 'moment'
-  import api from '@oj/api'
   import { mapState, mapGetters, mapActions } from 'vuex'
   import { types } from '@/store'
   import { CONTEST_STATUS_REVERSE, CONTEST_STATUS } from '@/utils/constants'
@@ -92,7 +85,6 @@
         route_name: '',
         btnLoading: false,
         contestID: '',
-        contestPassword: '',
         realName: '',
         columns: [
           {
@@ -145,20 +137,6 @@
       ...mapActions(['changeDomTitle']),
       handleRoute (route) {
         this.$router.push(route)
-      },
-      checkPassword () {
-        if (this.contestPassword === '') {
-          this.$error('密码不能为空')
-          return
-        }
-        this.btnLoading = true
-        api.checkContestPassword(this.contestID, this.contestPassword).then((res) => {
-          this.$success('Succeeded')
-          this.$store.commit(types.CONTEST_ACCESS, {access: true})
-          this.btnLoading = false
-        }, (res) => {
-          this.btnLoading = false
-        })
       }
     },
     computed: {
@@ -170,7 +148,7 @@
       }),
       ...mapGetters(
         ['contestMenuDisabled', 'contestRuleType', 'contestStatus', 'countdown', 'isContestAdmin',
-          'OIContestRealTimePermission', 'passwordFormVisible']
+          'OIContestRealTimePermission']
       ),
       countdownColor () {
         if (this.contestStatus) {

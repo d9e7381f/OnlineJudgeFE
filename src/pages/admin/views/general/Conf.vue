@@ -3,17 +3,12 @@
     <Panel title="网站配置">
       <el-form label-position="left" label-width="100px" ref="form" :model="websiteConfig">
         <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item label="访问路径" required>
-              <el-input v-model="websiteConfig.website_base_url" placeholder="Website Base Url"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
+          <el-col :span="12">
             <el-form-item label="名称" required>
               <el-input v-model="websiteConfig.website_name" placeholder="Website Name"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="12">
             <el-form-item label="简介" required>
               <el-input v-model="websiteConfig.website_name_shortcut" placeholder="Website Name Shortcut"></el-input>
             </el-form-item>
