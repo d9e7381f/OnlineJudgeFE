@@ -83,7 +83,7 @@
                       })
                   }
                 }
-              }, params.row.real_name)
+              }, params.row.userprofile.real_name)
             }
           },
           {
@@ -202,7 +202,7 @@
       applyToChart (rankData) {
         let [users, seriesData] = [[], []]
         rankData.forEach(rank => {
-          users.push(rank.user.username)
+          users.push(rank.userprofile.real_name)
           let info = rank.submission_info
           // 提取出已AC题目的时间
           let timeData = []
@@ -223,7 +223,7 @@
             data.push([realTime, index + 1])
           }
           seriesData.push({
-            name: rank.user.username,
+            name: rank.userprofile.real_name,
             type: 'line',
             data
           })
@@ -244,11 +244,11 @@
             dataRank[i][problemID].ac_time = time.secondFormat(dataRank[i][problemID].ac_time)
             let status = info[problemID]
             if (status.is_first_ac) {
-              cellClass[problemID] = 'first-ac'
+              cellClass[problemID] = '首个正确'
             } else if (status.is_ac) {
-              cellClass[problemID] = 'ac'
+              cellClass[problemID] = '正确'
             } else {
-              cellClass[problemID] = 'wa'
+              cellClass[problemID] = '错误'
             }
           })
           dataRank[i].cellClassName = cellClass

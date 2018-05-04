@@ -79,7 +79,7 @@
                       })
                   }
                 }
-              }, params.row.user.username)
+              }, params.row.userprofile.real_name)
             }
           },
           {
@@ -174,7 +174,7 @@
       applyToChart (rankData) {
         let [usernames, scores] = [[], []]
         rankData.forEach(ele => {
-          usernames.push(ele.user.username)
+          usernames.push(ele.userprofile.real_name)
           scores.push(ele.total_score)
         })
         this.options.xAxis[0].data = usernames
