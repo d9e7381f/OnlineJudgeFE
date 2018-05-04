@@ -32,7 +32,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="created_by.username"
+            prop="userprofile.real_name"
             label="用户">
           </el-table-column>
           <el-table-column

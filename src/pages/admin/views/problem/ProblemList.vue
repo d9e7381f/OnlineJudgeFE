@@ -288,6 +288,8 @@
         if (this.routeName === 'contest-problem-list') {
           delete params.in_course
           delete params.is_valid
+        } else {
+          params.contest_id = 0
         }
         api.getProfile().then(res => {
           if (res.data.data.user.admin_type === 'Regular User') {
