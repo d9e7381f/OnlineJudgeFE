@@ -29,19 +29,22 @@
           {
             title: '#',
             key: '_id',
-            sortType: 'asc',
-            width: 150
+            width: '10%',
+            sortType: 'asc'
           },
           {
             title: '标题',
+            width: '40%',
             key: 'title'
           },
           {
             title: '总提交',
+            width: '20%',
             key: 'submission_number'
           },
           {
             title: '通过率',
+            width: '20%',
             render: (h, params) => {
               return h('span', this.getACRate(params.row.accepted_number, params.row.submission_number))
             }
@@ -51,10 +54,11 @@
           {
             title: '#',
             key: '_id',
-            width: 150
+            width: '10%'
           },
           {
             title: '标题',
+            width: '40%',
             key: 'title'
           }
         ]
