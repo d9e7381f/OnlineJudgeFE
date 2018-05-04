@@ -131,6 +131,7 @@
         this.changeDomTitle({title: res.data.data.title})
         let data = res.data.data
         res.data.data.real_name = res.data.data.userprofile.real_name
+        res.data.data.contest_type = res.data.data.contest_type === 'Public' ? '公开' : '仅部分班级开放'
         let endTime = moment(data.end_time)
         if (endTime.isAfter(moment(data.now))) {
           this.timer = setInterval(() => {
