@@ -10,7 +10,7 @@
       <el-menu-item index="/announcement">公告</el-menu-item>
        <el-menu-item index="/course-collection">课程和分类</el-menu-item>
       <el-menu-item index="/conf">系统配置</el-menu-item>
-      <el-menu-item index="/judge-server">Judge 服务器</el-menu-item>
+      <el-menu-item index="/judge-server">判题服务器</el-menu-item>
     </el-submenu>
     <el-submenu index="problem">
       <template slot="title"><i class="el-icon-fa-bars"></i>题目</template>

@@ -118,10 +118,10 @@
                         this.$router.push(
                           {
                             name: 'contest-problem-details',
-                            params: {problemID: params.row.problem, contestID: this.contestID}
+                            params: {problemID: params.row.problem._id, contestID: this.contestID}
                           })
                       } else {
-                        this.$router.push({name: 'problem-details', params: {problemID: params.row.problem}})
+                        this.$router.push({name: 'problem-details', params: {problemID: params.row.problem.id}})
                       }
                     }
                   }

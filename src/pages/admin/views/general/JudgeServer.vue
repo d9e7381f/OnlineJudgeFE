@@ -3,7 +3,7 @@
     <Panel title="Judge Server Token">
       <code>{{ token }}</code>
     </Panel>
-    <Panel title="Judge服务器">
+    <Panel title="判题服务器">
       <el-table
         :data="servers"
         :default-expand-all="true"
@@ -13,17 +13,17 @@
           <template slot-scope="props">
             <p>IP:
               <el-tag type="success">{{ props.row.ip }}</el-tag>&nbsp;&nbsp;
-              Judger 版本:
+              判题服务器版本:
               <el-tag type="success">{{ props.row.judger_version }}</el-tag>
             </p>
-            <p>Service 路径: <code>{{ props.row.service_url }}</code></p>
+            <p>服务路径: <code>{{ props.row.service_url }}</code></p>
             <p>最后活跃时间: {{ props.row.last_heartbeat | localtime}}</p>
             <p>创建时间: {{ props.row.create_time | localtime }}</p>
           </template>
         </el-table-column>
         <el-table-column
           prop="status"
-          label="Status">
+          label="状态">
           <template slot-scope="scope">
             <el-tag
               :type="scope.row.status === 'normal' ? 'success' : 'danger'">
@@ -53,7 +53,7 @@
           label="内存使用率">
           <template slot-scope="scope">{{ scope.row.memory_usage }}%</template>
         </el-table-column>
-        <el-table-column label="启用">
+        <el-table-column label="禁用">
           <template slot-scope="{row}">
             <el-switch v-model="row.is_disabled" @change="handleDisabledSwitch(row.id, row.is_disabled)"></el-switch>
           </template>
@@ -62,7 +62,7 @@
           fixed="right"
           label="操作">
           <template slot-scope="scope">
-            <icon-btn name="删除" icon="trash" @click.native="deleteJudgeServer(scope.row.hostname)"></icon-btn>
+            <icon-btn name="删除" icon="delete" @click.native="deleteJudgeServer(scope.row.hostname)"></icon-btn>
           </template>
         </el-table-column>
       </el-table>

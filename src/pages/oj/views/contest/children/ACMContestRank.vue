@@ -244,11 +244,11 @@
             dataRank[i][problemID].ac_time = time.secondFormat(dataRank[i][problemID].ac_time)
             let status = info[problemID]
             if (status.is_first_ac) {
-              cellClass[problemID] = '首个正确'
+              cellClass[problemID] = 'first-ac'
             } else if (status.is_ac) {
-              cellClass[problemID] = '正确'
+              cellClass[problemID] = 'ac'
             } else {
-              cellClass[problemID] = '错误'
+              cellClass[problemID] = 'wa'
             }
           })
           dataRank[i].cellClassName = cellClass
