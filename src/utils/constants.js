@@ -6,7 +6,7 @@ export const JUDGE_STATUS = {
     type: 'warning'
   },
   '-1': {
-    name: '错误',
+    name: '答案错误',
     short: 'WA',
     color: 'red',
     type: 'error'
