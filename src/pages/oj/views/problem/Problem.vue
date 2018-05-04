@@ -183,7 +183,7 @@
             </p>
           </li>
           <li>
-            <p>类别</p>
+            <p v-if="collection">类别</p>
             <p>{{collection}}</p>
           </li>
           <li>
