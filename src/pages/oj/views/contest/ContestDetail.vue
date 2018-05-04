@@ -130,7 +130,7 @@
       this.$store.dispatch('getContest').then(res => {
         this.changeDomTitle({title: res.data.data.title})
         let data = res.data.data
-        let name = res.data.data.contest_type === 'Public' ? '公开' : '仅部分班级开放'
+        let name = res.data.data.contest_type === 'Public' ? '公开' : '仅对部分班级开放'
         res.data.data.real_name = res.data.data.userprofile.real_name
         res.data.data.contestType = name
         let endTime = moment(data.end_time)

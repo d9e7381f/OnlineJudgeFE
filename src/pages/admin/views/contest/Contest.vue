@@ -13,7 +13,7 @@
               <Simditor v-model="contest.description"></Simditor>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="12">
             <el-form-item label="开始时间" required>
               <el-date-picker
                 v-model="contest.start_time"
@@ -22,7 +22,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="12">
             <el-form-item label="停止时间" required>
               <el-date-picker
                 v-model="contest.end_time"

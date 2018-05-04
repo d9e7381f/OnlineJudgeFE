@@ -66,7 +66,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="标签" :error="error.tags" required>
+            <el-form-item label="标签" :error="error.tags">
               <span class="tags">
                 <el-tag
                   v-for="tag in problem.tags"
@@ -648,11 +648,6 @@
             this.$error('样本的输出和输入为设置')
             return
           }
-        }
-        if (!this.problem.tags.length) {
-          this.error.tags = '请至少添加一个标签'
-          this.$error(this.error.tags)
-          return
         }
         if (this.problem.spj) {
           if (!this.problem.spj_code) {
