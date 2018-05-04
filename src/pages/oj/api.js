@@ -138,6 +138,7 @@ export default {
   getContestList (offset, limit, searchParams) {
     let params = {
       offset,
+      order_by_vote_count_desc: true,
       limit
     }
     if (searchParams !== undefined) {
@@ -254,9 +255,13 @@ export default {
     let params = {
       paging: true,
       offset,
-      limit,
-      order_by_problem_count_desc: problemCountDesc,
-      order_by_vote_count_desc: voteCountDesc
+      limit
+    }
+    if (voteCountDesc) {
+      params['order_by_vote_count_desc'] = voteCountDesc
+    }
+    if (problemCountDesc) {
+      params['order_by_problem_count_desc'] = problemCountDesc
     }
     return ajax('user/', 'get', {
       params: params
