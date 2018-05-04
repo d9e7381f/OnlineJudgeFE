@@ -163,7 +163,7 @@
             <p>{{problem.memory_limit}}MB</p></li>
           <li>
             <p>创建者</p>
-            <p>{{problem.created_by}}</p></li>
+            <p>{{real_name}}</p></li>
           <li v-if="problem.difficulty">
             <p>难度</p>
             <p>{{problem.difficulty}}</p></li>
@@ -247,8 +247,10 @@
         contestID: '',
         problemID: '',
         submitting: false,
+        displayID: '',
         collection: '',
         code: '',
+        real_name: '',
         language: 'C++',
         submissionId: '',
         thumbsupType: 'ghost',
@@ -317,6 +319,8 @@
             }
           })
           let problem = res.data.data
+          this.real_name = problem.userprofile.real_name
+          this.displayID = problem._id
           if (problem.vote_status === 1) {
             this.thumbsupType = 'primary'
           } else if (problem.vote_status === 2) {
@@ -530,7 +534,7 @@
       },
       submissionRoute () {
         if (this.contestID) {
-          return {name: 'contest-submission-list', query: {problemID: this.problemID}}
+          return {name: 'contest-submission-list', query: {problemID: this.displayID}}
         } else {
           return {name: 'submission-list', query: {problemID: this.problemID}}
         }

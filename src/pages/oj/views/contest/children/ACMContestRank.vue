@@ -87,9 +87,9 @@
             }
           },
           {
-            title: '通过量/总提交量',
+            title: '通过数/总提交数',
             align: 'center',
-            width: 100,
+            width: 150,
             render: (h, params) => {
               return h('span', {}, [
                 h('span', {}, params.row.accepted_number + ' / '),
@@ -117,7 +117,7 @@
         dataRank: [],
         options: {
           title: {
-            text: '前十队伍',
+            text: '前十名',
             left: 'center'
           },
           dataZoom: [
@@ -277,7 +277,7 @@
                     })
                   }
                 }
-              }, problem.id)
+              }, problem._id)
             },
             render: (h, params) => {
               if (params.row[problem.id]) {
