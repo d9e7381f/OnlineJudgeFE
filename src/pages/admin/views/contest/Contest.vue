@@ -142,6 +142,49 @@
       }
     },
     methods: {
+      init () {
+        this.getGroupList()
+        if (this.$route.name === 'edit-contest') {
+          this.title = '编辑竞赛'
+          this.disableRuleType = true
+          api.getContest(this.$route.params.contestId).then(res => {
+            let data = res.data.data
+            let groupTag = []
+            for (let v of res.data.data.groups) {
+              groupTag.push({
+                id: v.id,
+                name: v.name
+              })
+            }
+            this.groupTag = groupTag
+            let ranges = []
+            for (let v of data.allowed_ip_ranges) {
+              ranges.push({value: v})
+            }
+            if (ranges.length === 0) {
+              ranges.push({value: ''})
+            }
+            data.allowed_ip_ranges = ranges
+            this.contest = data
+          }).catch(() => {})
+        } else {
+          this.title = '创建竞赛'
+          this.contest = {
+            title: '',
+            description: '',
+            start_time: '',
+            end_time: '',
+            rule_type: 'ACM',
+            password: '',
+            real_time_rank: true,
+            groups: [],
+            visible: true,
+            allowed_ip_ranges: [{
+              value: ''
+            }]
+          }
+        }
+      },
       saveContest () {
         let funcName = this.$route.name === 'edit-contest' ? 'editContest' : 'createContest'
         let data = Object.assign({}, this.contest)
@@ -228,31 +271,11 @@
       }
     },
     mounted () {
-      this.getGroupList()
-      if (this.$route.name === 'edit-contest') {
-        this.title = '编辑竞赛'
-        this.disableRuleType = true
-        api.getContest(this.$route.params.contestId).then(res => {
-          let data = res.data.data
-          let groupTag = []
-          for (let v of res.data.data.groups) {
-            groupTag.push({
-              id: v.id,
-              name: v.name
-            })
-          }
-          this.groupTag = groupTag
-          let ranges = []
-          for (let v of data.allowed_ip_ranges) {
-            ranges.push({value: v})
-          }
-          if (ranges.length === 0) {
-            ranges.push({value: ''})
-          }
-          data.allowed_ip_ranges = ranges
-          this.contest = data
-        }).catch(() => {
-        })
+      this.init()
+    },
+    watch: {
+      '$route' (to, from) {
+        this.init()
       }
     }
   }

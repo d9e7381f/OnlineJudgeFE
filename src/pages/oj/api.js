@@ -85,26 +85,6 @@ export default {
       }
     })
   },
-  applyResetPassword (data) {
-    return ajax('apply_reset_password', 'post', {
-      data
-    })
-  },
-  resetPassword (data) {
-    return ajax('reset_password', 'post', {
-      data
-    })
-  },
-  changePassword (data) {
-    return ajax('change_password', 'post', {
-      data
-    })
-  },
-  changeEmail (data) {
-    return ajax('change_email', 'post', {
-      data
-    })
-  },
   getLanguages () {
     return ajax('languages', 'get')
   },
@@ -163,14 +143,6 @@ export default {
     return ajax('contest/access', 'get', {
       params: {
         contest_id: contestID
-      }
-    })
-  },
-  checkContestPassword (contestID, password) {
-    return ajax('contest/password', 'post', {
-      data: {
-        contest_id: contestID,
-        password
       }
     })
   },
@@ -273,7 +245,7 @@ export default {
     })
   },
   evaluateProblem (problemID, data) {
-    return ajax('xproblem/' + problemID + '/vote/', 'post', {
+    return ajax(`xproblem/${problemID}/vote/`, 'post', {
       data
     })
   },

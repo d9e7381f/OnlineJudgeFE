@@ -82,7 +82,7 @@
                   },
                   on: {
                     click: () => {
-                      this.$router.push('/status/' + params.row.id)
+                      this.$router.push(`/status/${params.row.id}`)
                     }
                   }
                 }, params.row.id.slice(0, 12))

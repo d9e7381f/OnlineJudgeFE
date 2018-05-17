@@ -150,10 +150,8 @@
             title: '难度',
             width: '15%',
             render: (h, params) => {
-              let t = params.row.difficulty
-              let color = 'blue'
-              if (t === '简单') color = 'green'
-              else if (t === '困难') color = 'yellow'
+              let colors = {'简单': 'green', '中等': 'blue', '困难': 'yellow'}
+              let color = colors[params.row.difficulty]
               return h('Tag', {
                 props: {
                   color: color
@@ -214,7 +212,6 @@
         this.getCollectionList()
       },
       handleValid (value) {
-        console.log(value)
         this.page = 1
         this.isValid = value
         this.getProblemList()
@@ -229,8 +226,7 @@
         api.getCollection().then(res => {
           this.collectionList = res.data.data.collection
           this.handleCollectionList(this.collectionList)
-        }).catch(() => {
-        })
+        }).catch(() => {})
       },
       handleCollectionChange (value) {
         this.query.collection_id = value[ value.length - 1 ]
@@ -292,7 +288,7 @@
         if (value) {
           this.problemTableColumns.push(
             {
-              title: 'Tags',
+              title: '标签',
               align: 'center',
               width: '10%',
               render: (h, params) => {
@@ -316,7 +312,7 @@
       },
       pickone () {
         api.pickone().then(res => {
-          this.$success('Good Luck')
+          this.$success('祝你好运')
           this.$router.push({name: 'problem-details', params: {problemID: res.data.data}})
         })
       }

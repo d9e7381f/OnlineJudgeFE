@@ -78,7 +78,7 @@ const getters = {
       let duration = moment.duration(getters.contestStartTime.diff(state.now, 'seconds'), 'seconds')
       // time is too long
       if (duration.weeks() > 0) {
-        return 'Start At ' + duration.humanize()
+        return '开始于' + duration.humanize()
       }
       let texts = [Math.floor(duration.asHours()), duration.minutes(), duration.seconds()]
       return '-' + texts.join(':')
@@ -87,7 +87,7 @@ const getters = {
       let texts = [Math.floor(duration.asHours()), duration.minutes(), duration.seconds()]
       return '-' + texts.join(':')
     } else {
-      return 'Ended'
+      return '已结束'
     }
   }
 }

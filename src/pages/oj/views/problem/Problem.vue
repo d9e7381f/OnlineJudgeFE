@@ -84,7 +84,7 @@
           <Col :span="12">
           <template v-if="captchaRequired">
             <div class="captcha-container">
-              <Tooltip v-if="captchaRequired" content="Click to refresh" placement="top">
+              <Tooltip v-if="captchaRequired" content="点击刷新" placement="top">
                 <img :src="captchaSrc" @click="getCaptchaSrc"/>
               </Tooltip>
               <Input v-model="captchaCode" class="captcha-code"/>
@@ -139,10 +139,10 @@
         </div>
         <div>
           <Badge :count="this.problem.vote.up" overflow-count="99">
-            <Button :type="thumbsupType" shape="circle" @click="admireProblem" icon="thumbsup" size="large"></Button>
+            <Button :type="thumbsupType" shape="circle" @click="thumbsupProblem" icon="thumbsup" size="large"></Button>
           </Badge>
           <Badge :count="this.problem.vote.down" overflow-count="99">
-            <Button :type="thumbsdownType" shape="circle" @click="belittleProblem" icon="thumbsdown" size="large"></Button>
+            <Button :type="thumbsdownType" shape="circle" @click="thumbsdownProblem" icon="thumbsdown" size="large"></Button>
           </Badge>
         </div>
       </Card>
@@ -258,10 +258,10 @@
         result: {
           result: 9
         },
-        admireOption: {
+        thumbsupOption: {
           is_up: true
         },
-        belittleOption: {
+        thumbsdownOption: {
           is_up: false
         },
         problem: {
@@ -350,19 +350,19 @@
         })
       },
       downloadTestCase (problemID) {
-        let url = '/admin/test_case?problem_id=' + problemID
+        let url = `/admin/test_case?problem_id=${problemID}`
         utils.downloadFile(url)
       },
-      admireProblem () {
-        api.evaluateProblem(this.problem.id, this.admireOption).then(res => {
+      thumbsupProblem () {
+        api.evaluateProblem(this.problem.id, this.thumbsupOption).then(res => {
           if (res.data.error === null) {
             this.problem.vote.up++
             this.thumbsupType = 'primary'
           }
         }).catch(() => {})
       },
-      belittleProblem () {
-        api.evaluateProblem(this.problem.id, this.belittleOption).then(res => {
+      thumbsdownProblem () {
+        api.evaluateProblem(this.problem.id, this.thumbsdownOption).then(res => {
           if (res.data.error === null) {
             this.problem.vote.down++
             this.thumbsdownType = 'primary'
@@ -449,7 +449,7 @@
       },
       submitCode () {
         if (this.code.trim() === '') {
-          this.$error('Code can not be empty')
+          this.$error('代码不能为空')
           return
         }
         this.submissionId = ''
@@ -473,8 +473,8 @@
             this.submissionExists = true
             if (!detailsVisible) {
               this.$Modal.success({
-                title: 'Success',
-                content: 'Submit code successfully'
+                title: '操作成功',
+                content: '代码上传成功'
               })
               return
             }
@@ -493,7 +493,7 @@
           if (this.submissionExists) {
             this.$Modal.confirm({
               title: '',
-              content: '<h3>You have submission in this problem, sure to cover it?<h3>',
+              content: '<h3>你对这道题目已经有提交记录了，是否选择覆盖先前记录?<h3>',
               onOk: () => {
                 // 暂时解决对话框与后面提示对话框冲突的问题(否则一闪而过）
                 setTimeout(() => {
@@ -512,10 +512,10 @@
         }
       },
       onCopy (event) {
-        this.$success('Code copied')
+        this.$success('复制成功')
       },
       onCopyError (e) {
-        this.$error('Failed to copy code')
+        this.$error('复制失败')
       }
     },
     computed: {
