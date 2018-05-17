@@ -169,6 +169,7 @@
           }).catch(() => {})
         } else {
           this.title = '创建竞赛'
+          this.disableRuleType = false
           this.contest = {
             title: '',
             description: '',
