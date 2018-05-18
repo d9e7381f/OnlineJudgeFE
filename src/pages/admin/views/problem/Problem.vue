@@ -530,6 +530,7 @@
       },
       handleCollectionChange (value) {
         this.problem.collection = value[ value.length - 1 ]
+        console.log(this.collectionList)
       },
       init () {
         this.routeName = this.$route.name

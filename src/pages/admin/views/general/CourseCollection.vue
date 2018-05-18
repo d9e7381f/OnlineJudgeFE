@@ -6,9 +6,11 @@
           <el-col :span="6">
             <el-cascader :options="collectionList" 
               :props="cascaderprops"
-              :change-on-select="true"
-              @change="handleCollectionChange"
+              change-on-select
+              filterable
+              clearable
               size="small"
+              @change="handleCollectionChange"
               placeholder="选择题目分类">
             </el-cascader>
           </el-col>
@@ -46,8 +48,10 @@
           <el-col :span="6">
             <el-cascader :options="courseList" 
               :props="cascaderprops"
-              :change-on-select="true"
               @change="handleCourseChange"
+              filterable
+              clearable
+              change-on-select
               size="small"
               placeholder="请选择操作课程">
             </el-cascader>
@@ -148,12 +152,15 @@
         value: [],
         selectValue: [],
         collectionList: [],
-        collectionId: [],
+        collectionURL: [],
+        collectionId: -1,
         addCollectionName: '',
         newCollectionName: '',
         disabledCollectionRenameAndDelete: true,
         courseList: [],
-        courseId: '',
+        courseSet: [],
+        courseURL: [],
+        courseId: -1,
         courseName: '',
         filter: false,
         addCourseName: '',
@@ -215,7 +222,7 @@
         this.$router.push({name: 'edit-problem', params: {problemId}})
       },
       addProblemCourse () {
-        if (this.courseId === '' || this.courseId[0][0] === '-1') {
+        if (this.courseId === '' || this.courseId === '-1') {
           Vue.prototype.$error('请先选择操作的课程')
           return
         }
@@ -226,14 +233,14 @@
         let data = {
           'problems': problem
         }
-        api.addProblemCourse(this.courseId[0], data).then(res => {
+        api.addProblemCourse(this.courseId, data).then(res => {
           this.getCourseProblemList(this.courseCurrentPage)
         }).catch(() => {
           this.getCourseProblemList(this.courseCurrentPage)
         }, () => {})
       },
       removeProblemCourse () {
-        if (this.courseId === '' || this.courseId[0][0] === '-1') {
+        if (this.courseId === '' || this.courseId === '-1') {
           Vue.prototype.$error('请先选择操作的课程')
           return
         }
@@ -244,7 +251,7 @@
         let data = {
           'problems': problem
         }
-        api.removeProblemCourse(this.courseId[0], data).then(res => {
+        api.removeProblemCourse(this.courseId, data).then(res => {
           this.getCourseProblemList(this.courseCurrentPage)
         }).catch(() => {
           this.getCourseProblemList(this.courseCurrentPage)
@@ -259,7 +266,7 @@
           is_valid: true
         }
         if (this.filter) {
-          params['course_id'] = this.courseId[0]
+          params['course_id'] = this.courseId
         }
         api.getProblemList(params).then(res => {
           this.courseLoading = true
@@ -288,17 +295,15 @@
       },
       getCollectionList () {
         api.getCollection().then(res => {
-          this.collectionList[0] = {
-            id: ['-1', ''],
-            name: '顶层分类',
-            children: []
-          }
-          this.collectionList[0][ 'children' ] = res.data.data.collection
-          this.changeChildren(this.collectionList)
+          let collectionSet = []
+          this.collectionList = []
+          this.collectionList.push({id: -1, name: '顶层分类', children: []})
+          this.collectionList[0].children = res.data.data.collection
+          this.changeChildren(this.collectionList, collectionSet, this.collectionURL)
         }).catch(() => {})
       },
       renCollection () {
-        if (this.collectionId[0] === '') {
+        if (this.collectionId === '') {
           Vue.prototype.$error('请先选择要操作的分类')
         } else if (this.newCollectionName === '') {
           Vue.prototype.$error('分类名称不能为空')
@@ -306,7 +311,7 @@
           let collectionoptions = {
             name: this.newCollectionName
           }
-          api.renCollection(this.collectionId[0], collectionoptions).then(res => {
+          api.renCollection(this.collectionId, collectionoptions).then(res => {
             this.getCollectionList()
           }).catch(() => {
             this.getCollectionList()
@@ -314,13 +319,13 @@
         }
       },
       addCollection () {
-        if (this.collectionId[0] === '') {
+        if (this.collectionId === '') {
           Vue.prototype.$error('请先选择要操作的分类')
         } else if (this.addCollectionName === '') {
           Vue.prototype.$error('分类名称不能为空')
         } else {
           let courseoptions = {
-            parent: this.collectionId[1],
+            parent: this.collectionURL[this.collectionId],
             name: this.addCollectionName
           }
           api.addCollection(courseoptions).then(res => {
@@ -331,11 +336,11 @@
         }
       },
       deleteCollection () {
-        if (this.collectionId[0] === '') {
+        if (this.collectionId === '') {
           Vue.prototype.$error('请先选择要操作的分类')
         } else {
           this.$confirm('确认删除该分类吗？').then(_ => {
-            api.deleteCollection(this.collectionId[0]).then(res => {
+            api.deleteCollection(this.collectionId).then(res => {
               this.getCollectionList()
             }).catch(() => {
               this.getCollectionList()
@@ -344,17 +349,14 @@
         }
       },
       changeCollectionRenameAndDelete () {
-        this.disabledCollectionRenameAndDelete = (this.collectionId[0] === '' || this.collectionId[0] === -1)
+        this.disabledCollectionRenameAndDelete = (this.collectionId === '' || this.collectionId === -1)
       },
       getCourseList () {
         api.getCourse().then(res => {
-          this.courseList[0] = {
-            id: ['-1', '', ''],
-            name: '顶层课程',
-            children: []
-          }
-          this.courseList[0][ 'children' ] = res.data.data.course
-          this.changeChildren(this.courseList)
+          this.courseList = []
+          this.courseList.push({id: 0, name: '顶层课程', children: []})
+          this.courseList[0].children = res.data.data.course
+          this.changeChildren(this.courseList, this.courseSet, this.courseURL)
         }).catch(() => {})
       },
       renCourse () {
@@ -366,7 +368,7 @@
           let courseoptions = {
             name: this.newCourseName
           }
-          api.renCourse(this.courseId[0], courseoptions).then(res => {
+          api.renCourse(this.courseId, courseoptions).then(res => {
             this.getCourseList()
             this.getCourseProblemList(this.courseCurrentPage)
           }).catch(() => {
@@ -381,7 +383,7 @@
           Vue.prototype.$error('课程名称不能为空')
         } else {
           let courseoptions = {
-            parent: this.courseId[1],
+            parent: this.courseURL[this.courseId],
             name: this.addCourseName
           }
           api.addCourse(courseoptions).then(res => {
@@ -397,7 +399,7 @@
           Vue.prototype.$error('请先选择要操作的分类')
         } else {
           this.$confirm('确认删除该分类?').then(_ => {
-            api.deleteCourse(this.courseId[0]).then(res => {
+            api.deleteCourse(this.courseId).then(res => {
               this.getCourseList()
               this.getCourseProblemList(this.courseCurrentPage)
             }).catch(() => {
@@ -409,30 +411,27 @@
       changeCourseRenameAndDelete () {
         this.disabledCourseRenameAndDelete = (this.courseId === '' || this.courseId === -1)
       },
-      changeChildren (list) {
+      changeChildren (list, set, url) {
         for (var listitem of list) {
-          listitem['id'] = [listitem['id'], listitem['url'], listitem['name']]
-          if (listitem[ 'children' ].length === 0) {
-            delete listitem[ 'children' ]
+          set[listitem.id] = listitem.name
+          url[listitem.id] = listitem.url
+          if (listitem['children'].length === 0) {
+            delete listitem['children']
           } else {
-            this.changeChildren(listitem[ 'children' ])
+            this.changeChildren(listitem.children, set, url)
           }
         }
       },
       handleCourseChange (value) {
         this.filter = false
         this.courseId = value[ value.length - 1 ]
-        this.courseName = this.courseId[2]
+        this.courseName = this.courseSet[this.courseId]
         this.changeCourseRenameAndDelete()
       },
       handleCollectionChange (value) {
         this.collectionId = value[ value.length - 1 ]
         this.changeCollectionRenameAndDelete()
       }
-    },
-    computed: {
-    },
-    watch: {
     }
   }
 </script>
