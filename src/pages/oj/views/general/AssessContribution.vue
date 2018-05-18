@@ -138,9 +138,6 @@
         let offset = (page - 1) * this.limit
         this.loadings = true
         api.getContributionList(offset, this.limit, true, false).then(res => {
-          res.data.data.results.sort((b, a) => {
-            return a.vote_count === b.vote_count ? a.id - b.id : a.vote_count - b.vote_count
-          })
           this.contributionList = res.data.data.results
           this.total = res.data.data.total
         }, () => {}).catch(() => {
