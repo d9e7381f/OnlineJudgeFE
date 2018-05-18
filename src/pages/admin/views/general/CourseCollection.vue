@@ -303,7 +303,7 @@
         }).catch(() => {})
       },
       renCollection () {
-        if (this.collectionId === '') {
+        if (this.collectionId === '' || this.collectionId === -1) {
           Vue.prototype.$error('请先选择要操作的分类')
         } else if (this.newCollectionName === '') {
           Vue.prototype.$error('分类名称不能为空')
@@ -336,7 +336,7 @@
         }
       },
       deleteCollection () {
-        if (this.collectionId === '') {
+        if (this.collectionId === '' || this.collectionId === -1) {
           Vue.prototype.$error('请先选择要操作的分类')
         } else {
           this.$confirm('确认删除该分类吗？').then(_ => {
@@ -360,7 +360,7 @@
         }).catch(() => {})
       },
       renCourse () {
-        if (this.courseId === '') {
+        if (this.courseId === -1 || this.courseId === '') {
           Vue.prototype.$error('请先选择要操作的课程')
         } else if (this.newCourseName === '') {
           Vue.prototype.$error('课程名称不能为空')
@@ -395,7 +395,7 @@
         }
       },
       deleteCourse () {
-        if (this.courseId === '') {
+        if (this.courseId === '' || this.courseId === -1) {
           Vue.prototype.$error('请先选择要操作的分类')
         } else {
           this.$confirm('确认删除该分类?').then(_ => {
