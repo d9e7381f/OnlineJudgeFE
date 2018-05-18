@@ -10,6 +10,18 @@
            active-text="已审核">
           </el-switch>
          </div>
+         <div class="header-option" style="margin: 0 20px">
+           <el-cascader
+              :options="groupList"
+              :props="cascaderprops"
+              filterable
+              clearable
+              change-on-select
+              separator="-"
+              placeholder="选择题目创建用户班级"
+              @change="handleGroupsChange">
+            </el-cascader>
+         </div>
          <div class="header-option" style="margin: 0 auto">
            <el-input
               v-model="keyword"
@@ -168,6 +180,12 @@
         showID: false,
         problemList: [],
         keyword: '',
+        groupList: [],
+        classSet: [],
+        cascaderprops: {
+          value: 'id',
+          label: 'name'
+        },
         loading: false,
         currentPage: 1,
         routeName: '',
@@ -199,6 +217,7 @@
         this.ProblemList = this.isProblemList()
         this.UncheckProblemList = this.isUncheckProblemList()
         this.EduProblemList = this.isEduProblemList()
+        this.getGroupList()
         if (this.UncheckProblemList) {
           this.checkProblem = false
         } else {
@@ -227,6 +246,41 @@
           this.$router.push({name: 'edit-problem', params: {problemId}})
         }
       },
+      getGroupList () {
+        let i = 0
+        let groupList = []
+        api.getUserGroupList().then(res => {
+          let yearKeys = Object.keys(res.data.data)
+          for (let yearKeysName of yearKeys) {
+            let yearObject = {
+              id: i++,
+              name: yearKeysName,
+              children: []
+            }
+            let majorKeys = Object.keys(res.data.data[yearKeysName])
+            for (let majorKeysName of majorKeys) {
+              let majorObject = {
+                id: i++,
+                name: majorKeysName,
+                children: []
+              }
+              let classSet = res.data.data[yearKeysName][majorKeysName]
+              for (let classItemObject of classSet) {
+                let classItem = {
+                  fullName: classItemObject.name,
+                  name: classItemObject.class_num,
+                  id: classItemObject.id
+                }
+                this.classSet.push(classItem)
+                majorObject.children.push(classItem)
+              }
+              yearObject.children.push(majorObject)
+            }
+            groupList.unshift(yearObject)
+          }
+        })
+        this.groupList = groupList
+      },
       openViewProblem (problemId) {
         this.viewProblem = true
         this.viewProblemId = problemId
@@ -251,6 +305,10 @@
       currentChange (page) {
         this.currentPage = page
         this.getProblemList(page)
+      },
+      handleGroupsChange (value) {
+        let value2 = value[value.length - 1]
+        console.log('选中组为：' + value2)
       },
       updateDisplay (problemID, visible) {
         api.changeProblemDisplay(problemID, visible).then(res => {

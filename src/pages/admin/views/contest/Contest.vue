@@ -63,6 +63,8 @@
                       v-model="cascaderClassID"
                       :options="groupList" 
                       :props="cascaderprops"
+                      filterable
+                      clearable
                       placeholder="选择班级">
                       </el-cascader>
                   </el-col>

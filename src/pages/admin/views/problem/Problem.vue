@@ -228,6 +228,8 @@
           <el-cascader :options="collectionList" 
               :props="cascaderprops"
               v-model="collection"
+              filterable
+              clearable
               @change="handleCollectionChange"
               placeholder="选择题目分类">
         </el-cascader>
@@ -250,6 +252,8 @@
                 <el-cascader :options="courseList" 
                   :props="cascaderprops"
                   v-model="cascaderCourseID"
+                  filterable
+                  clearable
                   placeholder="选择题目所属课程">
                 </el-cascader>
               </el-col>
