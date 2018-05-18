@@ -152,6 +152,7 @@
   import utils from '@/utils/utils'
   import AddProblemComponent from './AddPublicProblem.vue'
   import ViewProblemComponent from './ViewProblem.vue'
+  import {mapGetters} from 'vuex'
 
   export default {
     name: 'ProblemList',
@@ -221,7 +222,6 @@
       },
       goEdit (problemId) {
         if (this.routeName === 'contest-problem-list') {
-          this.$router.push({name: 'edit-problem', params: {problemId}})
           this.$router.push({name: 'edit-contest-problem', params: {problemId: problemId, contestId: this.contestId}})
         } else {
           this.$router.push({name: 'edit-problem', params: {problemId}})
@@ -270,12 +270,6 @@
       },
       getProblemList (page = 1) {
         this.loading = true
-        let funcName = {
-          'problem-list': 'getProblemList',
-          'contest-problem-list': 'getContestProblemList',
-          'edu-problem-list': 'getProblemList',
-          'uncheck-problem-list': 'getProblemList'
-        }[this.routeName]
         let params = {
           limit: this.pageSize,
           offset: (page - 1) * this.pageSize,
@@ -285,26 +279,27 @@
           has_perm: true,
           is_valid: this.checkProblem
         }
+        let funcName = 'getProblemList'
         if (this.routeName === 'contest-problem-list') {
+          funcName = 'getContestProblemList'
           delete params.in_course
           delete params.is_valid
         } else {
           params.contest_id = 0
         }
-        api.getProfile().then(res => {
-          if (res.data.data.user.admin_type === 'Regular User') {
-            delete params.is_valid
+        // 普通用户所能查看的题目必须是未审核的题目，查看自身提交已审核题目是没有意义
+        if (!this.$store.getters.isAdminRole) {
+          delete params.is_valid
+        }
+        api[funcName](params).then(res => {
+          this.loading = false
+          this.total = res.data.data.total
+          for (let problem of res.data.data.results) {
+            problem.isEditing = false
           }
-          api[funcName](params).then(res => {
-            this.loading = false
-            this.total = res.data.data.total
-            for (let problem of res.data.data.results) {
-              problem.isEditing = false
-            }
-            this.problemList = res.data.data.results
-          }, res => {
-            this.loading = false
-          })
+          this.problemList = res.data.data.results
+        }, res => {
+          this.loading = false
         })
       },
       deleteProblem (id) {
@@ -326,7 +321,7 @@
         this.InlineEditDialogVisible = true
       },
       downloadTestCase (problemID) {
-        let url = '/test_case?problem_id=' + problemID
+        let url = `/test_case?problem_id=${problemID}`
         utils.downloadFile(url)
       },
       getPublicProblem () {
@@ -343,6 +338,9 @@
       'keyword' () {
         this.currentChange()
       }
+    },
+    computed: {
+      ...mapGetters(['isAdminRole'])
     }
   }
 </script>
