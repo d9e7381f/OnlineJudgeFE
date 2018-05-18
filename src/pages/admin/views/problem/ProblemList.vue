@@ -279,9 +279,8 @@
           has_perm: true,
           is_valid: this.checkProblem
         }
-        let funcName = 'getProblemList'
+        let funcName = this.$route.name === 'contest-problem-list' ? 'getContestProblemList' : 'getProblemList'
         if (this.routeName === 'contest-problem-list') {
-          funcName = 'getContestProblemList'
           delete params.in_course
           delete params.is_valid
         } else {
