@@ -542,15 +542,13 @@
         api.getCollection().then(res => {
           this.collectionList = res.data.data.collection
           this.changeChildren(this.collectionList)
-        }).catch(() => {
-        })
+        }).catch(() => {})
       },
       getCourse () {
         api.getCourse().then(res => {
           this.courseList = res.data.data.course
           this.changeChildren(this.courseList)
-        }).catch(() => {
-        })
+        }).catch(() => {})
       },
       switchSpj () {
         if (this.testCaseUploaded) {

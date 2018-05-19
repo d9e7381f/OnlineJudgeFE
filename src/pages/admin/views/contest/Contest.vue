@@ -66,7 +66,7 @@
                       filterable
                       clearable
                       placeholder="选择班级">
-                      </el-cascader>
+                    </el-cascader>
                   </el-col>
                   <el-col :span="10">
                     <el-button plain icon="el-icon-fa-plus" @click="addGroupTag"></el-button>
