@@ -3,18 +3,42 @@
     <div slot="title">
       留言板
     </div>
-    
+     <div slot="extra">
+      <Button icon="ios-undo" @click="goBack">返回</Button>
+    </div>
+    <div>
+      <template v-for="comment in commentList" >
+        <div>
+          comment.content
+        </div>
+      </template>
+    </div>
+    <template>
+      <Simditor v-model="comment"></Simditor>
+      <Row>
+        <Col :span="24">
+          <Button type="primary" icon="edit" @click="submit" class="fl-right">
+            <span>发表</span>       
+          </Button>
+        </Col>
+      </Row>
+    </template>
   </Panel>
 </template>
 <script>
 import api from '@oj/api'
+import Simditor from '../../components/Simditor'
 export default {
   name: 'CommentBoard',
+  components: {
+    Simditor
+  },
   data () {
     return {
       total: 0,
       limit: 10,
       problemID: 0,
+      comment: '',
       commentList: []
     }
   },
@@ -25,8 +49,17 @@ export default {
     },
     getComment () {
       api.getProblemComments(this.problemID).then(res => {
-        this.commentList = res
+        this.commentList = res.data.data.results
+        this.total = res.data.data.total
+        console.log(this.commentList)
       }).catch(() => {})
+    },
+    goBack () {
+      console.log('goback')
+      this.$router.push({path: `/problem/${this.problemID}`})
+    },
+    submit () {
+      api.postProblemComment(this.problemID, { 'content': this.comment }).catch(() => {})
     }
   },
   mounted () {
@@ -35,3 +68,10 @@ export default {
 
 }
 </script>
+
+<style lang="less" scoped>
+  .fl-right {
+    margin-top: 10px;
+    float: right;
+  }
+</style>
