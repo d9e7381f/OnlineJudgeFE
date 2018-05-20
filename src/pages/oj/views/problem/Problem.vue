@@ -119,6 +119,11 @@
           提交
         </VerticalMenu-item>
 
+        <VerticalMenu-item v-if="!this.contestID" :route="{path: `/comments/${this.problem.id}`}">
+          <Icon type="chatbubble-working"></Icon>
+          讨论
+        </VerticalMenu-item>
+
         <template v-if="this.contestID">
           <VerticalMenu-item v-if="!this.contestID || OIContestRealTimePermission"
                              :route="{name: 'contest-rank', params: {contestID: contestID}}">
