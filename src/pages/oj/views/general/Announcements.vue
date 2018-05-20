@@ -68,6 +68,12 @@
           this.getAnnouncementList()
         }
       },
+      // 为img标签添加宽度 防止撑开div
+      addImageWidth (announcements) {
+        for (let item of announcements) {
+          item.content = item.content.replace(/<img src=/g, '<img style="width:100%" src=')
+        }
+      },
       getAnnouncementList (page = 1) {
         let params = {
           limit: this.limit,
@@ -78,6 +84,7 @@
           this.btnLoading = false
           this.announcements = res.data.data.results
           this.total = res.data.data.total
+          this.addImageWidth(this.announcements)
         }, () => {
           this.btnLoading = false
         })
@@ -160,8 +167,12 @@
     }
   }
 
+
   .content-container {
     padding: 0 20px 20px 20px;
+    img {
+      width: 100px;
+    }
   }
 
   .no-announcement {
