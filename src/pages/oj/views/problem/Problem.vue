@@ -353,7 +353,7 @@
       },
       // 为img标签添加宽度 防止撑开div
       addImageWidth () {
-        this.problem.description = this.problem.description.replace(/<img src=/g, '<img style="width:100%" src=')
+        this.problem.description = this.problem.description.replace(/<img/g, '<img style="width:100%" ')
       },
       downloadTestCase (problemID) {
         let url = `/admin/test_case?problem_id=${problemID}`
