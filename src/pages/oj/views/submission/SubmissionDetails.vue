@@ -60,7 +60,7 @@
       type: 'index'
     },
     {
-      title: 'Status',
+      title: '状态',
       align: 'center',
       render: (h, params) => {
         return h('Tag', {
@@ -71,14 +71,14 @@
       }
     },
     {
-      title: 'Memory',
+      title: '所用内存',
       align: 'center',
       render: (h, params) => {
         return h('span', utils.submissionMemoryFormat(params.row.memory))
       }
     },
     {
-      title: 'Time',
+      title: '所用时间',
       align: 'center',
       render: (h, params) => {
         return h('span', utils.submissionTimeFormat(params.row.cpu_time))
@@ -86,20 +86,20 @@
     }
   ]
   const scoreColumn = [{
-    title: 'Score',
+    title: '得分',
     align: 'center',
     key: 'score'
   }]
   const adminColumn = [
     {
-      title: 'Real Time',
+      title: '实时',
       align: 'center',
       render: (h, params) => {
         return h('span', utils.submissionTimeFormat(params.row.real_time))
       }
     },
     {
-      title: 'Singal',
+      title: '事件',
       align: 'center',
       key: 'signal'
     }
