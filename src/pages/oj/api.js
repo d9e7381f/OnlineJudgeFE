@@ -226,6 +226,7 @@ export default {
   getContributionList (offset, limit, voteCountDesc, problemCountDesc) {
     let params = {
       paging: true,
+      no_admin: true,
       offset,
       limit
     }
