@@ -355,6 +355,12 @@
       }
     },
     mounted () {
+      api.canCreateProblem().then(res => {
+        if (res.data.data.error) {
+          Vue.prototype.$error('你上传的题目还未通过审核，现在不能创建题目')
+          this.$router.push({path: 'problem-list'})
+        }
+      })
       this.init()
       this.routeName = this.$route.name
       if (this.routeName === 'edit-problem') {
