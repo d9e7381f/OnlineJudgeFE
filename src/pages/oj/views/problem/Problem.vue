@@ -132,7 +132,7 @@
         </template>
       </VerticalMenu>
 
-      <Card id="info">
+      <Card id="info" v-if="!this.contestID">
         <div slot="title" class="header">
           <Icon type="star"></Icon>
           <span class="card-title">评价</span>
@@ -332,6 +332,8 @@
           })
           problem.languages = problem.languages.sort()
           this.problem = problem
+          // 处理题目描述中的图片显示
+          this.addImageWidth()
           if (problem.collections !== null && problem.collections.length !== 0) {
             this.collection = problem.collections[problem.collections.length - 1].name
           }
@@ -348,6 +350,10 @@
         }, () => {
           this.$Loading.error()
         })
+      },
+      // 为img标签添加宽度 防止撑开div
+      addImageWidth () {
+        this.problem.description = this.problem.description.replace(/<img src=/g, '<img style="width:100%" src=')
       },
       downloadTestCase (problemID) {
         let url = `/admin/test_case?problem_id=${problemID}`
