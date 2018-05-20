@@ -71,7 +71,7 @@
       // 为img标签添加宽度 防止撑开div
       addImageWidth (announcements) {
         for (let item of announcements) {
-          item.content = item.content.replace(/<img src=/g, '<img style="width:100%" src=')
+          item.content = item.content.replace(/<img/g, '<img style="width:100%" ')
         }
       },
       getAnnouncementList (page = 1) {
