@@ -21,12 +21,16 @@ export default {
   methods: {
     init () {
       this.problemID = this.$route.params.problemID
+      this.getComment()
     },
     getComment () {
       api.getProblemComments(this.problemID).then(res => {
         this.commentList = res
       }).catch(() => {})
     }
+  },
+  mounted () {
+    this.init()
   }
 
 }
