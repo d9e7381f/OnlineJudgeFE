@@ -355,11 +355,10 @@
       }
     },
     mounted () {
-      api.canCreateProblem().then(res => {
-        if (res.data.data.error) {
-          Vue.prototype.$error('你上传的题目还未通过审核，现在不能创建题目')
-          this.$router.push({path: 'problem-list'})
-        }
+      // 当学生题目配额已满是会抛出错误
+      api.canCreateProblem().catch(() => {
+        console.log('catch')
+        this.$router.push({path: '/problems'})
       })
       this.init()
       this.routeName = this.$route.name
