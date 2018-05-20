@@ -4,23 +4,12 @@
       <div slot="header" >
           <div class="header-option">
            <el-switch
-           v-if="EduProblemList"
-           v-model="checkProblem"
+           v-if="UncheckProblemList"
+           v-model="switchProblem"
            @change="getProblemList"
-           active-text="已审核">
+           active-text="公共"
+           inactive-text="教学">
           </el-switch>
-         </div>
-         <div class="header-option" style="margin: 0 20px">
-           <el-cascader
-              :options="groupList"
-              :props="cascaderprops"
-              filterable
-              clearable
-              change-on-select
-              separator="-"
-              placeholder="选择题目创建用户班级"
-              @change="handleGroupsChange">
-            </el-cascader>
          </div>
          <div class="header-option" style="margin: 0 auto">
            <el-input
@@ -180,7 +169,6 @@
         showID: false,
         problemList: [],
         keyword: '',
-        groupList: [],
         classSet: [],
         cascaderprops: {
           value: 'id',
@@ -194,7 +182,7 @@
         EduProblemList: false,
         contestId: '',
         viewProblemId: '',
-        checkProblem: true,
+        switchProblem: true,
         // for make public use
         currentProblemID: '',
         currentRow: {},
@@ -217,12 +205,7 @@
         this.ProblemList = this.isProblemList()
         this.UncheckProblemList = this.isUncheckProblemList()
         this.EduProblemList = this.isEduProblemList()
-        this.getGroupList()
-        if (this.UncheckProblemList) {
-          this.checkProblem = false
-        } else {
-          this.checkProblem = true
-        }
+        this.switchProblem = this.UncheckProblemList
       },
       handleDblclick (row) {
         row.isEditing = true
@@ -245,41 +228,6 @@
         } else {
           this.$router.push({name: 'edit-problem', params: {problemId}})
         }
-      },
-      getGroupList () {
-        let i = 0
-        let groupList = []
-        api.getUserGroupList().then(res => {
-          let yearKeys = Object.keys(res.data.data)
-          for (let yearKeysName of yearKeys) {
-            let yearObject = {
-              id: i++,
-              name: yearKeysName,
-              children: []
-            }
-            let majorKeys = Object.keys(res.data.data[yearKeysName])
-            for (let majorKeysName of majorKeys) {
-              let majorObject = {
-                id: i++,
-                name: majorKeysName,
-                children: []
-              }
-              let classSet = res.data.data[yearKeysName][majorKeysName]
-              for (let classItemObject of classSet) {
-                let classItem = {
-                  fullName: classItemObject.name,
-                  name: classItemObject.class_num,
-                  id: classItemObject.id
-                }
-                this.classSet.push(classItem)
-                majorObject.children.push(classItem)
-              }
-              yearObject.children.push(majorObject)
-            }
-            groupList.unshift(yearObject)
-          }
-        })
-        this.groupList = groupList
       },
       openViewProblem (problemId) {
         this.viewProblem = true
@@ -333,9 +281,9 @@
           offset: (page - 1) * this.pageSize,
           keyword: this.keyword,
           contest_id: this.contestId,
-          in_course: this.EduProblemList,
+          in_course: !this.switchProblem,
           has_perm: true,
-          is_valid: this.checkProblem
+          is_valid: !this.UncheckProblemList
         }
         let funcName = this.$route.name === 'contest-problem-list' ? 'getContestProblemList' : 'getProblemList'
         if (this.routeName === 'contest-problem-list') {
