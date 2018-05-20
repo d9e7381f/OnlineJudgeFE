@@ -63,6 +63,7 @@ export default [
   {
     name: 'comment-board',
     path: '/comments/:problemID',
+    meta: {title: '评论列表'},
     component: CommentBoard
   },
   {
