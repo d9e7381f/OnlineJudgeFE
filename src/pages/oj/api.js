@@ -110,7 +110,7 @@ export default {
     })
   },
   pickone () {
-    return ajax('pickone', 'get')
+    return ajax('xproblem/pick_one/', 'get')
   },
   getProblem (problemID) {
     return ajax(`xproblem/${problemID}/`, 'get')

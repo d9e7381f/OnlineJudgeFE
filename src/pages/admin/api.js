@@ -312,6 +312,9 @@ export default {
   getDashboardInfo () {
     return ajax('admin/dashboard_info', 'get')
   },
+  canCreateProblem () {
+    return ajax('/xproblem/can_create/', 'get')
+  },
   getSessions () {
     return ajax('sessions', 'get')
   },
