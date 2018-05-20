@@ -1,7 +1,7 @@
 <template>
   <Panel shadow :padding="10">
     <div slot="title">
-      留言板
+      讨论区
     </div>
      <div slot="extra">
       <Button icon="ios-undo" @click="goBack">返回</Button>
@@ -26,7 +26,7 @@
        </template>
        <template v-else>
          <Card>
-           <p class="content">暂无评论</p>
+           <p class="content">暂无讨论</p>
          </Card>
        </template>
     </div>
