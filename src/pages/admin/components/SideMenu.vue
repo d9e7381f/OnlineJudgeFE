@@ -15,9 +15,9 @@
     </el-submenu>
     <el-submenu index="problem">
       <template slot="title"><i class="el-icon-fa-bars"></i>题目</template>
-      <el-menu-item index="/problems">题目列表</el-menu-item>
+      <el-menu-item index="/problems">公开题库</el-menu-item>
       <el-menu-item v-if="isAdminRole" index="/problems/edus">教学题库</el-menu-item>
-      <el-menu-item v-if="isAdminRole" index="/problems/uncheck">审核题目</el-menu-item>
+      <el-menu-item v-if="isAdminRole" index="/problems/uncheck">待审核题目</el-menu-item>
       <el-menu-item index="/problem/create">创建题目</el-menu-item>
     </el-submenu>
     <el-submenu v-if="isAdminRole" index="contest">
