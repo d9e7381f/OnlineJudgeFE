@@ -8,13 +8,34 @@
     </div>
     <div>
       <template v-for="comment in commentList" >
-        <div :key="comment.id">
-          <p class="content" v-html=comment.content></p>
+        <div :key="comment.id" class="comment-main">
+          <div class="comment-author">
+            {{comment.user}}
+          </div>
+          <div class="comment-content">
+            <p class="content" v-html=comment.content></p>
+          </div>
+          <div class="comment-time">
+            <div class="date">{{comment.create_time | localtime }}</div>
+          </div>
+          
         </div>
       </template>
     </div>
-    <template>
-      <Simditor v-model="comment"></Simditor>
+    <div>
+    <Row>
+      <Col :span="24">
+        <Pagination class="fl-right" 
+                  key="page"
+                  :total="total"
+                  :page-size="limit"
+                  :current.sync="page"
+                  @on-change="getComment">
+        </Pagination>
+      </Col>
+    </Row>
+    </div>
+    <Simditor v-model="comment"></Simditor>
       <Row>
         <Col :span="24">
           <Button type="primary" icon="edit" @click="submit" class="fl-right">
@@ -22,23 +43,25 @@
           </Button>
         </Col>
       </Row>
-    </template>
   </Panel>
 </template>
 <script>
 import api from '@oj/api'
 import Simditor from '../../components/Simditor'
+import Pagination from '@oj/components/Pagination'
 export default {
   name: 'CommentBoard',
   components: {
-    Simditor
+    Simditor,
+    Pagination
   },
   data () {
     return {
-      total: 0,
+      total: 10,
       limit: 10,
       problemID: 0,
       comment: '',
+      page: 1,
       commentList: []
     }
   },
@@ -48,7 +71,7 @@ export default {
       this.getComment()
     },
     getComment () {
-      api.getProblemComments(this.problemID).then(res => {
+      api.getProblemComments(this.problemID, {page: this.page, limit: this.limit, offset: this.limit * (this.page - 1)}).then(res => {
         this.commentList = res.data.data.results
         this.total = res.data.data.total
         this.addImageWidth()
@@ -77,10 +100,22 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .comment-main {
+    margin-left: 5px;
+    .comment-author{
+      font-size: 2em;
+    }
+  }
   p.content {
     margin-left: 25px;
     margin-right: 20px;
     font-size: 15px
+  }
+
+  .date {
+    flex: none;
+    width: 200px;
+    text-align: center;
   }
 
   .fl-right {
