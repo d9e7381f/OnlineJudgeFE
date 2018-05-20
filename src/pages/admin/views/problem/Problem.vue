@@ -224,18 +224,8 @@
           <Simditor v-model="problem.hint" placeholder=""></Simditor>
         </el-form-item>
 
-        <el-form-item label="分类" v-if="showOptional">
-          <el-cascader :options="collectionList" 
-              :props="cascaderprops"
-              v-model="collection"
-              filterable
-              clearable
-              @change="handleCollectionChange"
-              placeholder="选择题目分类">
-        </el-cascader>
-        </el-form-item>
         
-        <el-form-item label="题目用途" v-if="showOptional">
+        <el-form-item label="题目类型" v-if="showOptional">
            <el-select v-model="behoofvalue" placeholder="选择题目的类型">
             <el-option
               v-for="item in behoof"
@@ -244,6 +234,17 @@
               :value="item.value">
             </el-option>
         </el-select>
+        </el-form-item>
+
+        <el-form-item label="分类" v-if="showOptional && !behoofvalue">
+          <el-cascader :options="collectionList" 
+              :props="cascaderprops"
+              v-model="collection"
+              filterable
+              clearable
+              @change="handleCollectionChange"
+              placeholder="选择题目分类">
+        </el-cascader>
         </el-form-item>
 
         <el-form-item v-if="behoofvalue && showOptional" label="课程">
@@ -701,7 +702,7 @@
         for (let item of this.courseTag) {
           this.problem.course.push(item.id)
         }
-        if (this.routeName !== 'create-contest-problem' && this.problem.collection === '') {
+        if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.collection === '' && !this.behoofvalue) {
           this.$error('未设置题目分类')
           return
         }
