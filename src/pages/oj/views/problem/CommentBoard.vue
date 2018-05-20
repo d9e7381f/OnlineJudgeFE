@@ -7,6 +7,7 @@
   </Panel>
 </template>
 <script>
+import api from '@oj/api'
 export default {
   name: 'CommentBoard',
   data () {
@@ -22,7 +23,9 @@ export default {
       this.problemID = this.$route.params.problemID
     },
     getComment () {
-      
+      api.getProblemComments(this.problemID).then(res => {
+        this.commentList = res
+      }).catch(() => {})
     }
   }
 
