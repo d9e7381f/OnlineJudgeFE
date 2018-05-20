@@ -16,6 +16,7 @@ import {
   ResetPassword,
   SubmissionDetails,
   SubmissionList,
+  CommentBoard,
   UserHome
 } from '../views'
 
@@ -58,6 +59,11 @@ export default [
     path: '/problem/:problemID',
     meta: {title: '题目详情'},
     component: Problem
+  },
+  {
+    name: 'comment-board',
+    path: '/comments/:problemID',
+    component: CommentBoard
   },
   {
     name: 'submission-list',
