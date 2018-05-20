@@ -115,6 +115,12 @@ export default {
   getProblem (problemID) {
     return ajax(`xproblem/${problemID}/`, 'get')
   },
+  getProblemComments (problemID) {
+    return ajax(`xproblem/${problemID}/comments/`, 'get')
+  },
+  postProblemComment (problemID, data) {
+    return ajax(`xproblem/${problemID}/comment/`, 'post', {data})
+  },
   getContestList (offset, limit, searchParams) {
     let params = {
       offset,
