@@ -8,8 +8,8 @@
     </div>
     <div>
       <template v-for="comment in commentList" >
-        <div>
-          comment.content
+        <div :key="comment.id">
+          <p class="content" v-html=comment.content></p>
         </div>
       </template>
     </div>
@@ -51,12 +51,19 @@ export default {
       api.getProblemComments(this.problemID).then(res => {
         this.commentList = res.data.data.results
         this.total = res.data.data.total
+        this.addImageWidth()
         console.log(this.commentList)
       }).catch(() => {})
     },
     goBack () {
       console.log('goback')
       this.$router.push({path: `/problem/${this.problemID}`})
+    },
+    // 为img标签添加宽度 防止撑开div
+    addImageWidth () {
+      for (let comment of this.commentList) {
+        comment.content = comment.content.replace(/<img /g, '<img style="width:100%" ')
+      }
     },
     submit () {
       api.postProblemComment(this.problemID, { 'content': this.comment }).catch(() => {})
@@ -70,6 +77,12 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  p.content {
+    margin-left: 25px;
+    margin-right: 20px;
+    font-size: 15px
+  }
+
   .fl-right {
     margin-top: 10px;
     float: right;
