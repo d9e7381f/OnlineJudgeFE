@@ -7,20 +7,28 @@
       <Button icon="ios-undo" @click="goBack">返回</Button>
     </div>
     <div>
-      <template v-for="comment in commentList" >
-        <div :key="comment.id" class="comment-main">
-          <div class="comment-author">
-            {{comment.user}}
-          </div>
-          <div class="comment-content">
-            <p class="content" v-html=comment.content></p>
-          </div>
-          <div class="comment-time">
-            <div class="date">{{comment.create_time | localtime }}</div>
-          </div>
-          
-        </div>
-      </template>
+      <template v-if="commentList.length">
+        <template v-for="comment in commentList" >
+          <Card style="margin-top:10px;" :key="comment.id">
+            <div slot="title">
+              <img :src="comment.user.avatar" class="avatar">
+              <div class="extra">
+                <p class="comment-author">{{comment.user.real_name}}</p>
+                <p class="comment-time">{{comment.create_time | localtime }}</p>
+              </div>
+            </div>
+            <div>
+              <p class="content" v-html=comment.content></p>
+            </div>
+          </Card>
+        
+        </template>
+       </template>
+       <template v-else>
+         <Card>
+           <p class="content">暂无评论</p>
+         </Card>
+       </template>
     </div>
     <div>
     <Row>
@@ -75,11 +83,9 @@ export default {
         this.commentList = res.data.data.results
         this.total = res.data.data.total
         this.addImageWidth()
-        console.log(this.commentList)
       }).catch(() => {})
     },
     goBack () {
-      console.log('goback')
       this.$router.push({path: `/problem/${this.problemID}`})
     },
     // 为img标签添加宽度 防止撑开div
@@ -100,22 +106,20 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .comment-main {
-    margin-left: 5px;
-    .comment-author{
-      font-size: 2em;
-    }
-  }
-  p.content {
-    margin-left: 25px;
-    margin-right: 20px;
-    font-size: 15px
+  .extra {
+    margin-left: 10px;
+    display: inline-block;
   }
 
-  .date {
-    flex: none;
-    width: 200px;
-    text-align: center;
+  p.content {
+    margin-right: 20px;
+    font-size: 25px;
+  }
+
+  .avatar {
+    width: 50px;
+    border-radius:25px;
+    -moz-border-radius:25px; /* Old Firefox */
   }
 
   .fl-right {
