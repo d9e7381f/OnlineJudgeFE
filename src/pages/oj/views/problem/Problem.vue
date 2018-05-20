@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-container" onselectstart="return false;">
-    <div id="problem-main">
+  <div class="flex-container">
+    <div id="problem-main" onselectstart="return false;">
       <!--problem main-->
       <Panel :padding="40" shadow>
         <div slot="title">{{problem.title}}</div>
