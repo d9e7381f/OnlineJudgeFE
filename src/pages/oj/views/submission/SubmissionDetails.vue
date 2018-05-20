@@ -99,7 +99,7 @@
       }
     },
     {
-      title: '事件',
+      title: '得分',
       align: 'center',
       key: 'signal'
     }
