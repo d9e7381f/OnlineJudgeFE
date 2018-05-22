@@ -90,8 +90,8 @@
           label="操作"
           width="250">
           <div slot-scope="scope">
-            <icon-btn v-if="!((UncheckProblemList)||(EduProblemList && !checkProblem))" name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
-            <icon-btn v-if="UncheckProblemList || (EduProblemList&& !checkProblem)" name="通过" icon="check" @click.native="validate(scope.row.id)"></icon-btn>
+            <icon-btn v-if="!UncheckProblemList" name="编辑" icon="edit" @click.native="goEdit(scope.row.id)"></icon-btn>
+            <icon-btn v-if="UncheckProblemList" name="通过" icon="check" @click.native="validate(scope.row.id)"></icon-btn>
             <icon-btn name="预览" icon="view"  @click.native="openViewProblem(scope.row.id)"></icon-btn>
             <icon-btn v-if="contestId" name="设置公开" icon="sort"
                       @click.native="makeContestProblemPublic(scope.row.id)"></icon-btn>
