@@ -281,7 +281,7 @@
           offset: (page - 1) * this.pageSize,
           keyword: this.keyword,
           contest_id: this.contestId,
-          in_course: !this.switchProblem,
+          in_course: this.EduProblemList || (!this.switchProblem && this.UncheckProblemList),
           has_perm: true,
           is_valid: !this.UncheckProblemList
         }
