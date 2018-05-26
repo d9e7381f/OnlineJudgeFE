@@ -3,8 +3,8 @@
     <Panel title="任务委派">
       <el-row>
         <el-col :span="6">
-          <el-cascader 
-            :options="courseList" 
+          <el-cascader
+            :options="courseList"
             :props="cascaderprops"
             filterable
             clearable
@@ -14,7 +14,7 @@
         </el-col>
         <el-col :span="6">
           <el-cascader
-            :options="groupList" 
+            :options="groupList"
             :props="cascaderprops"
             filterable
             clearable
@@ -34,9 +34,9 @@
         <el-table-column prop="id" label="ID"></el-table-column>
 
         <el-table-column prop="username" label="学号"></el-table-column>
-    
+
         <el-table-column prop="real_name" label="姓名"></el-table-column>
-        
+
         <el-table-column prop="group" label="班级"></el-table-column>
       </el-table>
       <div class="panel-options">
@@ -58,14 +58,21 @@
     data () {
       return {
         loadingTable: false,
-        pageSize: 10,
         total: 0,
+        currentPage: 1,
+        pageSize: 10,
         courseList: [],
         groupList: [],
         userList: [],
         courseID: -1,
         active: 1,
-        groupID: -1,
+        page: {
+          limit: 0,
+          offset: 0,
+          userprofile__group__grade: '',
+          userprofile__group__major: '',
+          userprofile__group__class_num: ''
+        },
         cascaderprops: {
           value: 'id',
           label: 'name'
@@ -85,8 +92,25 @@
         console.log(this.courseID)
       },
       groupChange (value) {
-        this.groupID = value[value.length - 1]
-        console.log(this.groupID)
+        if (value.length === 3) {
+          this.page.userprofile__group__grade = value[0]
+          this.page.userprofile__group__major = value[1]
+          this.page.userprofile__group__class_num = value[2].replace(/[^0-9]/ig, '')
+          this.getUserList(this.currentPage)
+        }
+      },
+      currentChange (page) {
+        this.currentPage = page
+        this.getUserList(this.currentPage)
+      },
+      getUserList (page = 1) {
+        this.page.limit = this.pageSize
+        this.page.offset = (page - 1) * this.pageSize
+        api.getUserListByClass(this.page).then(res => {
+          this.currentPage = 1
+          this.total = res.data.data.total
+          this.userList = res.data.data.results
+        }).catch(() => {})
       },
       getCourse () {
         api.getCourse().then(res => {
@@ -103,21 +127,23 @@
           }
         }
       },
+      getUser (value) {
+
+      },
       getGroupList () {
-        let i = 0
         let groupList = []
         api.getUserGroupList().then(res => {
           let yearKeys = Object.keys(res.data.data)
           for (let yearKeysName of yearKeys) {
             let yearObject = {
-              id: i++,
+              id: yearKeysName,
               name: yearKeysName,
               children: []
             }
             let majorKeys = Object.keys(res.data.data[yearKeysName])
             for (let majorKeysName of majorKeys) {
               let majorObject = {
-                id: i++,
+                id: majorKeysName,
                 name: majorKeysName,
                 children: []
               }
@@ -126,7 +152,7 @@
                 let classItem = {
                   fullName: classItemObject.name,
                   name: classItemObject.class_num,
-                  id: classItemObject.id
+                  id: classItemObject.class_num
                 }
                 majorObject.children.push(classItem)
               }
