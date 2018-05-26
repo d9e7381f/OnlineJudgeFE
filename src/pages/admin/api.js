@@ -184,6 +184,14 @@ export default {
       data
     })
   },
+  createDelegation (data) {
+    return ajax('delegation/', 'post', {
+      data
+    })
+  },
+  getDelegationList () {
+    return ajax('delegation/', 'get')
+  },
   getProblemTagList () {
     return ajax('problem/tags', 'get')
   },
