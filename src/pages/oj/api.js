@@ -242,7 +242,7 @@ export default {
     if (problemCountDesc) {
       params['order_by_problem_count_desc'] = problemCountDesc
     }
-    return ajax('user/', 'get', {
+    return ajax('user/rank/', 'get', {
       params: params
     })
   },
