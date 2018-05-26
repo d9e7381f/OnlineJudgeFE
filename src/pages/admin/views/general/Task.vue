@@ -4,16 +4,6 @@
       <el-row>
         <el-col :span="6">
           <el-cascader
-            :options="courseList"
-            :props="cascaderprops"
-            filterable
-            clearable
-            @change="courseChange"
-            placeholder="选择课程">
-          </el-cascader>
-        </el-col>
-        <el-col :span="6">
-          <el-cascader
             :options="groupList"
             :props="cascaderprops"
             filterable
@@ -38,6 +28,15 @@
         <el-table-column prop="real_name" label="姓名"></el-table-column>
 
         <el-table-column prop="group" label="班级"></el-table-column>
+        <el-table-column
+          :key="Math.random()"
+          fixed="right"
+          label="操作"
+          width="250">
+          <div slot-scope="scope">
+            <icon-btn name="添加" icon="edit" @click.native="addUser(scope.row)"></icon-btn>
+          </div>
+        </el-table-column>
       </el-table>
       <div class="panel-options">
         <el-pagination
@@ -47,6 +46,40 @@
           :page-size="pageSize"
           :total="total">
         </el-pagination>
+      </div>
+      <div>
+        <el-form label-position="top" label-width="70px">
+          <el-row :gutter="20">
+            <el-col :span="6">
+              <el-form-item label="课程" >
+                <el-cascader
+                :options="courseList"
+                :props="cascaderprops"
+                filterable
+                clearable
+                @change="courseChange"
+                placeholder="选择课程">
+                </el-cascader>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="12">
+              <el-form-item label="学生" >
+                <el-tag
+                style="margin-left:10px"
+                v-for="user in selectUserInfo"
+                :closable="true"
+                :close-transition="true"
+                :key="user.id"
+                @close="closeTag(user)"
+                type="primary">{{user.real_name}}</el-tag>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+        <div class="panel-options">
+          <el-button size="small" type="primary" round @click="delegate">创建</el-button>
+        </div>
       </div>
     </Panel>
   </div>
@@ -65,6 +98,8 @@
         groupList: [],
         userList: [],
         courseID: -1,
+        selectUserList: [],
+        selectUserInfo: [],
         active: 1,
         page: {
           limit: 0,
@@ -99,6 +134,25 @@
           this.getUserList(this.currentPage)
         }
       },
+      addUser (user) {
+        if (!this.selectUserList.find((n) => n === user.id)) {
+          this.selectUserList.push(user.id)
+          this.selectUserInfo.push(user)
+        }
+        console.log(this.selectUserList)
+        console.log(this.selectUserInfo)
+      },
+      delegate () {
+        let data = {
+          course: this.courseID,
+          delegates: this.selectUserList
+        }
+        api.createDelegation(data)
+        console.log('delegate')
+      },
+      closeTag (user) {
+        this.selectUserInfo.splice(this.selectUserInfo.indexOf(user), 1)
+      },
       currentChange (page) {
         this.currentPage = page
         this.getUserList(this.currentPage)
@@ -119,7 +173,7 @@
         }).catch(() => {})
       },
       changeChildren (list) {
-        for (var listitem of list) {
+        for (let listitem of list) {
           if (listitem[ 'children' ].length === 0) {
             delete listitem[ 'children' ]
           } else {
