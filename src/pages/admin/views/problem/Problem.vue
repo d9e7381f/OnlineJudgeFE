@@ -258,18 +258,6 @@
                   placeholder="选择题目所属课程">
                 </el-cascader>
               </el-col>
-              <el-col :span="16">
-                <el-button plain icon="el-icon-fa-plus" @click="addCourseTag"></el-button>
-              </el-col>
-          </el-row>
-          <el-row :gutter="20" style="margin-top: 15px;margin-left: 5px;">
-            <el-tag v-for="tag in courseTag"
-              :key="tag.name"
-              style="margin-right:5px"
-              closable
-              @close="closeCourseTag(tag.id)">
-              {{tag.name}}
-            </el-tag>
           </el-row>
         </el-form-item>
 
@@ -286,7 +274,6 @@
   import Simditor from '../../components/Simditor'
   import Accordion from '../../components/Accordion'
   import CodeMirror from '../../components/CodeMirror'
-  import Vue from 'vue'
   import api from '../../api'
 
   export default {
@@ -334,7 +321,6 @@
         collectionList: [],
         collection: [],
         courseList: [],
-        courseTag: [],
         template: {},
         isEduProblem: false,
         title: '',
@@ -393,8 +379,6 @@
           rule_type: 'ACM',
           hint: '',
           collection: '',
-          courses: [],
-          courseObj: {},
           course: [],
           source: ''
         }
@@ -428,12 +412,7 @@
             let item
             if (this.problem.courses !== undefined && this.problem.courses.length > 0) {
               this.behoofvalue = 1
-              for (item of this.problem.courses) {
-                this.courseTag.push({
-                  id: item[item.length - 1].id,
-                  name: item[item.length - 1].name
-                })
-              }
+              // 数据回显
             } else {
               this.behoofvalue = 0
             }
@@ -490,27 +469,12 @@
       }
     },
     methods: {
-      closeCourseTag (tagID) {
-        this.courseTag.splice(this.courseTag.findIndex(item => item.id === tagID), 1)
-      },
       isShowOptional () {
         if (this.routeName !== 'create-contest-problem' && this.routeName !== 'edit-contest-problem') {
           this.showOptional = true
         } else {
           this.showOptional = false
         }
-      },
-      addCourseTag () {
-        let courseID = this.cascaderCourseID[this.cascaderCourseID.length - 1]
-        if (this.courseTag.findIndex(item => item.id === courseID) !== -1) {
-          Vue.prototype.$error('已经选择了该课程')
-          return
-        }
-        let course = this.findCourseByID(courseID)
-        this.courseTag.push({
-          name: course.name,
-          id: course.id
-        })
       },
       findCourseByID (courseID, courseList = this.courseList) {
         for (let course of courseList) {
@@ -693,7 +657,7 @@
             }
           }
         }
-        this.problem.course = []
+        this.problem.course[0] = this.cascaderCourseID[this.cascaderCourseID.length - 1]
         let difficulty = {
           '简单': 'Low',
           '中等': 'Mid',
@@ -703,18 +667,14 @@
           'High': 'High'
         }
         this.problem.difficulty = difficulty[this.problem.difficulty]
-        console.log(this.problem.difficulty)
-        for (let item of this.courseTag) {
-          this.problem.course.push(item.id)
-        }
         if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.collection === '' && !this.behoofvalue) {
           this.$error('未设置题目分类')
           return
         }
-        if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.course.length === 0 && this.behoofvalue === 1) {
-          this.$error('请至少设置一个课程')
-          return
-        }
+        // if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.course.length === 0 && this.behoofvalue === 1) {
+        //   this.$error('请至少设置一个课程')
+        //   return
+        // }
         this.problem.languages = this.problem.languages.sort()
         this.problem.template = {}
         for (let k in this.template) {
