@@ -209,6 +209,11 @@ export default {
       data
     })
   },
+  getUserListByClass (params) {
+    return ajax('user/', 'get', {
+      params: params
+    })
+  },
   createProblem (data) {
     return ajax('xproblem/', 'post', {
       data
