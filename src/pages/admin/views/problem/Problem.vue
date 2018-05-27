@@ -226,7 +226,7 @@
 
 
         <el-form-item label="题目类型" v-if="showOptional">
-           <el-select v-model="behoofvalue" placeholder="选择题目的类型">
+           <el-select v-model="behoofvalue" placeholder="选择题目的类型" :disabled="behoofvalueDisable">
             <el-option
               v-for="item in behoof"
               :key="item.value"
@@ -517,8 +517,17 @@
       },
       getCourse () {
         api.getCourse().then(res => {
-          this.courseList = res.data.data.course
-          this.changeChildren(this.courseList)
+          if (this.$store.getters.isAdminRole) {
+            this.courseList = res.data.data.course
+            this.changeChildren(this.courseList)
+          } else {
+            api.getCourseChoice().then(choiceRes => {
+              console.log(choiceRes.data.data.course_choice.length)
+              if (choiceRes.data.data.course_choice.length === 0) {
+                this.behoofvalueDisable = true
+              }
+            }).catch(() => {})
+          }
         }).catch(() => {})
       },
       switchSpj () {
