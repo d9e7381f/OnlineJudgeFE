@@ -19,8 +19,6 @@
         ref="table"
         :data="userList"
         style="width: 100%;margin-top: 20px;">
-        <el-table-column type="selection" width="55"></el-table-column>
-
         <el-table-column prop="id" label="ID"></el-table-column>
 
         <el-table-column prop="username" label="学号"></el-table-column>
@@ -34,7 +32,7 @@
           label="操作"
           width="250">
           <div slot-scope="scope">
-            <icon-btn name="添加" icon="edit" @click.native="addUser(scope.row)"></icon-btn>
+            <icon-btn name="添加" icon="plus" @click.native="addUser(scope.row)"></icon-btn>
           </div>
         </el-table-column>
       </el-table>
