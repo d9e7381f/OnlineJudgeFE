@@ -344,7 +344,6 @@
     mounted () {
       // 当学生题目配额已满是会抛出错误
       api.canCreateProblem().catch(() => {
-        console.log('catch')
         this.$router.push({path: '/problems'})
       })
       this.init()
@@ -480,7 +479,6 @@
       findCourseByID (courseID, courseList = this.courseList) {
         for (let course of courseList) {
           if (course.id === courseID) {
-            console.log(JSON.stringify(course))
             return course
           } else if (course.children !== undefined && course.children.length !== 0) {
             let courseObj = this.findCourseByID(courseID, course.children)
@@ -501,7 +499,6 @@
       },
       handleCollectionChange (value) {
         this.problem.collection = value[ value.length - 1 ]
-        console.log(this.collectionList)
       },
       init () {
         this.routeName = this.$route.name
@@ -519,11 +516,10 @@
         api.getCourse().then(res => {
           if (!this.$store.getters.isAdminRole) {
             api.getCourseChoice().then(choiceRes => {
-              console.log(choiceRes.data.data.course_choice.length)
               if (choiceRes.data.data.course_choice.length === 0) {
                 this.behoofvalueDisable = true
-                this.filterCourse(res.data.data.course, choiceRes.data.data.course_choice)
               }
+              this.filterCourse(res.data.data.course, choiceRes.data.data.course_choice)
             }).catch(() => {})
           }
           this.courseList = res.data.data.course
@@ -533,11 +529,12 @@
       filterCourse (list, idlist) {
         for (let i = 0; i < list.length; i++) {
           let item = list[i]
+          if (item.children) {
+            this.filterCourse(item.children, idlist)
+          }
           if (!this.itemhasCourseID(item, idlist)) {
-            list.splice(list.findInex(citem => citem.id === item.id), 1)
+            list.splice(list.findIndex(citem => citem.id === item.id), 1)
             i--
-          } else {
-            this.filterCourse(list.children, idlist)
           }
         }
       },
@@ -545,7 +542,7 @@
         if (idlist.find((n) => n === item.id)) {
           return true
         }
-        this.childrenhasCourseID(item.children, idlist)
+        return this.childrenhasCourseID(item.children, idlist)
       },
       childrenhasCourseID (children, idlist) {
         if (!children) {
@@ -562,7 +559,7 @@
         }
 
         for (let item2 of children) {
-          this.childrenhasCourseID(item2.children, idlist)
+          return this.childrenhasCourseID(item2.children, idlist)
         }
         return false
       },
