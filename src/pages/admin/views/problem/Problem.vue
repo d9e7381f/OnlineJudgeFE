@@ -531,13 +531,40 @@
         }).catch(() => {})
       },
       filterCourse (list, idlist) {
-
+        for (let i = 0; i < list.length; i++) {
+          let item = list[i]
+          if (!this.itemhasCourseID(item, idlist)) {
+            list.splice(list.findInex(citem => citem.id === item.id), 1)
+            i--
+          } else {
+            this.filterCourse(list.children, idlist)
+          }
+        }
       },
       itemhasCourseID (item, idlist) {
-
+        if (idlist.find((n) => n === item.id)) {
+          return true
+        }
+        this.childrenhasCourseID(item.children, idlist)
       },
       childrenhasCourseID (children, idlist) {
+        if (!children) {
+          return false
+        }
+        if (!children.length) {
+          return false
+        }
 
+        for (let item of children) {
+          if (idlist.find((n) => n === item.id)) {
+            return true
+          }
+        }
+
+        for (let item2 of children) {
+          this.childrenhasCourseID(item2.children, idlist)
+        }
+        return false
       },
       switchSpj () {
         if (this.testCaseUploaded) {
