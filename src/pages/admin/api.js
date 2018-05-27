@@ -192,8 +192,10 @@ export default {
       data
     })
   },
-  getDelegationList () {
-    return ajax('delegation/', 'get')
+  getDelegationList (params) {
+    return ajax('delegation/', 'get', {
+      params: params
+    })
   },
   getProblemTagList () {
     return ajax('problem/tags', 'get')
