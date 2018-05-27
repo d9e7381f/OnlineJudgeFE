@@ -184,6 +184,9 @@ export default {
       data
     })
   },
+  getCourseChoice () {
+    return ajax('/delegation/course_choice/', 'get')
+  },
   createDelegation (data) {
     return ajax('delegation/', 'post', {
       data
