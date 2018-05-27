@@ -517,18 +517,27 @@
       },
       getCourse () {
         api.getCourse().then(res => {
-          if (this.$store.getters.isAdminRole) {
-            this.courseList = res.data.data.course
-            this.changeChildren(this.courseList)
-          } else {
+          if (!this.$store.getters.isAdminRole) {
             api.getCourseChoice().then(choiceRes => {
               console.log(choiceRes.data.data.course_choice.length)
               if (choiceRes.data.data.course_choice.length === 0) {
                 this.behoofvalueDisable = true
+                this.filterCourse(res.data.data.course, choiceRes.data.data.course_choice)
               }
             }).catch(() => {})
           }
+          this.courseList = res.data.data.course
+          this.changeChildren(this.courseList)
         }).catch(() => {})
+      },
+      filterCourse (list, idlist) {
+
+      },
+      itemhasCourseID (item, idlist) {
+
+      },
+      childrenhasCourseID (children, idlist) {
+
       },
       switchSpj () {
         if (this.testCaseUploaded) {
