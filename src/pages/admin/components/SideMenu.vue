@@ -9,6 +9,7 @@
       <template slot="title"><i class="el-icon-menu"></i>通用</template>
       <el-menu-item index="/announcement">公告</el-menu-item>
       <el-menu-item index="/delegation">任务委派</el-menu-item>
+      <el-menu-item index="/delegation-list">任务列表</el-menu-item>
       <el-menu-item index="/course-collection">课程与分类</el-menu-item>
       <el-menu-item index="/conf">系统配置</el-menu-item>
       <el-menu-item index="/judge-server">判题服务器</el-menu-item>

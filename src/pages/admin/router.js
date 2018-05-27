@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // 引入 view 组件
 import { Announcement, Conf, Contest, ContestList, Home, JudgeServer, Login,
-  Problem, ProblemList, Dashboard, CourseCollection, Delegation } from './views'
+  Problem, ProblemList, Dashboard, CourseCollection, Delegation, DelegationList } from './views'
 Vue.use(VueRouter)
 
 export default new VueRouter({
@@ -47,6 +47,11 @@ export default new VueRouter({
           path: 'delegation',
           name: 'delegation',
           component: Delegation
+        },
+        {
+          path: 'delegation-list',
+          name: 'delegation-list',
+          component: DelegationList
         },
         {
           path: '/problems',
