@@ -85,7 +85,7 @@
 <<script>
   import api from '../../api'
   export default {
-    name: 'task',
+    name: 'delegation',
     data () {
       return {
         loadingTable: false,
