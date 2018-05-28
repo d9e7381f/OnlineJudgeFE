@@ -11,6 +11,7 @@
         <template v-for="comment in commentList" >
           <Card style="margin-top:10px;" :key="comment.id">
             <div slot="title">
+              <p class="extra" style="color: gray;">{{comment.ordinal}}楼</p>
               <img :src="comment.user.avatar" class="avatar">
               <div class="extra">
                 <p class="comment-author">{{comment.user.real_name}}</p>
@@ -21,7 +22,7 @@
               <p class="content" v-html=comment.content></p>
             </div>
           </Card>
-        
+
         </template>
        </template>
        <template v-else>
@@ -33,7 +34,7 @@
     <div>
     <Row>
       <Col :span="24">
-        <Pagination class="fl-right" 
+        <Pagination class="fl-right"
                   key="page"
                   :total="total"
                   :page-size="limit"
@@ -47,7 +48,7 @@
       <Row>
         <Col :span="24">
           <Button type="primary" icon="edit" @click="submit" class="fl-right">
-            <span>发表</span>       
+            <span>发表</span>
           </Button>
         </Col>
       </Row>
@@ -95,7 +96,9 @@ export default {
       }
     },
     submit () {
-      api.postProblemComment(this.problemID, { 'content': this.comment }).catch(() => {})
+      api.postProblemComment(this.problemID, { 'content': this.comment }).then(res => {
+        this.getComment()
+      }).catch(() => {})
     }
   },
   mounted () {
