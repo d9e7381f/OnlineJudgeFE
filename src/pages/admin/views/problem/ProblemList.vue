@@ -2,16 +2,26 @@
   <div class="view">
     <Panel :title="contestId ? '比赛题目列表' : '题目列表'">
       <div slot="header" >
-          <div class="header-option">
-           <el-switch
-           v-if="UncheckProblemList"
-           v-model="switchProblem"
-           @change="getProblemList"
-           active-text="公共"
-           inactive-text="教学">
-          </el-switch>
-         </div>
-         <div class="header-option" style="margin: 0 auto">
+          <div class="header-option" style="margin: 0 auto;margin-left: 5px;">
+            <el-switch
+            v-if="UncheckProblemList"
+            v-model="switchProblem"
+            @change="getProblemList"
+            active-text="公共"
+            inactive-text="教学">
+            </el-switch>
+          </div>
+          <div class="header-option" style="margin: 0 auto;margin-left: 5px;">
+            <el-cascader :options="collectionList"
+              :props="cascaderprops"
+              v-if="ProblemList || (UncheckProblemList && switchProblem)"
+              filterable
+              clearable
+              change-on-select
+              @change="handleCollectionChange"
+              placeholder="选择题目分类"></el-cascader>
+          </div>
+         <div class="header-option" style="margin: 0 auto;margin-left: 5px;">
            <el-input
               v-model="keyword"
               prefix-icon="el-icon-search"
@@ -175,6 +185,9 @@
           label: 'name'
         },
         loading: false,
+        courseList: [],
+        collectionList: [],
+        collectionID: 0,
         currentPage: 1,
         routeName: '',
         ProblemList: true,
@@ -197,6 +210,7 @@
       this.routeName = this.$route.name
       this.contestId = this.$route.params.contestId
       this.getProblemList(this.currentPage)
+      this.getCollection()
     },
     methods: {
       init () {
@@ -254,9 +268,9 @@
         this.currentPage = page
         this.getProblemList(page)
       },
-      handleGroupsChange (value) {
-        let value2 = value[value.length - 1]
-        console.log('选中组为：' + value2)
+      handleCollectionChange (value) {
+        this.collectionID = value[ value.length - 1 ]
+        this.getProblemList()
       },
       updateDisplay (problemID, visible) {
         api.changeProblemDisplay(problemID, visible).then(res => {
@@ -273,6 +287,27 @@
         }).catch(() => {
           this.InlineEditDialogVisible = false
         })
+      },
+      getCourse () {
+        api.getCourse().then(res => {
+          this.courseList = res.data.data.course
+          this.changeChildren(this.courseList)
+        }).catch(() => {})
+      },
+      getCollection () {
+        api.getCollection().then(res => {
+          this.collectionList = res.data.data.collection
+          this.changeChildren(this.collectionList)
+        }).catch(() => {})
+      },
+      changeChildren (list) {
+        for (var listitem of list) {
+          if (listitem[ 'children' ].length === 0) {
+            delete listitem[ 'children' ]
+          } else {
+            this.changeChildren(listitem[ 'children' ])
+          }
+        }
       },
       getProblemList (page = 1) {
         this.loading = true
@@ -291,6 +326,9 @@
           delete params.is_valid
         } else {
           params.contest_id = 0
+        }
+        if ((this.$route.name === 'problem-list' && this.collectionID !== 0) || (this.$route.name === 'uncheck-problem-list' || this.switchProblem)) {
+          params.collection_id = this.collectionID
         }
         // 普通用户所能查看的题目必须是未审核的题目，查看自身提交已审核题目是没有意义
         if (!this.$store.getters.isAdminRole) {
