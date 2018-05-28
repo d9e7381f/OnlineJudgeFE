@@ -55,6 +55,7 @@
                 :props="cascaderprops"
                 filterable
                 clearable
+                change-on-select
                 @change="courseChange"
                 placeholder="选择课程">
                 </el-cascader>
