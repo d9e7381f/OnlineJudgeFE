@@ -3,13 +3,13 @@
     <Panel :title="contestId ? '比赛题目列表' : '题目列表'">
       <div slot="header" >
           <div class="header-option" style="margin: 0 auto;margin-left: 5px;">
-            <el-switch
-            v-if="UncheckProblemList"
-            v-model="switchProblem"
-            @change="getProblemList"
-            active-text="公共"
-            inactive-text="教学">
-            </el-switch>
+            <el-cascader :options="courseList"
+              :props="cascaderprops"
+              v-model="courseID"
+              filterable
+              clearable
+              placeholder="选择题目所属课程">
+            </el-cascader>
           </div>
           <div class="header-option" style="margin: 0 auto;margin-left: 5px;">
             <el-cascader :options="collectionList"
@@ -28,6 +28,15 @@
               placeholder="关键字">
            </el-input>
          </div>
+        <div class="header-option" style="margin: 0 auto;margin-left: 5px;">
+          <el-switch
+          v-if="UncheckProblemList"
+          v-model="switchProblem"
+          @change="getProblemList"
+          active-text="公共"
+          inactive-text="教学">
+          </el-switch>
+        </div>
       </div>
 
       <el-table
@@ -186,6 +195,7 @@
         },
         loading: false,
         courseList: [],
+        courseID: 0,
         collectionList: [],
         collectionID: 0,
         currentPage: 1,
@@ -325,9 +335,9 @@
           delete params.in_course
           delete params.is_valid
         } else {
-          params.contest_id = 0
+          delete params.contest_id
         }
-        if ((this.$route.name === 'problem-list' && this.collectionID !== 0) || (this.$route.name === 'uncheck-problem-list' || this.switchProblem)) {
+        if ((this.$route.name === 'problem-list' && this.collectionID !== 0) || ((this.$route.name === 'uncheck-problem-list' || this.switchProblem) && this.collectionID !== 0)) {
           params.collection_id = this.collectionID
         }
         // 普通用户所能查看的题目必须是未审核的题目，查看自身提交已审核题目是没有意义
