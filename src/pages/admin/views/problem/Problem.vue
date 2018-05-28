@@ -700,7 +700,6 @@
             }
           }
         }
-        this.problem.course[0] = this.cascaderCourseID[this.cascaderCourseID.length - 1]
         let difficulty = {
           '简单': 'Low',
           '中等': 'Mid',
@@ -714,10 +713,12 @@
           this.$error('未设置题目分类')
           return
         }
-        // if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.course.length === 0 && this.behoofvalue === 1) {
-        //   this.$error('请至少设置一个课程')
-        //   return
-        // }
+        if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.course.length === 0 && this.behoofvalue === 1) {
+          this.$error('请至少设置一个课程')
+          return
+        } else {
+          this.problem.course = this.cascaderCourseID[this.cascaderCourseID.length - 1]
+        }
         this.problem.languages = this.problem.languages.sort()
         this.problem.template = {}
         for (let k in this.template) {
