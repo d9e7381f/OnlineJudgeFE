@@ -19,7 +19,6 @@
       <el-menu-item index="/problems">公开题库</el-menu-item>
       <el-menu-item index="/problems/edus">教学题库</el-menu-item>
       <el-menu-item v-if="isAdminRole" index="/problems/uncheck">待审核题目</el-menu-item>
-      <el-menu-item index="/problem/create">创建题目</el-menu-item>
     </el-submenu>
     <el-submenu v-if="isAdminRole" index="contest">
       <template slot="title"><i class="el-icon-fa-trophy"></i>比赛</template>
