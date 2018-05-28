@@ -225,18 +225,7 @@
         </el-form-item>
 
 
-        <el-form-item label="题目类型" v-if="showOptional">
-           <el-select v-model="behoofvalue" placeholder="选择题目的类型" :disabled="behoofvalueDisable">
-            <el-option
-              v-for="item in behoof"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-        </el-select>
-        </el-form-item>
-
-        <el-form-item label="分类" v-if="showOptional && !behoofvalue">
+        <el-form-item label="分类" v-if="showCollection ">
           <el-cascader :options="collectionList"
               :props="cascaderprops"
               v-model="collection"
@@ -247,7 +236,7 @@
         </el-cascader>
         </el-form-item>
 
-        <el-form-item v-if="behoofvalue && showOptional" label="课程">
+        <el-form-item v-if="showCourse" label="课程">
           <el-row :gutter="5" style="margin-bottom: 15px">
               <el-col :span="6">
                 <el-cascader :options="courseList"
@@ -294,18 +283,6 @@
         },
         loadingCompile: false,
         mode: '',
-        behoof: [
-          {
-            label: '公共题库',
-            value: 0
-          },
-          {
-            label: '教学题库',
-            value: 1
-          }
-        ],
-        behoofvalue: 0,
-        behoofvalueDisable: false,
         cascaderCourseID: [],
         contest: {},
         problem: {
@@ -315,7 +292,8 @@
           languages: []
         },
         testCaseUploaded: false,
-        showOptional: true,
+        showCollection: false,
+        showCourse: false,
         allLanguage: {},
         inputVisible: false,
         tagInput: '',
@@ -342,6 +320,14 @@
       }
     },
     mounted () {
+      let problemType = this.$route.params.problem
+      if (problemType === 'edu') {
+        this.showCollection = false
+        this.showCourse = true
+      } else if (problemType === 'ord') {
+        this.showCollection = true
+        this.showCourse = false
+      }
       // 当学生题目配额已满是会抛出错误
       api.canCreateProblem().catch(() => {
         this.$router.push({path: '/problems'})
@@ -469,13 +455,6 @@
       }
     },
     methods: {
-      isShowOptional () {
-        if (this.routeName !== 'create-contest-problem' && this.routeName !== 'edit-contest-problem') {
-          this.showOptional = true
-        } else {
-          this.showOptional = false
-        }
-      },
       findCourseByID (courseID, courseList = this.courseList) {
         for (let course of courseList) {
           if (course.id === courseID) {
@@ -502,9 +481,12 @@
       },
       init () {
         this.routeName = this.$route.name
-        this.isShowOptional()
-        this.getCollection()
-        this.getCourse()
+        if (this.showCollection) {
+          this.getCollection()
+        }
+        if (this.showCourse) {
+          this.getCourse()
+        }
       },
       getCollection () {
         api.getCollection().then(res => {
@@ -516,9 +498,6 @@
         api.getCourse().then(res => {
           if (!this.$store.getters.isAdminRole) {
             api.getCourseChoice().then(choiceRes => {
-              if (choiceRes.data.data.course_choice.length === 0) {
-                this.behoofvalueDisable = true
-              }
               this.filterCourse(res.data.data.course, choiceRes.data.data.course_choice)
             }).catch(() => {})
           }
