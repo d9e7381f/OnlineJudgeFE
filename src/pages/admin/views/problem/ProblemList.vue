@@ -124,7 +124,7 @@
         </el-table-column>
       </el-table>
       <div class="panel-options">
-        <el-button type="primary" size="small"
+        <el-button type="primary" size="small" v-if="!UncheckProblemList"
                    @click="goCreateProblem" icon="el-icon-plus">创建题目
         </el-button>
         <el-button v-if="contestId" type="primary"
@@ -269,11 +269,11 @@
       },
       goCreateProblem () {
         if (this.routeName === 'problem-list') {
-          this.$router.push({name: 'create-problem'})
+          this.$router.push({name: 'create-problem', params: {problem: 'ord'}})
         } else if (this.routeName === 'contest-problem-list') {
           this.$router.push({name: 'create-contest-problem', params: {contestId: this.contestId}})
-        } else {
-          this.$router.push({name: 'create-problem'})
+        } else if (this.routeName === 'edu-problem-list') {
+          this.$router.push({name: 'create-problem', params: {problem: 'edu'}})
         }
       },
       // 切换页码回调
