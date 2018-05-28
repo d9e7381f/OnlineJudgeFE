@@ -58,7 +58,7 @@
     <Col :span="5">
     <Panel :padding="10">
       <div slot="title" class="taglist-title">全部分类</div>
-      <Cascader :data="collectionList" v-model="collectionID" @on-change="handleCollectionChange" placeholder="选择分类"></Cascader>
+      <Cascader :data="collectionList" v-model="collectionID" @on-change="handleCollectionChange" placeholder="选择分类" change-on-select></Cascader>
     </Panel>
 
     <Panel :padding="10"  style="margin-top:10px">
