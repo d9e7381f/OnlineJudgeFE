@@ -5,10 +5,12 @@
           <div class="header-option" style="margin: 0 auto;margin-left: 5px;">
             <el-cascader :options="courseList"
               :props="cascaderprops"
-              v-model="courseID"
+              v-if="EduProblemList || (UncheckProblemList && !switchProblem)"
               filterable
               clearable
-              placeholder="选择题目所属课程">
+              change-on-select
+              @change="handleCourseChange"
+              placeholder="选择题目课程">
             </el-cascader>
           </div>
           <div class="header-option" style="margin: 0 auto;margin-left: 5px;">
@@ -221,6 +223,7 @@
       this.contestId = this.$route.params.contestId
       this.getProblemList(this.currentPage)
       this.getCollection()
+      this.getCourse()
     },
     methods: {
       init () {
@@ -282,6 +285,10 @@
         this.collectionID = value[ value.length - 1 ]
         this.getProblemList()
       },
+      handleCourseChange (value) {
+        this.courseID = value[ value.length - 1 ]
+        this.getProblemList()
+      },
       updateDisplay (problemID, visible) {
         api.changeProblemDisplay(problemID, visible).then(res => {
           this.InlineEditDialogVisible = false
@@ -337,8 +344,11 @@
         } else {
           delete params.contest_id
         }
-        if ((this.$route.name === 'problem-list' && this.collectionID !== 0) || ((this.$route.name === 'uncheck-problem-list' || this.switchProblem) && this.collectionID !== 0)) {
+        if ((this.$route.name === 'problem-list' && this.collectionID) || ((this.$route.name === 'uncheck-problem-list' || this.switchProblem) && this.collectionID)) {
           params.collection_id = this.collectionID
+        }
+        if ((this.$route.name === 'edu-problem-list' && this.courseID) || ((this.$route.name === 'uncheck-problem-list' || !this.switchProblem) && this.collectionID)) {
+          params.course_id = this.courseID
         }
         // 普通用户所能查看的题目必须是未审核的题目，查看自身提交已审核题目是没有意义
         if (!this.$store.getters.isAdminRole) {
