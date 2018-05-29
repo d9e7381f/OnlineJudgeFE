@@ -59,7 +59,6 @@ export default {
       })
     },
     handleInputConfirm () {
-      console.log('id: ' + this.currentID)
       let inputValue = this.inputValue
       if (inputValue) {
         let params = {name: inputValue}
@@ -170,7 +169,6 @@ export default {
         this.breadcrumb.push({name: '分类', id: 0})
       } else {
         let selectItem = this.getItemById(this.selectList, id)
-        console.log(selectItem)
         this.options = selectItem.children
         this.breadcrumb.push({name: selectItem.name, id: selectItem.id})
       }
