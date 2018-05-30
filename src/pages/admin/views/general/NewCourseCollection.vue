@@ -9,6 +9,19 @@
       <span v-for="item in options" :key="item.id">
         <el-tag closable @close="deleteTag(item.name, item.id)" size="medium"><a @click="goforward(item.id)">{{item.name}}</a></el-tag>
         <icon-btn name="编辑" icon="edit" @click.native="goEdit(item.id)" style="margin-left: 2px;margin-right: 10px;"></icon-btn>
+        <el-popover
+          v-model="visible2[item.id]"
+          placement="top">
+          <p>确定删除该节点并选择对相关题目操作？</p>
+          <div style="text-align: right; margin: 0">
+            <el-button type="primary" size="mini">依次分配分类</el-button>
+            <el-button type="primary" size="mini">设置默认分类</el-button>
+            <el-button type="danger" size="mini">强制删除题目</el-button>
+            <el-button size="mini" type="text" @click="visible2[item.id] = false">取消</el-button>
+          </div>
+          <icon-btn slot="reference" name="删除" icon="delete"></icon-btn>
+        </el-popover>
+
       </span>
       <el-input
         class="input-new-tag"
@@ -32,6 +45,7 @@ export default {
   data () {
     return {
       currentID: 0,
+      visible2: [],
       isCourse: true,
       courseList: [],
       collectionList: [],
