@@ -97,7 +97,10 @@ export default {
     },
     submit () {
       api.postProblemComment(this.problemID, { 'content': this.comment }).then(res => {
-        this.getComment()
+        if (!res.data.error) {
+          this.getComment()
+          this.comment = ''
+        }
       }).catch(() => {})
     }
   },
