@@ -291,6 +291,14 @@ export default {
       }
     })
   },
+  batchMovePublic (courseID, collectionID) {
+    return ajax('xproblem/batch_move_public/', 'post', {
+      data: {
+        'collection': collectionID,
+        'course': courseID
+      }
+    })
+  },
   addCourse (data) {
     return ajax('course/', 'post', {
       data
