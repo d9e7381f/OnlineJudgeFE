@@ -154,12 +154,20 @@
         this.currentPage = page
         this.getAnnouncementList(page)
       },
+      // 为img标签添加宽度 图片越界
+      addImageWidth (announcements) {
+        for (let item of announcements) {
+          item.content = item.content.replace(/<img/g, '<img style="width:100%" ')
+        }
+      },
       getAnnouncementList (page) {
         this.loading = true
         api.getAnnouncementList((page - 1) * this.pageSize, this.pageSize).then(res => {
           this.loading = false
           this.total = res.data.data.total
           this.announcementList = res.data.data.results
+          this.addImageWidth(this.announcementList)
+          console.log(this.announcementList)
         }, res => {
           this.loading = false
         })
@@ -267,6 +275,9 @@
 </script>
 
 <style lang="less" scoped>
+  .imclass {
+    max-width: 100%;
+  }
   .title-input {
     margin-bottom: 20px;
   }
