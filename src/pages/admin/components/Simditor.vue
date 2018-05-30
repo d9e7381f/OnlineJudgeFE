@@ -7,6 +7,7 @@
   import 'simditor/styles/simditor.css'
   import 'simditor-markdown'
   import 'simditor-markdown/styles/simditor-markdown.css'
+  import '@admin/static/editor-style.css'
 
   export default {
     name: 'Simditor',
@@ -47,7 +48,6 @@
       this.editor.on('decorate', (e, src) => {
         this.currentValue = this.editor.getValue()
       })
-
       this.editor.setValue(this.value)
     },
     watch: {
