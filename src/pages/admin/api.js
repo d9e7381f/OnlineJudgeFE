@@ -296,8 +296,10 @@ export default {
       data
     })
   },
-  deleteCourse (id) {
-    return ajax(`course/${id}/`, 'delete')
+  deleteCourse (id, params) {
+    return ajax(`course/${id}/`, 'delete', {
+      params: params
+    })
   },
   renCourse (id, data) {
     return ajax(`course/${id}/`, 'put', {
