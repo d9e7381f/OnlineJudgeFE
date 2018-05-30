@@ -329,9 +329,11 @@
         this.showCourse = false
       }
       // 当学生题目配额已满是会抛出错误
-      api.canCreateProblem().catch(() => {
-        this.$router.push({path: '/problems'})
-      })
+      if (this.routeName === 'create-problem') {
+        api.canCreateProblem().catch(() => {
+          this.$router.push({path: '/problems'})
+        })
+      }
       this.init()
       this.routeName = this.$route.name
       if (this.routeName === 'edit-problem') {
