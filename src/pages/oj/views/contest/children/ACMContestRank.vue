@@ -182,8 +182,8 @@
       this.getContestRankData(1)
       if (this.contestProblems.length === 0) {
         this.getContestProblems().then((res) => {
-          this.addTableColumns(res.data.data)
-          this.addChartCategory(res.data.data)
+          this.addTableColumns(res.data.data.results)
+          this.addChartCategory(res.data.data.results)
         })
       } else {
         this.addTableColumns(this.contestProblems)
