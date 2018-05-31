@@ -160,7 +160,7 @@ export default {
     })
   },
   getContestProblemList (contestId) {
-    return ajax('contest/problem', 'get', {
+    return ajax('xproblem/', 'get', {
       params: {
         contest_id: contestId
       }
