@@ -74,6 +74,10 @@
           <el-button type="primary" @click="goNextProbelm()">下一道题目</el-button>
         </span>
       </div>
+      <div v-else>
+        <p>已经为该课程题目分配分类，请点击以下按钮以完成操作</p>
+        <el-button type="primary" @click="finshOP()">完成</el-button>
+      </div>
     </el-dialog>
   </Panel>
 </template>
@@ -84,6 +88,9 @@ export default {
   name: 'course',
   data () {
     return {
+      total: 0,
+      limit: 10,
+      offset: 0,
       cascaderID: [],
       dialog2Visible: false,
       problemList: [],
@@ -121,6 +128,9 @@ export default {
         this.$refs.saveTagInput.$refs.input.focus()
       })
     },
+    finshOP () {
+      this.deleteCourse(this.dialogID)
+    },
     handleInputConfirm () {
       let inputValue = this.inputValue
       if (inputValue) {
@@ -141,18 +151,31 @@ export default {
       this.inputValue = ''
     },
     showDialog2 (id) {
+      this.offset = 0
+      this.dialogID = id
       this.dialog2Visible = true
-      api.getProblemByFilter({'course_id': id}).then(res => {
+      api.getProblemByFilter({'course_id': id, limit: this.limit, offset: this.offset}).then(res => {
         this.problemList = res.data.data.results
         this.problem = this.problemList.pop()
+        this.total = res.data.data.total
+        this.problemList.unshift({})
+        this.offset += this.limit
       })
     },
     goNextProbelm () {
       let collectionID = this.cascaderID[this.cascaderID.length - 1]
       this.cascaderID = []
-      api.updateProblem(this.problem.id, collectionID).then(res => {
+      api.updateProblem(this.problem.id, {collection_id: collectionID}).then(res => {
         if (!res.data.error) {
           this.problem = this.problemList.pop()
+          if (this.offset <= this.total && this.problemList.length === 1) {
+            api.getProblemByFilter({'course_id': this.dialogID, limit: this.limit, offset: this.offset}).then(res => {
+              this.problemList = res.data.data.results
+              this.total = res.data.data.total
+              this.offset += this.limit
+              this.problemList.unshift({})
+            })
+          }
         } else {
           Vue.prototype.$error('设置分类失败')
         }
