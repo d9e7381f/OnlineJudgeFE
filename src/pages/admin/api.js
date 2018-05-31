@@ -246,6 +246,9 @@ export default {
   getProblem (id) {
     return ajax(`xproblem/${id}/`, 'get', {})
   },
+  getProblemByFilter (params) {
+    return ajax('xproblem/', 'get', {params: params})
+  },
   getProblemList (params) {
     params = utils.filterEmptyValue(params)
     return ajax('xproblem/', 'get', {
@@ -304,9 +307,9 @@ export default {
       data
     })
   },
-  deleteCourse (id, params) {
+  deleteCourse (id, data) {
     return ajax(`course/${id}/`, 'delete', {
-      params: params
+      data: data
     })
   },
   renCourse (id, data) {
