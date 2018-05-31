@@ -8,8 +8,9 @@
     <div style="margin-top: 15px;margin-right: 5px;cursor:pointer">
       <span v-for="item in options" :key="item.id">
         <el-tag @close="deleteTag(item.id)" size="medium"><a @click="goforward(item.id)">{{item.name}}</a></el-tag>
-        <icon-btn name="编辑" icon="edit" @click.native="goEdit(item.id)" style="margin-left: 2px;margin-right: 10px;"></icon-btn>
+        <icon-btn v-if="isCourse || isCollection" name="编辑" icon="edit" @click.native="goEdit(item.id)" style="margin-left: 2px;margin-right: 10px;"></icon-btn>
         <el-popover
+          v-if="isCourse && !item.children.length"
           placement="top">
           <p>确定删除该节点并选择对相关题目操作？</p>
           <div style="text-align: right; margin: 0">
@@ -19,6 +20,7 @@
           </div>
           <icon-btn slot="reference" name="删除" icon="delete"></icon-btn>
         </el-popover>
+        <icon-btn v-if="isCollection" name="删除" icon="delete" @click.native="deleteCollection(item.id)"></icon-btn>
 
       </span>
       <el-input
@@ -56,7 +58,7 @@
     <el-dialog
       title="提示"
       :visible.sync="dialog2Visible">
-      <div v-if="problemList.length">
+      <div v-if="problemList.length && problem">
         <div>分别为下列题目设置分类</div>
         <span>
           <p>题目:{{problem.title}}</p>
@@ -100,9 +102,9 @@ export default {
         label: 'name'
       },
       dialogVisible: false,
-      dialogID: 0,
       currentID: 0,
-      isCourse: true,
+      isCourse: false,
+      isCollection: false,
       courseList: [],
       collectionList: [],
       selectList: [],
@@ -129,36 +131,44 @@ export default {
       })
     },
     finshOP () {
-      this.deleteCourse(this.dialogID)
+      this.dialog2Visible = false
+      this.deleteCourse(this.currentID)
     },
     handleInputConfirm () {
       let inputValue = this.inputValue
       if (inputValue) {
         let params = {name: inputValue}
-        if (this.currentID !== 0 || this.currentID !== -1) {
+        console.log(this.currentID)
+        if (this.currentID !== 0 && this.currentID !== -1) {
           let parent = this.getItemById(this.selectList, this.currentID)
-          params.parent = parent.url
+          if (parent) {
+            params.parent = parent.url
+          }
         }
         let funcName = this.isCourse === true ? 'addCourse' : 'addCollection'
         api[funcName](params).then(res => {
           if (!res.data.error) {
-            console.log('done')
+            this.options.push(res.data.data)
+            if (this.isCourse) {
+              this.getCourseList()
+            } else {
+              this.getCollectionList()
+            }
           }
         })
-        this.options.push({name: inputValue})
       }
       this.inputVisible = false
       this.inputValue = ''
     },
     showDialog2 (id) {
       this.offset = 0
-      this.dialogID = id
+      this.currentID = id
       this.dialog2Visible = true
       api.getProblemByFilter({'course_id': id, limit: this.limit, offset: this.offset}).then(res => {
         this.problemList = res.data.data.results
         this.problem = this.problemList.pop()
         this.total = res.data.data.total
-        this.problemList.unshift({})
+        this.problemList.unshift({title: ''})
         this.offset += this.limit
       })
     },
@@ -169,11 +179,11 @@ export default {
         if (!res.data.error) {
           this.problem = this.problemList.pop()
           if (this.offset <= this.total && this.problemList.length === 1) {
-            api.getProblemByFilter({'course_id': this.dialogID, limit: this.limit, offset: this.offset}).then(res => {
+            api.getProblemByFilter({'course_id': this.current, limit: this.limit, offset: this.offset}).then(res => {
               this.problemList = res.data.data.results
               this.total = res.data.data.total
               this.offset += this.limit
-              this.problemList.unshift({})
+              this.problemList.unshift({title: ''})
             })
           }
         } else {
@@ -183,7 +193,7 @@ export default {
     },
     showDialog (id) {
       this.dialogVisible = true
-      this.dialogID = id
+      this.currentID = id
     },
     getCollectionList () {
       api.getCollection().then(res => {
@@ -196,7 +206,7 @@ export default {
         if (!res.data.error) {
           this.options.splice(this.options.findIndex(item => item.id === courseID), 1)
         }
-      })
+      }).catch(() => {})
     },
     getCourseList () {
       api.getCourse().then(res => {
@@ -233,6 +243,8 @@ export default {
       let index = this.breadcrumb.findIndex(item => item.id === id)
       this.breadcrumb.splice(index + 1, this.breadcrumb.length - index + 1)
       if (id === 0) {
+        this.isCourse = false
+        this.isCollection = false
         this.options = [
           {
             name: '课程',
@@ -246,6 +258,15 @@ export default {
       } else {
         this.options = this.getItemById(this.selectList, id).children
       }
+    },
+    deleteCollection (collectionID) {
+      this.$confirm('确认删除吗?').then(_ => {
+        api.deleteCollection(collectionID).then(res => {
+          if (!res.data.error) {
+            this.options.splice(this.options.findIndex(item => item.id === collectionID), 1)
+          }
+        })
+      })
     },
     deleteTag (id) {
       if (id === 0 || id === -1) {
@@ -264,9 +285,10 @@ export default {
     deleteCourseAndSetDefaultCollection () {
       this.dialogVisible = true
       let collectionID = this.cascaderID[this.cascaderID.length - 1]
-      api.batchMovePublic(this.dialogID, collectionID).then(res => {
+      api.batchMovePublic(this.currentID, collectionID).then(res => {
         if (!res.data.error) {
-          this.deleteCourse(this.dialogID)
+          this.deleteCourse(this.currentID)
+          this.dialogVisible = false
         }
       })
     },
@@ -279,7 +301,6 @@ export default {
     },
     changeList (list) {
       for (let item of list) {
-        delete item.url
         this.changeList(item.children)
       }
     },
@@ -290,12 +311,14 @@ export default {
         this.options = this.selectList
         this.breadcrumb = []
         this.isCourse = true
+        this.isCollection = false
         this.breadcrumb.push({name: '课程', id: 0})
       } else if (id === -1) {
         this.selectList = this.collectionList
         this.options = this.selectList
         this.breadcrumb = []
         this.isCourse = false
+        this.isCollection = true
         this.breadcrumb.push({name: '分类', id: 0})
       } else {
         let selectItem = this.getItemById(this.selectList, id)
