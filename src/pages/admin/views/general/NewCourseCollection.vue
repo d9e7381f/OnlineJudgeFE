@@ -7,13 +7,13 @@
     </div>
     <div style="margin-top: 15px;margin-right: 5px;cursor:pointer">
       <span v-for="item in options" :key="item.id">
-        <el-tag closable @close="deleteTag(item.id)" size="medium"><a @click="goforward(item.id)">{{item.name}}</a></el-tag>
+        <el-tag @close="deleteTag(item.id)" size="medium"><a @click="goforward(item.id)">{{item.name}}</a></el-tag>
         <icon-btn name="编辑" icon="edit" @click.native="goEdit(item.id)" style="margin-left: 2px;margin-right: 10px;"></icon-btn>
         <el-popover
           placement="top">
           <p>确定删除该节点并选择对相关题目操作？</p>
           <div style="text-align: right; margin: 0">
-            <el-button type="primary" size="mini">依次分配分类</el-button>
+            <el-button type="primary" size="mini" @click="showDialog2(item.id)">依次分配分类</el-button>
             <el-button type="primary" size="mini" @click="showDialog(item.id)">设置默认分类</el-button>
             <el-button type="danger" size="mini" @click="forceDeleteCourse(item.id)">强制删除题目</el-button>
           </div>
@@ -46,12 +46,34 @@
               clearable
               change-on-select
               size="small"
-              placeholder="请选择操作课程">
+              placeholder="请选择分类">
             </el-cascader>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="deleteCourseAndSetDefaultCollection()">确 定</el-button>
       </span>
+    </el-dialog>
+    <el-dialog
+      title="提示"
+      :visible.sync="dialog2Visible">
+      <div v-if="problemList.length">
+        <div>分别为下列题目设置分类</div>
+        <span>
+          <p>题目:{{problem.title}}</p>
+          <el-cascader :options="collectionList"
+            :props="cascaderprops"
+            v-model="cascaderID"
+            filterable
+            clearable
+            change-on-select
+            size="small"
+            placeholder="请选择分类">
+          </el-cascader>
+        </span>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="goNextProbelm()">下一道题目</el-button>
+        </span>
+      </div>
     </el-dialog>
   </Panel>
 </template>
@@ -63,6 +85,9 @@ export default {
   data () {
     return {
       cascaderID: [],
+      dialog2Visible: false,
+      problemList: [],
+      problem: {},
       cascaderprops: {
         value: 'id',
         label: 'name'
@@ -115,6 +140,24 @@ export default {
       this.inputVisible = false
       this.inputValue = ''
     },
+    showDialog2 (id) {
+      this.dialog2Visible = true
+      api.getProblemByFilter({'course_id': id}).then(res => {
+        this.problemList = res.data.data.results
+        this.problem = this.problemList.pop()
+      })
+    },
+    goNextProbelm () {
+      let collectionID = this.cascaderID[this.cascaderID.length - 1]
+      this.cascaderID = []
+      api.updateProblem(this.problem.id, collectionID).then(res => {
+        if (!res.data.error) {
+          this.problem = this.problemList.pop()
+        } else {
+          Vue.prototype.$error('设置分类失败')
+        }
+      })
+    },
     showDialog (id) {
       this.dialogVisible = true
       this.dialogID = id
@@ -124,6 +167,13 @@ export default {
         this.collectionList = res.data.data.collection
         this.changeList(this.collectionList)
       }).catch(() => {})
+    },
+    deleteCourse (courseID) {
+      api.deleteCourse(courseID, {force_delete: false}).then(res => {
+        if (!res.data.error) {
+          this.options.splice(this.options.findIndex(item => item.id === courseID), 1)
+        }
+      })
     },
     getCourseList () {
       api.getCourse().then(res => {
@@ -193,8 +243,7 @@ export default {
       let collectionID = this.cascaderID[this.cascaderID.length - 1]
       api.batchMovePublic(this.dialogID, collectionID).then(res => {
         if (!res.data.error) {
-          this.deleteTag(this.dialogID)
-          console.log('done')
+          this.deleteCourse(this.dialogID)
         }
       })
     },
