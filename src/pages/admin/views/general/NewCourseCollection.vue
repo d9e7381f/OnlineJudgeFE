@@ -62,6 +62,7 @@
         <div>分别为下列题目设置分类</div>
         <span>
           <p>题目:{{problem.title}}</p>
+          <p v-html="problem.description"></p>
           <el-cascader :options="collectionList"
             :props="cascaderprops"
             v-model="cascaderID"

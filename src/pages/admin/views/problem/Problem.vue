@@ -396,12 +396,6 @@
             this.problem = data
             this.testCaseUploaded = true
             let item
-            if (this.problem.courses !== undefined && this.problem.courses.length > 0) {
-              this.behoofvalue = 1
-              // 数据回显
-            } else {
-              this.behoofvalue = 0
-            }
             if (this.problem.collections !== undefined && this.problem.collections.length > 0) {
               for (item of this.problem.collections) {
                 this.collection.push(item['id'])
@@ -688,11 +682,11 @@
           'High': 'High'
         }
         this.problem.difficulty = difficulty[this.problem.difficulty]
-        if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.collection === '' && !this.behoofvalue) {
+        if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.collection === '' && this.showCollection) {
           this.$error('未设置题目分类')
           return
         }
-        if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.course.length === 0 && this.behoofvalue === 1) {
+        if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.course === '' && this.showCourse) {
           this.$error('请至少设置一个课程')
           return
         } else {
