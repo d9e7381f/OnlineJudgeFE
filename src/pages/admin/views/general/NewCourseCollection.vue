@@ -25,7 +25,7 @@
       </span>
       <el-input
         class="input-new-tag"
-        v-if="inputVisible"
+        v-if="inputVisible && (isCourse || isCollection)"
         v-model="inputValue"
         ref="saveTagInput"
         size="small"
@@ -33,7 +33,7 @@
         @blur="handleInputConfirm"
       >
       </el-input>
-      <el-button v-else class="button-new-tag" size="small" @click="showInput">添加新节点</el-button>
+      <el-button v-else-if="!inputValue && (isCourse || isCollection)"  class="button-new-tag" size="small" @click="showInput">添加新节点</el-button>
     </div>
     <el-dialog
       title="提示"
@@ -213,7 +213,6 @@ export default {
     getCourseList () {
       api.getCourse().then(res => {
         this.courseList = res.data.data.course
-        this.changeList(this.courseList)
       }).catch(() => {})
     },
     getItemById (list, id) {
@@ -290,20 +289,27 @@ export default {
       api.batchMovePublic(this.currentID, collectionID).then(res => {
         if (!res.data.error) {
           this.deleteCourse(this.currentID)
+          this.cascaderID = []
           this.dialogVisible = false
         }
       })
     },
     forceDeleteCourse (id) {
-      api.deleteCourse(id, {force_delete: true}).then(res => {
-        if (!res.data.error) {
-          this.options.splice(this.options.findIndex(item => item.id === id), 1)
-        }
-      })
+      this.$confirm('该操作将会删除该课程下所有的题目，是否继续?').then(_ => {
+        api.deleteCourse(id, {force_delete: true}).then(res => {
+          if (!res.data.error) {
+            this.options.splice(this.options.findIndex(item => item.id === id), 1)
+          }
+        })
+      }).catch(() => {})
     },
     changeList (list) {
       for (let item of list) {
-        this.changeList(item.children)
+        if (item.children.length === 0) {
+          delete item.children
+        } else {
+          this.changeList(item.children)
+        }
       }
     },
     goforward (id) {
