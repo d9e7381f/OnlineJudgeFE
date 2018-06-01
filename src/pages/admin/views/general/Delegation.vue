@@ -4,6 +4,17 @@
       <el-row>
         <el-col :span="6">
           <el-cascader
+          :options="courseList"
+          :props="cascaderprops"
+          filterable
+          clearable
+          change-on-select
+          @change="courseChange"
+          placeholder="选择课程">
+          </el-cascader>
+        </el-col>
+        <el-col :span="6">
+          <el-cascader
             :options="groupList"
             :props="cascaderprops"
             filterable
@@ -48,20 +59,6 @@
       <div>
         <el-form label-position="top" label-width="70px">
           <el-row :gutter="20">
-            <el-col :span="6">
-              <el-form-item label="课程" >
-                <el-cascader
-                :options="courseList"
-                :props="cascaderprops"
-                filterable
-                clearable
-                change-on-select
-                @change="courseChange"
-                placeholder="选择课程">
-                </el-cascader>
-              </el-form-item>
-            </el-col>
-
             <el-col :span="12">
               <el-form-item label="学生" >
                 <el-tag
