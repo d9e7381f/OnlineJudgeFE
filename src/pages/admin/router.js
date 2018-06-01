@@ -69,6 +69,11 @@ export default new VueRouter({
           component: Problem
         },
         {
+          path: '/problem/create/edu',
+          name: 'create-edu-problem',
+          component: Problem
+        },
+        {
           path: '/problem/edit/:problemId',
           name: 'edit-problem',
           component: Problem
