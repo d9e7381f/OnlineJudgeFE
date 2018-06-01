@@ -28,7 +28,7 @@
     <div v-show="showChart" class="echarts">
       <ECharts :options="options" ref="chart" auto-resize></ECharts>
     </div>
-    <Table ref="tableRank" style="table-layout: fixed !important;overflow: -webkit-paged-x;" :columns="columns" :data="dataRank" disabled-hover></Table>
+    <Table ref="tableRank" style="table-layout: fixed ;" :columns="columns" :data="dataRank" disabled-hover></Table>
     <Pagination :total="total"
                 :page-size.sync="limit"
                 :current.sync="page"
@@ -70,9 +70,6 @@
             width: '60',
             render: (h, params) => {
               return h('a', {
-                style: {
-                  display: 'inline-block'
-                },
                 on: {
                   click: () => {
                     this.$router.push(
@@ -86,8 +83,14 @@
             }
           },
           {
-            title: '通过数/总提交数',
             align: 'center',
+            renderHeader: (h, _) => {
+              return h('span', {
+                style: {
+                  display: 'grid'
+                }
+              }, '通过数/总提交数')
+            },
             render: (h, params) => {
               return h('span', {}, [
                 h('span', {}, params.row.accepted_number + ' / '),
@@ -105,10 +108,16 @@
             }
           },
           {
-            title: '总用时',
             align: 'center',
+            renderHeader: (h, _) => {
+              return h('span', {
+                style: {
+                  display: 'grid'
+                }
+              }, '总用时')
+            },
             render: (h, params) => {
-              return h('span', this.parseTotalTime(params.row.total_time))
+              return h('span', {}, this.parseTotalTime(params.row.total_time))
             }
           }
         ],
@@ -301,6 +310,11 @@
   }
 </script>
 <style scoped lang="less">
+  .table-header {
+    color: red;
+    display: inline;
+  }
+
   .echarts {
     margin: 20px auto;
     height: 400px;
