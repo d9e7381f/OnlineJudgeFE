@@ -162,7 +162,8 @@ export default {
   getContestProblemList (contestId) {
     return ajax('xproblem/', 'get', {
       params: {
-        contest_id: contestId
+        contest_id: contestId,
+        limit: 100
       }
     })
   },
