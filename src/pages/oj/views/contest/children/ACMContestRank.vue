@@ -28,7 +28,7 @@
     <div v-show="showChart" class="echarts">
       <ECharts :options="options" ref="chart" auto-resize></ECharts>
     </div>
-    <Table ref="tableRank" class="auto-resize" :columns="columns" :data="dataRank" disabled-hover></Table>
+    <Table ref="tableRank" style="table-layout: fixed !important;overflow: -webkit-paged-x;" :columns="columns" :data="dataRank" disabled-hover></Table>
     <Pagination :total="total"
                 :page-size.sync="limit"
                 :current.sync="page"
@@ -60,7 +60,6 @@
         columns: [
           {
             align: 'center',
-            width: 60,
             render: (h, params) => {
               return h('span', {}, params.index + (this.page - 1) * this.limit + 1)
             }
@@ -68,11 +67,11 @@
           {
             title: '用户',
             align: 'center',
+            width: '60',
             render: (h, params) => {
               return h('a', {
                 style: {
-                  display: 'inline-block',
-                  'max-width': '150px'
+                  display: 'inline-block'
                 },
                 on: {
                   click: () => {
@@ -89,7 +88,6 @@
           {
             title: '通过数/总提交数',
             align: 'center',
-            width: 150,
             render: (h, params) => {
               return h('span', {}, [
                 h('span', {}, params.row.accepted_number + ' / '),
