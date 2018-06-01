@@ -148,7 +148,9 @@ export default {
         let funcName = this.isCourse === true ? 'addCourse' : 'addCollection'
         api[funcName](params).then(res => {
           if (!res.data.error) {
-            this.options.push(res.data.data)
+            let problem = res.data.data
+            problem.children = []
+            this.options.push(problem)
             if (this.isCourse) {
               this.getCourseList()
             } else {
