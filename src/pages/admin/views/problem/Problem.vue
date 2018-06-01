@@ -241,7 +241,7 @@
               <el-col :span="6">
                 <el-cascader :options="courseList"
                   :props="cascaderprops"
-                  v-model="cascaderCourseID"
+                  v-model="course"
                   filterable
                   clearable
                   placeholder="选择题目所属课程">
@@ -282,8 +282,8 @@
           output_description: {required: true, message: '输出数据描述未设置', trigger: 'blur'}
         },
         loadingCompile: false,
-        mode: '',
         cascaderCourseID: [],
+        mode: '',
         contest: {},
         problem: {
           languages: []
@@ -329,20 +329,8 @@
         this.showCollection = true
         this.showCourse = false
       }
-      this.init()
       this.routeName = this.$route.name
-      console.log(this.routeName)
-      if (this.routeName === 'edit-problem') {
-        this.mode = 'edit'
-      } else if (this.routeName === 'edit-contest-problem') {
-        this.mode = 'edit-contest'
-      } else {
-        this.mode = 'add'
-        // 当学生题目配额已满是会抛出错误
-        api.canCreateProblem().catch(() => {
-          this.$router.push({path: '/problems'})
-        })
-      }
+      this.init()
       api.getLanguages().then(res => {
         this.problem = this.reProblem = {
           _id: '',
@@ -386,9 +374,9 @@
         this.allLanguage = allLanguage
 
         // get problem after getting languages list to avoid find undefined value in `watch problem.languages`
-        if (this.mode === 'edit' || this.mode === 'edit-contest') {
+        if (this.routeName.startsWith('edit')) {
           this.title = '题目编辑'
-          let funcName = {'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
+          let funcName = {'edit-edu-problem': 'getProblem', 'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
           api[funcName](this.$route.params.problemId).then(problemRes => {
             let data = problemRes.data.data
             if (!data.spj_code) {
@@ -403,6 +391,7 @@
                 this.collection.push(item['id'])
               }
             }
+            this.problem.courses = this.problem.courses[0]
             if (this.problem.courses !== undefined && this.problem.courses.length > 0) {
               for (item of this.problem.courses) {
                 this.course.push(item['id'])
@@ -426,9 +415,6 @@
         this.$refs.form.resetFields()
         this.problem = this.reProblem
         this.init()
-        if (newVal.name === 'create-problem') {
-          this.mode = 'add'
-        }
       },
       'problem.languages' (newVal) {
         let data = {}
@@ -482,7 +468,24 @@
         this.problem.collection = value[ value.length - 1 ]
       },
       init () {
-        this.routeName = this.$route.name
+        if (this.routeName === 'create-problem' || this.routeName === 'create-contest-problem') {
+          // 当学生题目配额已满是会抛出错误
+          api.canCreateProblem().catch(() => {
+            this.$router.push({path: '/problems'})
+          })
+        }
+        this.showCollection = false
+        this.showCourse = false
+        if (this.routeName === 'edit-edu-problem') {
+          this.showCourse = true
+        } else if (this.routeName === 'edit-problem') {
+          this.showCollection = true
+        } else if (this.routeName === 'create-problem') {
+          this.showCollection = true
+        } else if (this.routeName === 'create-edu-problem') {
+          this.showCourse = true
+        }
+
         if (this.showCollection) {
           this.getCollection()
         }

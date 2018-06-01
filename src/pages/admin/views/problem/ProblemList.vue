@@ -271,11 +271,11 @@
       },
       goCreateProblem () {
         if (this.routeName === 'problem-list') {
-          this.$router.push({name: 'create-problem', params: {problem: 'ord'}})
+          this.$router.push({name: 'create-problem'})
         } else if (this.routeName === 'contest-problem-list') {
           this.$router.push({name: 'create-contest-problem', params: {contestId: this.contestId}})
         } else if (this.routeName === 'edu-problem-list') {
-          this.$router.push({name: 'create-problem', params: {problem: 'edu'}})
+          this.$router.push({name: 'create-edu-problem'})
         }
       },
       // 切换页码回调
