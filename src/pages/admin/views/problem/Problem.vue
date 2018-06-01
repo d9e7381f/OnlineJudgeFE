@@ -299,6 +299,7 @@
         tagInput: '',
         collectionList: [],
         collection: [],
+        course: [],
         courseList: [],
         template: {},
         isEduProblem: false,
@@ -330,6 +331,7 @@
       }
       this.init()
       this.routeName = this.$route.name
+      console.log(this.routeName)
       if (this.routeName === 'edit-problem') {
         this.mode = 'edit'
       } else if (this.routeName === 'edit-contest-problem') {
@@ -365,7 +367,7 @@
           rule_type: 'ACM',
           hint: '',
           collection: '',
-          course: [],
+          course: '',
           source: ''
         }
         let contestID = this.$route.params.contestId
@@ -401,9 +403,15 @@
                 this.collection.push(item['id'])
               }
             }
+            if (this.problem.courses !== undefined && this.problem.courses.length > 0) {
+              for (item of this.problem.courses) {
+                this.course.push(item['id'])
+              }
+            }
             delete this.problem.courses
             delete this.problem.collections
             this.problem.collection = this.collection[this.collection.length - 1]
+            this.problem.course = this.course[this.course.length - 1]
           })
         } else {
           this.title = '创建题目'
