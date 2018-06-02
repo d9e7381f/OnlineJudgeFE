@@ -15,11 +15,9 @@
 
         <el-table-column label="完成者" :key="Math.random()">
           <template slot-scope="scope">
-            <el-tag
-              style="margin-right:10px"
-              v-for="student in scope.row.delegates"
-              :key="student.id"
-              type="primary">{{student.real_name}}</el-tag>
+            <div v-for="student in scope.row.delegates" :key="student.id" style="margin-right:10px;margin-top: 5px;">
+              <el-tag type="primary">{{student.real_name}}</el-tag>
+            </div>
           </template>
         </el-table-column>
 
