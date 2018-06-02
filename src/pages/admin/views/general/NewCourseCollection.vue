@@ -10,6 +10,7 @@
         <el-tag @close="deleteTag(item.id)" size="medium"><a @click="goforward(item.id)">{{item.name}}</a></el-tag>
         <icon-btn v-if="isCourse || isCollection" name="编辑" icon="edit" @click.native="goEdit(item.id)" style="margin-left: 2px;margin-right: 10px;"></icon-btn>
         <el-popover
+          style="margin-right: 15px;"
           v-if="isCourse && !item.children.length"
           placement="top">
           <p>确定删除该节点并选择对相关题目操作？</p>
