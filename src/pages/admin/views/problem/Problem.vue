@@ -701,7 +701,7 @@
           this.$error('请至少设置一个课程')
           return
         } else {
-          this.problem.course = this.cascaderCourseID[this.cascaderCourseID.length - 1]
+          this.problem.course = this.course[this.course.length - 1]
         }
         this.problem.languages = this.problem.languages.sort()
         this.problem.template = {}
@@ -712,8 +712,10 @@
         }
         let funcName = {
           'create-problem': 'createProblem',
-          'edit-problem': 'editProblem',
+          'create-edu-problem': 'createProblem',
           'create-contest-problem': 'createProblem',
+          'edit-problem': 'editProblem',
+          'edit-edu-problem': 'editProblem',
           'edit-contest-problem': 'editContestProblem'
         }[this.routeName]
         // edit contest problem 时, contest_id会被后来的请求覆盖掉
@@ -723,6 +725,8 @@
         api[funcName](this.problem).then(res => {
           if (this.routeName === 'create-contest-problem' || this.routeName === 'edit-contest-problem') {
             this.$router.push({name: 'contest-problem-list', params: {contestId: this.$route.params.contestId}})
+          } else if (this.routeName === 'create-edu-problem' || this.routeName === 'edit-edu-problem') {
+            this.$router.push({name: 'edu-problem-list'})
           } else {
             this.$router.push({name: 'problem-list'})
           }
