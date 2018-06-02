@@ -80,7 +80,6 @@ export default {
       api.getDelegationList(this.page).then(res => {
         this.delegationList = res.data.data.results
         this.total = res.data.data.total
-        console.log(this.delegationList)
       })
     }
   },
