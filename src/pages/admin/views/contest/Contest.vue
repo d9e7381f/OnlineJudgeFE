@@ -61,7 +61,7 @@
                   <el-col :span="6">
                     <el-cascader
                       v-model="cascaderClassID"
-                      :options="groupList" 
+                      :options="groupList"
                       :props="cascaderprops"
                       filterable
                       clearable
@@ -80,7 +80,7 @@
                   @close="closeGroupTag(tag.id)">
                   {{tag.name}}
                 </el-tag>
-              </el-row>              
+              </el-row>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -107,6 +107,7 @@
 
 <script>
   import api from '../../api.js'
+  import utils from '@/utils/utils'
   import Vue from 'vue'
   import Simditor from '../../components/Simditor.vue'
 
@@ -211,39 +212,9 @@
         this.contest.allowed_ip_ranges.push({value: ''})
       },
       getGroupList () {
-        let i = 0
-        let groupList = []
         api.getUserGroupList().then(res => {
-          let yearKeys = Object.keys(res.data.data)
-          for (let yearKeysName of yearKeys) {
-            let yearObject = {
-              id: i++,
-              name: yearKeysName,
-              children: []
-            }
-            let majorKeys = Object.keys(res.data.data[yearKeysName])
-            for (let majorKeysName of majorKeys) {
-              let majorObject = {
-                id: i++,
-                name: majorKeysName,
-                children: []
-              }
-              let classSet = res.data.data[yearKeysName][majorKeysName]
-              for (let classItemObject of classSet) {
-                let classItem = {
-                  fullName: classItemObject.name,
-                  name: classItemObject.class_num,
-                  id: classItemObject.id
-                }
-                this.classSet.push(classItem)
-                majorObject.children.push(classItem)
-              }
-              yearObject.children.push(majorObject)
-            }
-            groupList.unshift(yearObject)
-          }
-        })
-        this.groupList = groupList
+          this.groupList = utils.formatGroupList(res.data.data, this.classSet)
+        }).catch(() => {})
       },
       findClassByClassID (classID) {
         let classItem = this.classSet.find((value, index, arr) => {

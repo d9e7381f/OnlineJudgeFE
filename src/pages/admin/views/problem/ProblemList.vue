@@ -310,23 +310,14 @@
       getCourse () {
         api.getCourse().then(res => {
           this.courseList = res.data.data.course
-          this.changeChildren(this.courseList)
+          utils.deleteEmptyChildren(this.courseList)
         }).catch(() => {})
       },
       getCollection () {
         api.getCollection().then(res => {
           this.collectionList = res.data.data.collection
-          this.changeChildren(this.collectionList)
+          utils.deleteEmptyChildren(this.collectionList)
         }).catch(() => {})
-      },
-      changeChildren (list) {
-        for (var listitem of list) {
-          if (listitem[ 'children' ].length === 0) {
-            delete listitem[ 'children' ]
-          } else {
-            this.changeChildren(listitem[ 'children' ])
-          }
-        }
       },
       getProblemList (page = 1) {
         this.loading = true

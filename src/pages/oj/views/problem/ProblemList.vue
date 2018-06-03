@@ -225,26 +225,13 @@
       getCollectionList () {
         api.getCollection().then(res => {
           this.collectionList = res.data.data.collection
-          this.handleCollectionList(this.collectionList)
+          utils.foramtCascaderData(this.collectionList)
         }).catch(() => {})
       },
       handleCollectionChange (value) {
         this.query.collection_id = value[ value.length - 1 ]
         this.query.page = 1
         this.pushRouter()
-      },
-      handleCollectionList (list) {
-        for (var item of list) {
-          item[ 'label' ] = item[ 'name' ]
-          item[ 'value' ] = item[ 'id' ]
-          delete item[ 'id' ]
-          delete item[ 'name' ]
-          if (item['children'].length === 0) {
-            delete item[ 'children' ]
-          } else {
-            this.handleCollectionList(item['children'])
-          }
-        }
       },
       getProblemList () {
         let offset = (this.query.page - 1) * this.limit

@@ -82,6 +82,7 @@
 </template>
 <<script>
   import api from '../../api'
+  import utils from '@/utils/utils'
   export default {
     name: 'delegation',
     data () {
@@ -165,17 +166,8 @@
       getCourse () {
         api.getCourse().then(res => {
           this.courseList = res.data.data.course
-          this.changeChildren(this.courseList)
+          utils.deleteEmptyChildren(this.courseList)
         }).catch(() => {})
-      },
-      changeChildren (list) {
-        for (let listitem of list) {
-          if (listitem[ 'children' ].length === 0) {
-            delete listitem[ 'children' ]
-          } else {
-            this.changeChildren(listitem[ 'children' ])
-          }
-        }
       },
       getUser (value) {
 

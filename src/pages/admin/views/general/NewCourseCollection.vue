@@ -88,6 +88,7 @@
 <script>
 import Vue from 'vue'
 import api from '../../api.js'
+import utils from '@/utils/utils'
 export default {
   name: 'course',
   data () {
@@ -202,7 +203,7 @@ export default {
     getCollectionList () {
       api.getCollection().then(res => {
         this.collectionList = res.data.data.collection
-        this.changeList(this.collectionList)
+        utils.deleteEmptyChildren(this.collectionList)
       }).catch(() => {})
     },
     deleteCourse (courseID) {
@@ -304,15 +305,6 @@ export default {
           }
         })
       }).catch(() => {})
-    },
-    changeList (list) {
-      for (let item of list) {
-        if (item.children.length === 0) {
-          delete item.children
-        } else {
-          this.changeList(item.children)
-        }
-      }
     },
     goforward (id) {
       this.currentID = id

@@ -48,6 +48,7 @@
   </div>
 </template>
 <script>
+  import utils from '@/utils/utils'
   import api from '@admin/api'
 
   export default {
@@ -99,23 +100,13 @@
       getCourse () {
         api.getCourse().then(res => {
           this.courseList = res.data.data.course
-          this.changeChildren(this.courseList)
-        }).catch(() => {
-        })
+          utils.deleteEmptyChildren(this.courseList)
+        }).catch(() => {})
       },
       handleCourseChange (value) {
         this.query.course = value[ value.length - 1 ]
         this.page = 1
         this.pushRouter(this.page)
-      },
-      changeChildren (list) {
-        for (var listitem of list) {
-          if (listitem[ 'children' ].length === 0) {
-            delete listitem[ 'children' ]
-          } else {
-            this.changeChildren(listitem[ 'children' ])
-          }
-        }
       },
       getProblemList (page = 1) {
         this.page = page
@@ -132,9 +123,9 @@
           this.loading = false
           this.total = res.data.data.total
           this.problems = res.data.data.results
-        }).catch(() => {
-        })
+        }).catch(() => {})
       },
+      // 处理添加题目
       handleAddProblem (problemID) {
         let data = {
           problem_id: problemID,

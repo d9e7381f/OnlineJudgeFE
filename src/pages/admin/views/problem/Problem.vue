@@ -264,6 +264,7 @@
   import Accordion from '../../components/Accordion'
   import CodeMirror from '../../components/CodeMirror'
   import api from '../../api'
+  import utils from '@/utils/utils'
   import {mapGetters} from 'vuex'
 
   export default {
@@ -454,15 +455,6 @@
           }
         }
       },
-      changeChildren (list) {
-        for (var listitem of list) {
-          if (listitem[ 'children' ].length === 0) {
-            delete listitem[ 'children' ]
-          } else {
-            this.changeChildren(listitem[ 'children' ])
-          }
-        }
-      },
       handleCollectionChange (value) {
         this.problem.collection = value[ value.length - 1 ]
       },
@@ -495,7 +487,7 @@
       getCollection () {
         api.getCollection().then(res => {
           this.collectionList = res.data.data.collection
-          this.changeChildren(this.collectionList)
+          utils.deleteEmptyChildren(this.collectionList)
         }).catch(() => {})
       },
       getCourse () {
@@ -506,7 +498,7 @@
             }).catch(() => {})
           }
           this.courseList = res.data.data.course
-          this.changeChildren(this.courseList)
+          utils.deleteEmptyChildren(this.courseList)
         }).catch(() => {})
       },
       filterCourse (list, idlist) {
