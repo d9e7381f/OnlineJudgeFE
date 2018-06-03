@@ -18,9 +18,11 @@ export default {
       }
     })
   },
+  // 登出
   logout () {
     return ajax('logout', 'get')
   },
+  // 获得用户信息集
   getProfile () {
     return ajax('profile', 'get')
   },
@@ -78,6 +80,7 @@ export default {
       data
     })
   },
+  // 删除用户 disabled
   deleteUsers (id) {
     return ajax('admin/user', 'delete', {
       params: {
@@ -85,12 +88,14 @@ export default {
       }
     })
   },
+  // 设置竞赛是否可见
   updateContestVisible (id, visible) {
     let data = {
       visible
     }
     return ajax(`xcontest/${id}/`, 'patch', {data})
   },
+  // 导入用户 disabled
   importUsers (users) {
     return ajax('admin/user', 'post', {
       data: {
@@ -98,6 +103,7 @@ export default {
       }
     })
   },
+  // 获得班级列表
   getUserGroupList () {
     return ajax('group/', 'get')
   },
@@ -106,20 +112,25 @@ export default {
       data
     })
   },
+  // 获得系统编程语言支持及配置
   getLanguages () {
     return ajax('languages', 'get')
   },
+  // 获得网站配置
   getWebsiteConfig () {
     return ajax('admin/website', 'get')
   },
+  // 更新网站配置
   editWebsiteConfig (data) {
     return ajax('admin/website', 'post', {
       data
     })
   },
+  // 获得判题服务器列表
   getJudgeServer () {
     return ajax('admin/judge_server', 'get')
   },
+  // 删除判题服务器
   deleteJudgeServer (hostname) {
     return ajax('admin/judge_server', 'delete', {
       params: {
@@ -127,30 +138,37 @@ export default {
       }
     })
   },
+  // 更新判题服务器
   updateJudgeServer (data) {
     return ajax('admin/judge_server', 'put', {
       data
     })
   },
+  // 获得无用测试用例
   getInvalidTestCaseList () {
     return ajax('admin/prune_test_case', 'get')
   },
+  // 删除竞赛
   deleteContest (contestID) {
     return ajax(`xcontest/${contestID}/`, 'delete')
   },
+  // 创建竞赛
   createContest (data) {
     return ajax('xcontest/', 'post', {
       data
     })
   },
+  // 获得竞赛详细信息
   getContest (id) {
     return ajax(`xcontest/${id}/`, 'get', {})
   },
+  // 编辑竞赛
   editContest (data) {
     return ajax(`xcontest/${data.id}/`, 'put', {
       data
     })
   },
+  // 获得竞赛列表
   getContestList (offset, limit, keyword) {
     let params = {paging: true, offset, limit}
     if (keyword) {
@@ -160,6 +178,7 @@ export default {
       params: params
     })
   },
+  // 获得竞赛公告列表
   getContestAnnouncementList (contestID) {
     return ajax('admin/contest/announcement', 'get', {
       params: {
@@ -167,11 +186,13 @@ export default {
       }
     })
   },
+  // 创建竞赛公告
   createContestAnnouncement (data) {
     return ajax('admin/contest/announcement', 'post', {
       data
     })
   },
+  // 删除竞赛公告
   deleteContestAnnouncement (id) {
     return ajax('admin/contest/announcement', 'delete', {
       params: {
@@ -179,27 +200,33 @@ export default {
       }
     })
   },
+  // 更新竞赛公告
   updateContestAnnouncement (data) {
     return ajax('admin/contest/announcement', 'put', {
       data
     })
   },
+  // 获得用户支持的课程创建题目
   getCourseChoice () {
     return ajax('/delegation/course_choice/', 'get')
   },
+  // 创建任务委派
   createDelegation (data) {
     return ajax('delegation/', 'post', {
       data
     })
   },
+  // 创建任务列表
   getDelegationList (params) {
     return ajax('delegation/', 'get', {
       params: params
     })
   },
+  // 获得题目tag列表
   getProblemTagList () {
     return ajax('problem/tags', 'get')
   },
+  // 更新题目的可视
   changeProblemDisplay (problemID, visible) {
     let data = {
       visible
@@ -208,6 +235,7 @@ export default {
       data
     })
   },
+  // 更新题目的displayid和题目
   changeProblemDisplayIDAndTitle (problemID, displayID, title) {
     let data = {
       title,
@@ -217,84 +245,57 @@ export default {
       data
     })
   },
+  // 编译spj代码
   compileSPJ (data) {
     return ajax('admin/compile_spj', 'post', {
       data
     })
   },
+  // 获得用户列表通过班级
   getUserListByClass (params) {
     return ajax('user/', 'get', {
       params: params
     })
   },
+  // 创建题目
   createProblem (data) {
     return ajax('xproblem/', 'post', {
       data
     })
   },
+  // 编辑题目
   editProblem (data) {
     return ajax(`xproblem/${data.id}/`, 'put', {
       data
     })
   },
+  // 删除题目
   deleteProblem (id) {
     return ajax(`xproblem/${id}/`, 'delete')
   },
+  // 审核题目
   validateProblem (id) {
     return ajax(`xproblem/${id}/validate/`, 'put')
   },
+  // 获得题目详细或竞赛题目详细
   getProblem (id) {
-    return ajax(`xproblem/${id}/`, 'get', {})
+    return ajax(`xproblem/${id}/`, 'get')
   },
-  getProblemByFilter (params) {
-    return ajax('xproblem/', 'get', {params: params})
-  },
+  // 获得题目列表或竞赛题目列表
   getProblemList (params) {
     params = utils.filterEmptyValue(params)
     return ajax('xproblem/', 'get', {
       params
     })
   },
-  getEduProblemList (params) {
-    params = utils.filterEmptyValue(params)
-    return ajax('xproblem/', 'get', {params})
-  },
-  getUncheckProblemList (params) {
-    params = utils.filterEmptyValue(params)
-    return ajax('xproblem/', 'get', {params})
-  },
-  getContestProblemList (params) {
-    params = utils.filterEmptyValue(params)
-    return ajax('xproblem/', 'get', {
-      params
-    })
-  },
-  getContestProblem (id) {
-    return ajax(`xproblem/${id}`, 'get')
-  },
-  createContestProblem (data) {
-    return ajax('admin/contest/problem', 'post', {
-      data
-    })
-  },
-  editContestProblem (data) {
-    return ajax(`xproblem/${data.id}/`, 'put', {
-      data
-    })
-  },
+  // 更新题目
   updateProblem (problemID, data) {
     return ajax(`xproblem/${problemID}/`, 'patch', {
       data
     })
   },
-  deleteContestProblem (id) {
-    return ajax('admin/contest/problem', 'delete', {
-      params: {
-        id
-      }
-    })
-  },
-  batchMovePublic (courseID, collectionID) {
+  // 将目标课程的题目转化为目标分类
+  makeBatchContestProblemPublic (courseID, collectionID) {
     return ajax('xproblem/batch_move_public/', 'post', {
       data: {
         'collection': collectionID,
@@ -302,71 +303,87 @@ export default {
       }
     })
   },
+  // 添加课程
   addCourse (data) {
     return ajax('course/', 'post', {
       data
     })
   },
+  // 删除课程
   deleteCourse (id, data) {
     return ajax(`course/${id}/`, 'delete', {
       data: data
     })
   },
+  // 重命名课程
   renCourse (id, data) {
     return ajax(`course/${id}/`, 'put', {
       data
     })
   },
+  // 添加分类
   addCollection (data) {
     return ajax('collection/', 'post', {
       data
     })
   },
+  // 删除分类
   deleteCollection (id) {
     return ajax(`collection/${id}/`, 'delete')
   },
+  // 重命名分类
   renCollection (id, data) {
     return ajax(`collection/${id}/`, 'put', {
       data
     })
   },
+  // 将课程设置为公开
   makeContestProblemPublic (data) {
     return ajax('admin/contest_problem/make_public', 'post', {
       data
     })
   },
-  addProblemFromEdu (data) {
+  // 添加教学题目于竞赛
+  addContestProblemFromEdu (data) {
     return ajax('admin/contest/add_problem_from_public', 'post', {
       data
     })
   },
+  // 获得指示板信息
   getDashboardInfo () {
     return ajax('admin/dashboard_info', 'get')
   },
+  // 获得创建题目权限
   canCreateProblem () {
     return ajax('/xproblem/can_create/', 'get')
   },
+  // 获得当前会话
   getSessions () {
     return ajax('sessions', 'get')
   },
+  // 到处题目
   exportProblems (data) {
     return ajax('export_problem', 'post', {
       data
     })
   },
+  // 为题目添加课程
   addProblemCourse (courseID, data) {
     return ajax(`course/${courseID}/add_problems/`, 'post', {
       data
     })
   },
+  // 为题目移除课程
   removeProblemCourse (courseID, data) {
     return ajax(`course/${courseID}/remove_problems/`, 'post', {
       data
     })
   },
+  // 获得分类列表
   getCollection () {
     return ajax('collection/', 'get')
   },
+  // 获得课程列表
   getCourse () {
     return ajax('course/', 'get')
   }
