@@ -1,9 +1,9 @@
 <template>
   <div>
     <div style="float: right;margin-top: -20px;">
-      <el-cascader 
+      <el-cascader
             size="small"
-            :options="courseList" 
+            :options="courseList"
             :props="cascaderprops"
             @change="handleCourseChange"
             placeholder="课程筛选" clearable></el-cascader>
@@ -39,7 +39,7 @@
     <el-pagination
       class="page"
       layout="prev, pager, next"
-      @current-change="getEduProblem"
+      @current-change="getProblemList"
       :page-size="limit"
       :total.sync="total"
       :current-page.sync="page"
@@ -75,7 +75,7 @@
       this.getCourse()
       api.getContest(this.contestID).then(res => {
         this.contest = res.data.data
-        this.getEduProblem()
+        this.getProblemList()
       }).catch(() => {
       })
     },
@@ -90,7 +90,7 @@
           course_id: this.query.course,
           rule_type: this.contest.rule_type
         }
-        api.getEduProblemList(params).then(res => {
+        api.getProblemList(params).then(res => {
           this.loading = false
           this.total = res.data.data.total
           this.problems = res.data.data.results
@@ -117,7 +117,7 @@
           }
         }
       },
-      getEduProblem (page = 1) {
+      getProblemList (page = 1) {
         this.page = page
         this.loading = true
         let params = {
@@ -128,7 +128,7 @@
           course_id: this.query.course,
           rule_type: this.contest.rule_type
         }
-        api.getEduProblemList(params).then(res => {
+        api.getProblemList(params).then(res => {
           this.loading = false
           this.total = res.data.data.total
           this.problems = res.data.data.results
@@ -140,7 +140,7 @@
           problem_id: problemID,
           contest_id: this.contestID
         }
-        api.addProblemFromEdu(data).then(() => {
+        api.addContestProblemFromEdu(data).then(() => {
           this.$emit('on-change')
         }, () => {}).catch(() => {})
       }

@@ -168,7 +168,7 @@ export default {
       this.offset = 0
       this.currentID = id
       this.dialog2Visible = true
-      api.getProblemByFilter({'course_id': id, limit: this.limit, offset: this.offset}).then(res => {
+      api.getProblemList({'course_id': id, limit: this.limit, offset: this.offset}).then(res => {
         this.problemList = res.data.data.results
         this.problem = this.problemList.pop()
         this.total = res.data.data.total
@@ -288,7 +288,7 @@ export default {
     deleteCourseAndSetDefaultCollection () {
       this.dialogVisible = true
       let collectionID = this.cascaderID[this.cascaderID.length - 1]
-      api.batchMovePublic(this.currentID, collectionID).then(res => {
+      api.makeBatchContestProblemPublic(this.currentID, collectionID).then(res => {
         if (!res.data.error) {
           this.deleteCourse(this.currentID)
           this.cascaderID = []

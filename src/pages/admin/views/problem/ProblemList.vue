@@ -339,7 +339,6 @@
           has_perm: true,
           is_valid: !this.UncheckProblemList
         }
-        let funcName = this.$route.name === 'contest-problem-list' ? 'getContestProblemList' : 'getProblemList'
         if (this.routeName === 'contest-problem-list') {
           delete params.in_course
           delete params.is_valid
@@ -356,7 +355,7 @@
         if (!this.$store.getters.isAdminRole) {
           delete params.is_valid
         }
-        api[funcName](params).then(res => {
+        api.getProblemList(params).then(res => {
           this.loading = false
           this.total = res.data.data.total
           for (let problem of res.data.data.results) {

@@ -376,8 +376,7 @@
         // get problem after getting languages list to avoid find undefined value in `watch problem.languages`
         if (this.routeName.startsWith('edit')) {
           this.title = '题目编辑'
-          let funcName = {'edit-edu-problem': 'getProblem', 'edit-problem': 'getProblem', 'edit-contest-problem': 'getContestProblem'}[this.routeName]
-          api[funcName](this.$route.params.problemId).then(problemRes => {
+          api.getProblem(this.$route.params.problemId).then(problemRes => {
             let data = problemRes.data.data
             if (!data.spj_code) {
               data.spj_code = ''
@@ -716,7 +715,7 @@
           'create-contest-problem': 'createProblem',
           'edit-problem': 'editProblem',
           'edit-edu-problem': 'editProblem',
-          'edit-contest-problem': 'editContestProblem'
+          'edit-contest-problem': 'editProblem'
         }[this.routeName]
         // edit contest problem 时, contest_id会被后来的请求覆盖掉
         if (funcName === 'editContestProblem') {
