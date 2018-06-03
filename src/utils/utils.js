@@ -94,6 +94,64 @@ function getLanguages () {
   })
 }
 
+function deleteEmptyChildren (list) {
+  for (let item of list) {
+    if (item.children.length === 0) {
+      delete item.children
+    } else {
+      deleteEmptyChildren(item.children)
+    }
+  }
+}
+
+function foramtCascaderData (list) {
+  for (let item of list) {
+    item.label = item.name
+    item.value = item.id
+    delete item.id
+    delete item.name
+    if (item.children.length === 0) {
+      delete item.children
+    } else {
+      foramtCascaderData(item.children)
+    }
+  }
+}
+
+function formatGroupList (list, classSet) {
+  let i = 0
+  let groupList = []
+  let yearKeys = Object.keys(list)
+  for (let yearKeysName of yearKeys) {
+    let yearObject = {
+      id: i++,
+      name: yearKeysName,
+      children: []
+    }
+    let majorKeys = Object.keys(list[yearKeysName])
+    for (let majorKeysName of majorKeys) {
+      let majorObject = {
+        id: i++,
+        name: majorKeysName,
+        children: []
+      }
+      let classSet = list[yearKeysName][majorKeysName]
+      for (let classItemObject of classSet) {
+        let classItem = {
+          fullName: classItemObject.name,
+          name: classItemObject.class_num,
+          id: classItemObject.id
+        }
+        classSet.push(classItem)
+        majorObject.children.push(classItem)
+      }
+      yearObject.children.push(majorObject)
+    }
+    groupList.unshift(yearObject)
+  }
+  return groupList
+}
+
 export default {
   submissionMemoryFormat: submissionMemoryFormat,
   submissionTimeFormat: submissionTimeFormat,
@@ -101,5 +159,8 @@ export default {
   filterEmptyValue: filterEmptyValue,
   breakLongWords: breakLongWords,
   downloadFile: downloadFile,
+  deleteEmptyChildren: deleteEmptyChildren,
+  formatGroupList: formatGroupList,
+  foramtCascaderData: foramtCascaderData,
   getLanguages: getLanguages
 }
