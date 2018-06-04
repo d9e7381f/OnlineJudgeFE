@@ -169,41 +169,10 @@
           utils.deleteEmptyChildren(this.courseList)
         }).catch(() => {})
       },
-      getUser (value) {
-
-      },
       getGroupList () {
-        let groupList = []
         api.getUserGroupList().then(res => {
-          let yearKeys = Object.keys(res.data.data)
-          for (let yearKeysName of yearKeys) {
-            let yearObject = {
-              id: yearKeysName,
-              name: yearKeysName,
-              children: []
-            }
-            let majorKeys = Object.keys(res.data.data[yearKeysName])
-            for (let majorKeysName of majorKeys) {
-              let majorObject = {
-                id: majorKeysName,
-                name: majorKeysName,
-                children: []
-              }
-              let classSet = res.data.data[yearKeysName][majorKeysName]
-              for (let classItemObject of classSet) {
-                let classItem = {
-                  fullName: classItemObject.name,
-                  name: classItemObject.class_num,
-                  id: classItemObject.class_num
-                }
-                majorObject.children.push(classItem)
-              }
-              yearObject.children.push(majorObject)
-            }
-            groupList.unshift(yearObject)
-          }
-        })
-        this.groupList = groupList
+          this.groupList = utils.formatGroupList(res.data.data)
+        }).catch(() => {})
       }
     }
 
