@@ -118,20 +118,19 @@ function foramtCascaderData (list) {
   }
 }
 
-function formatGroupList (list, classSet) {
-  let i = 0
+function formatGroupList (list, set = []) {
   let groupList = []
   let yearKeys = Object.keys(list)
   for (let yearKeysName of yearKeys) {
     let yearObject = {
-      id: i++,
+      id: yearKeysName,
       name: yearKeysName,
       children: []
     }
     let majorKeys = Object.keys(list[yearKeysName])
     for (let majorKeysName of majorKeys) {
       let majorObject = {
-        id: i++,
+        id: majorKeysName,
         name: majorKeysName,
         children: []
       }
@@ -140,9 +139,9 @@ function formatGroupList (list, classSet) {
         let classItem = {
           fullName: classItemObject.name,
           name: classItemObject.class_num,
-          id: classItemObject.id
+          id: classItemObject.class_num
         }
-        classSet.push(classItem)
+        set.push(classItem)
         majorObject.children.push(classItem)
       }
       yearObject.children.push(majorObject)
