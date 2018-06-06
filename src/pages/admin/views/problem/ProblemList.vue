@@ -70,6 +70,7 @@
           <template slot-scope="{row}">
             <span v-show="!row.isEditing">{{row.title}}</span>
             <el-input v-show="row.isEditing" v-model="row.title"
+                      @blur="handleInlineEdit(row)"
                       @keyup.enter.native="handleInlineEdit(row)">
             </el-input>
           </template>
