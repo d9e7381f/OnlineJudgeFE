@@ -9,6 +9,12 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 axios.defaults.xsrfCookieName = 'csrftoken'
 
 export default {
+  loginEntry () {
+    return ajax('login/', 'get')
+  },
+  logoutEntry () {
+    return ajax('logout/', 'get')
+  },
   // 登录
   login (username, password) {
     return ajax('xlogin/', 'post', {
