@@ -22,6 +22,7 @@
     data () {
       return {
         logining: false,
+        url: 'https://cas.dgut.edu.cn/?appid=oj',
         ruleForm2: {
           account: '',
           password: ''
@@ -53,6 +54,12 @@
           }
         })
       }
+    },
+    mounted () {
+      api.loginEntry().then(res => {
+      }).catch(() => {
+        window.location.href = this.url
+      })
     }
   }
 </script>
