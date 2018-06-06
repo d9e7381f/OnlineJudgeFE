@@ -60,11 +60,7 @@
           :key="Math.random()"
           label="序号">
           <template slot-scope="{row}">
-            <span v-show="!row.isEditing">{{row._id}}</span>
-            <el-input v-show="row.isEditing" v-model="row._id"
-                      @keyup.enter.native="handleInlineEdit(row)">
-
-            </el-input>
+            <span>{{row._id}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -145,12 +141,12 @@
                :visible.sync="InlineEditDialogVisible"
                @close-on-click-modal="false">
       <div>
-        <p>ID: {{currentRow._id}}</p>
+        <p>ID: {{currentRow.id}}</p>
         <p>标题: {{currentRow.title}}</p>
       </div>
       <span slot="footer">
         <cancel @click.native="InlineEditDialogVisible = false; getProblemList(currentPage)"></cancel>
-        <save @click.native="updateDisplayIDAndTitle(currentRow.id,currentRow._id,currentRow.title)"></save>
+        <save @click.native="updateProblemTitle(currentRow.id,currentRow.title)"></save>
       </span>
     </el-dialog>
      <el-dialog title="预览题目"
@@ -299,8 +295,8 @@
           this.InlineEditDialogVisible = false
         })
       },
-      updateDisplayIDAndTitle (problemID, displayID, title) {
-        api.changeProblemDisplayIDAndTitle(problemID, displayID, title).then(res => {
+      updateProblemTitle (problemID, title) {
+        api.changeProblemTitle(problemID, title).then(res => {
           this.InlineEditDialogVisible = false
           this.getProblemList(this.currentPage)
         }).catch(() => {

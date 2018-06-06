@@ -236,13 +236,11 @@ export default {
     })
   },
   // 更新题目的displayid和题目
-  changeProblemDisplayIDAndTitle (problemID, displayID, title) {
-    let data = {
-      title,
-      '_id': displayID
-    }
+  changeProblemTitle (problemID, title) {
     return ajax(`xproblem/${problemID}/`, 'patch', {
-      data
+      data: {
+        title
+      }
     })
   },
   // 编译spj代码
