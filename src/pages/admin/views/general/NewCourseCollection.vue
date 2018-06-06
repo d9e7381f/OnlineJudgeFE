@@ -7,7 +7,7 @@
     </div>
     <div style="margin-top: 15px;margin-right: 5px;cursor:pointer">
       <span v-for="item in options" :key="item.id">
-        <el-tag @close="deleteTag(item.id)" size="medium"><a @click="goforward(item.id)">{{item.name}}</a></el-tag>
+        <el-tag @close="deleteTag(item.id)" size="medium"><a @click="goForward(item.id)">{{item.name}}</a></el-tag>
         <icon-btn v-if="isCourse || isCollection" name="编辑" icon="edit" @click.native="goEdit(item.id)" style="margin-left: 2px;margin-right: 10px;"></icon-btn>
         <el-popover
           style="margin-right: 15px;"
@@ -15,8 +15,8 @@
           placement="top">
           <p>确定删除该节点并选择对相关题目操作？</p>
           <div style="text-align: right; margin: 0">
-            <el-button type="primary" size="mini" @click="showDialog2(item.id)">依次分配分类</el-button>
-            <el-button type="primary" size="mini" @click="showDialog(item.id)">设置默认分类</el-button>
+            <el-button type="primary" size="mini" @click="handleSetCollectionByOrder(item.id)">依次分配分类</el-button>
+            <el-button type="primary" size="mini" @click="handleSetDefaultCollection(item.id)">设置默认分类</el-button>
             <el-button type="danger" size="mini" @click="forceDeleteCourse(item.id)">强制删除题目</el-button>
           </div>
           <icon-btn slot="reference" name="删除" icon="delete"></icon-btn>
@@ -30,15 +30,15 @@
         v-model="inputValue"
         ref="saveTagInput"
         size="small"
-        @keyup.enter.native="handleInputConfirm"
-        @blur="handleInputConfirm"
+        @keyup.enter.native="handleAddCourseInputConfirm"
+        @blur="handleAddCourseInputConfirm"
       >
       </el-input>
-      <el-button v-else-if="!inputValue && (isCourse || isCollection)"  class="button-new-tag" size="small" @click="showInput">添加新节点</el-button>
+      <el-button v-else-if="!inputValue && (isCourse || isCollection)"  class="button-new-tag" size="small" @click="showAddCourseInput">添加新节点</el-button>
     </div>
     <el-dialog
       title="提示"
-      :visible.sync="dialogVisible"
+      :visible.sync="deleteCourseAndSetDefaultCollectionView"
       width="30%">
       <span>选择默认的分类</span>
       <div>
@@ -58,7 +58,7 @@
     </el-dialog>
     <el-dialog
       title="提示"
-      :visible.sync="dialog2Visible">
+      :visible.sync="deleteCourseAndSetCollectionByOrderView">
       <div v-if="problemList.length && problem">
         <div>分别为下列题目设置分类</div>
         <span>
@@ -75,12 +75,12 @@
           </el-cascader>
         </span>
         <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="goNextProbelm()">下一道题目</el-button>
+          <el-button type="primary" @click="handleAndGoNextProbelm()">下一道题目</el-button>
         </span>
       </div>
       <div v-else>
         <p>已经为该课程题目分配分类，请点击以下按钮以完成操作</p>
-        <el-button type="primary" @click="finshOP()">完成</el-button>
+        <el-button type="primary" @click="finshDelete()">完成</el-button>
       </div>
     </el-dialog>
   </Panel>
@@ -97,14 +97,14 @@ export default {
       limit: 10,
       offset: 0,
       cascaderID: [],
-      dialog2Visible: false,
       problemList: [],
       problem: {},
       cascaderprops: {
         value: 'id',
         label: 'name'
       },
-      dialogVisible: false,
+      deleteCourseAndSetDefaultCollectionView: false,
+      deleteCourseAndSetCollectionByOrderView: false,
       currentID: 0,
       isCourse: false,
       isCollection: false,
@@ -127,23 +127,23 @@ export default {
     }
   },
   methods: {
-    showInput () {
+    finshDelete () {
+      this.deleteCourseAndSetCollectionByOrderView = false
+      this.deleteCourse(this.currentID)
+    },
+    showAddCourseInput () {
       this.inputVisible = true
       this.$nextTick(_ => {
         this.$refs.saveTagInput.$refs.input.focus()
       })
     },
-    finshOP () {
-      this.dialog2Visible = false
-      this.deleteCourse(this.currentID)
-    },
-    handleInputConfirm () {
+    handleAddCourseInputConfirm () {
       let inputValue = this.inputValue
       if (inputValue) {
         let params = {name: inputValue}
         console.log(this.currentID)
         if (this.currentID !== 0 && this.currentID !== -1) {
-          let parent = this.getItemById(this.selectList, this.currentID)
+          let parent = this.getItem(this.selectList, this.currentID)
           if (parent) {
             params.parent = parent.url
           }
@@ -165,10 +165,10 @@ export default {
       this.inputVisible = false
       this.inputValue = ''
     },
-    showDialog2 (id) {
+    handleSetCollectionByOrder (id) {
       this.offset = 0
       this.currentID = id
-      this.dialog2Visible = true
+      this.deleteCourseAndSetCollectionByOrderView = true
       api.getProblemList({'course_id': id, limit: this.limit, offset: this.offset}).then(res => {
         this.problemList = res.data.data.results
         this.problem = this.problemList.pop()
@@ -177,7 +177,11 @@ export default {
         this.offset += this.limit
       })
     },
-    goNextProbelm () {
+    handleSetDefaultCollection (id) {
+      this.deleteCourseAndSetDefaultCollectionView = true
+      this.currentID = id
+    },
+    handleAndGoNextProbelm () {
       let collectionID = this.cascaderID[this.cascaderID.length - 1]
       this.cascaderID = []
       api.makePublicProblem(this.problem.id, collectionID).then(res => {
@@ -193,10 +197,6 @@ export default {
       }).catch(() => {
         Vue.prototype.$error('设置分类失败')
       })
-    },
-    showDialog (id) {
-      this.dialogVisible = true
-      this.currentID = id
     },
     getCollectionList () {
       api.getCollection().then(res => {
@@ -216,12 +216,12 @@ export default {
         this.courseList = res.data.data.course
       }).catch(() => {})
     },
-    getItemById (list, id) {
+    getItem (list, id) {
       for (let item of list) {
         if (item.id === id) {
           return item
         }
-        let res = this.getItemById(item.children, id)
+        let res = this.getItem(item.children, id)
         if (res) {
           return res
         }
@@ -258,7 +258,7 @@ export default {
           }
         ]
       } else {
-        this.options = this.getItemById(this.selectList, id).children
+        this.options = this.getItem(this.selectList, id).children
       }
     },
     deleteCollection (collectionID) {
@@ -285,13 +285,13 @@ export default {
       }
     },
     deleteCourseAndSetDefaultCollection () {
-      this.dialogVisible = true
+      this.deleteCourseAndSetDefaultCollectionView = true
       let collectionID = this.cascaderID[this.cascaderID.length - 1]
       api.makeBatchContestProblemPublic(this.currentID, collectionID).then(res => {
         if (!res.data.error) {
           this.deleteCourse(this.currentID)
           this.cascaderID = []
-          this.dialogVisible = false
+          this.deleteCourseAndSetDefaultCollectionView = false
         }
       })
     },
@@ -304,7 +304,7 @@ export default {
         })
       }).catch(() => {})
     },
-    goforward (id) {
+    goForward (id) {
       this.currentID = id
       if (id === 0) {
         this.selectList = this.courseList
@@ -321,7 +321,7 @@ export default {
         this.isCollection = true
         this.breadcrumb.push({name: '分类', id: 0})
       } else {
-        let selectItem = this.getItemById(this.selectList, id)
+        let selectItem = this.getItem(this.selectList, id)
         this.options = selectItem.children
         this.breadcrumb.push({name: selectItem.name, id: selectItem.id})
       }
