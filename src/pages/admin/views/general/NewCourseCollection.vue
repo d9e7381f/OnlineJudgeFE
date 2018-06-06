@@ -180,20 +180,18 @@ export default {
     goNextProbelm () {
       let collectionID = this.cascaderID[this.cascaderID.length - 1]
       this.cascaderID = []
-      api.updateProblem(this.problem.id, {collection_id: collectionID}).then(res => {
-        if (!res.data.error) {
-          this.problem = this.problemList.pop()
-          if (this.offset <= this.total && this.problemList.length === 1) {
-            api.getProblemByFilter({'course_id': this.current, limit: this.limit, offset: this.offset}).then(res => {
-              this.problemList = res.data.data.results
-              this.total = res.data.data.total
-              this.offset += this.limit
-              this.problemList.unshift({title: ''})
-            })
-          }
-        } else {
-          Vue.prototype.$error('设置分类失败')
+      api.makePublicProblem(this.problem.id, collectionID).then(res => {
+        this.problem = this.problemList.pop()
+        if (this.offset <= this.total && this.problemList.length === 1) {
+          api.getProblemByFilter({'course_id': this.current, limit: this.limit, offset: this.offset}).then(res => {
+            this.problemList = res.data.data.results
+            this.total = res.data.data.total
+            this.offset += this.limit
+            this.problemList.unshift({title: ''})
+          })
         }
+      }).catch(() => {
+        Vue.prototype.$error('设置分类失败')
       })
     },
     showDialog (id) {
