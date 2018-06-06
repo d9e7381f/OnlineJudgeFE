@@ -54,8 +54,8 @@
     methods: {
       handleCommand (command) {
         if (command === 'logout') {
-          api.logout().then(() => {
-            this.$router.push({name: 'login'})
+          api.logoutEntry().then(res => {
+            window.location.href = res.data.data
           })
         }
       }
