@@ -294,6 +294,14 @@ export default {
       data
     })
   },
+  // 将目标题目设置目标分类
+  makePublicProblem (problemID, collectionID) {
+    return ajax(`xproblem/${problemID}/move_public/`, 'post', {
+      data: {
+        'collection': collectionID
+      }
+    })
+  },
   // 将目标课程的题目转化为目标分类
   makeBatchContestProblemPublic (courseID, collectionID) {
     return ajax('xproblem/batch_move_public/', 'post', {
