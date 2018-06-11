@@ -5,36 +5,48 @@
         <el-breadcrumb-item v-for="item of breadcrumb" :key="item.id" ><a @click="goTag(item.id)">{{item.name}}</a></el-breadcrumb-item>
       </el-breadcrumb>
     </div>
-    <div style="margin-top: 15px;margin-right: 5px;cursor:pointer">
-      <span v-for="item in options" :key="item.id">
-        <el-tag @close="deleteTag(item.id)" size="medium"><a @click="goForward(item.id)">{{item.name}}</a></el-tag>
-        <icon-btn v-if="isCourse || isCollection" name="编辑" icon="edit" @click.native="goEdit(item.id)" style="margin-left: 2px;margin-right: 10px;"></icon-btn>
-        <el-popover
-          style="margin-right: 15px;"
-          v-if="isCourse && !item.children.length"
-          placement="top">
-          <p>确定删除该节点并选择对相关题目操作？</p>
-          <div style="text-align: right; margin: 0">
-            <el-button type="primary" size="mini" @click="handleSetCollectionByOrder(item.id)">依次分配分类</el-button>
-            <el-button type="primary" size="mini" @click="handleSetDefaultCollection(item.id)">设置默认分类</el-button>
-            <el-button type="danger" size="mini" @click="forceDeleteCourse(item.id)">强制删除题目</el-button>
-          </div>
-          <icon-btn slot="reference" name="删除" icon="delete"></icon-btn>
-        </el-popover>
-        <icon-btn v-if="isCollection" name="删除" icon="delete" @click.native="deleteCollection(item.id)"></icon-btn>
+    <div style="cursor:pointer">
+      <div v-for="item in options" :key="item.id" style="margin-top:5px;">
+        <el-row :gutter="10">
+          <el-col :span="3">
+            <el-tag @close="deleteTag(item.id)" size="medium"><a @click="goForward(item.id)">{{item.name}}</a></el-tag>
+          </el-col>
+          <el-col :span="1.5">
+            <icon-btn v-if="isCourse || isCollection" name="编辑" icon="edit" @click.native="goEdit(item.id)" style="margin-left: 2px;margin-right: 10px;"></icon-btn>
+          </el-col>
+          <el-col :span="1.5">
+            <el-popover
+              style="margin-right: 15px;"
+              v-if="isCourse && !item.children.length"
+              placement="top">
+              <p>确定删除该节点并选择对相关题目操作？</p>
+              <div style="text-align: right; margin: 0">
+                <el-button type="primary" size="mini" @click="handleSetCollectionByOrder(item.id)">依次分配分类</el-button>
+                <el-button type="primary" size="mini" @click="handleSetDefaultCollection(item.id)">设置默认分类</el-button>
+                <el-button type="danger" size="mini" @click="forceDeleteCourse(item.id)">强制删除题目</el-button>
+              </div>
+              <icon-btn slot="reference" name="删除" icon="delete"></icon-btn>
+            </el-popover>
+          </el-col>
+          <el-col :span="1.5">
+            <icon-btn v-if="isCollection" name="删除" icon="delete" @click.native="deleteCollection(item.id)"></icon-btn>
+          </el-col>
+        </el-row>
 
-      </span>
-      <el-input
-        class="input-new-tag"
-        v-if="inputVisible && (isCourse || isCollection)"
-        v-model="inputValue"
-        ref="saveTagInput"
-        size="small"
-        @keyup.enter.native="handleAddCourseInputConfirm"
-        @blur="handleAddCourseInputConfirm"
-      >
-      </el-input>
-      <el-button v-else-if="!inputValue && (isCourse || isCollection)"  class="button-new-tag" size="small" @click="showAddCourseInput">添加新节点</el-button>
+      </div>
+      <div style="margin-top:5px;">
+        <el-input
+          class="input-new-tag"
+          v-if="inputVisible && (isCourse || isCollection)"
+          v-model="inputValue"
+          ref="saveTagInput"
+          size="small"
+          @keyup.enter.native="handleAddCourseInputConfirm"
+          @blur="handleAddCourseInputConfirm"
+        >
+        </el-input>
+        <el-button v-else-if="!inputValue && (isCourse || isCollection)"  class="button-new-tag" size="small" @click="showAddCourseInput">添加新节点</el-button>
+      </div>
     </div>
     <el-dialog
       title="提示"
@@ -339,7 +351,6 @@ export default {
     margin-left: 10px;
   }
   .button-new-tag {
-    margin-left: 10px;
     height: 32px;
     line-height: 30px;
     padding-top: 0;
@@ -347,7 +358,6 @@ export default {
   }
   .input-new-tag {
     width: 90px;
-    margin-left: 10px;
     vertical-align: bottom;
   }
 </style>
