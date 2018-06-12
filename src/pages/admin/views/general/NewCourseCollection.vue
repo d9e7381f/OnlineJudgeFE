@@ -8,7 +8,7 @@
     <div style="cursor:pointer">
       <div v-for="item in options" :key="item.id" style="margin-top:5px;">
         <el-row :gutter="10">
-          <el-col :span="3">
+          <el-col :span="4">
             <el-tag @close="deleteTag(item.id)" size="medium"><a @click="goForward(item.id)">{{item.name}}</a></el-tag>
           </el-col>
           <el-col :span="1.5">
