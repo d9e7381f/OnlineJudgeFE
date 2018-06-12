@@ -54,12 +54,6 @@
           }
         })
       }
-    },
-    mounted () {
-      api.loginEntry().then(res => {
-      }).catch(() => {
-        window.location.href = this.url
-      })
     }
   }
 </script>
