@@ -22,6 +22,11 @@ export default {
   logoutEntry () {
     return ajax('logout/', 'get')
   },
+  dgutLogin (params) {
+    return ajax('login/', 'get', {
+      params: params
+    })
+  },
   login (data) {
     return ajax('xlogin/', 'post', {
       data

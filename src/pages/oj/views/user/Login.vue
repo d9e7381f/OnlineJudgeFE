@@ -49,6 +49,7 @@
       }
 
       return {
+        token: '',
         tfaRequired: false,
         btnLoginLoading: false,
         formLogin: {
@@ -98,7 +99,10 @@
       }
     },
     mounted () {
-      console.log(this.$route.params)
+      console.log(this.$route)
+      api.dgutLogin(this.$route.query).then(_ => {
+        this.$router.push({name: 'home'})
+      })
     },
     computed: {
       ...mapGetters(['website', 'modalStatus']),
