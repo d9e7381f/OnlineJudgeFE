@@ -59,13 +59,7 @@
           <Button type="ghost"
                   ref="loginBtn"
                   shape="circle"
-                  @click="handleBtnClick('login')">登录
-          </Button>
-          <Button v-if="website.allow_register"
-                  type="ghost"
-                  shape="circle"
-                  @click="handleBtnClick('register')"
-                  style="margin-left: 5px;">注册
+                  @click="handleBtnClick()">登录
           </Button>
         </div>
       </template>
@@ -106,7 +100,7 @@
       this.getProfile()
     },
     methods: {
-      ...mapActions(['getProfile', 'changeModalStatus']),
+      ...mapActions(['getProfile']),
       handleRoute (route) {
         if (route && route.indexOf('admin') < 0) {
           this.$router.push(route)
@@ -121,9 +115,10 @@
         }
       },
       handleBtnClick (mode) {
-        this.changeModalStatus({
-          visible: true,
-          mode: mode
+        api.loginEntry().then(res => {
+          window.location.href = res.data.data
+        }).catch(exp => {
+          window.location.href = exp.data.data
         })
       }
     },
@@ -136,9 +131,6 @@
       modalVisible: {
         get () {
           return this.modalStatus.visible
-        },
-        set (value) {
-          this.changeModalStatus({visible: value})
         }
       }
     }
@@ -156,7 +148,7 @@
     background-color: #fff;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
     .oj-menu {
-      
+
       background: #fdfdfd;
     }
 
@@ -188,5 +180,5 @@
       font-weight: 600;
     }
   }
-  
+
 </style>

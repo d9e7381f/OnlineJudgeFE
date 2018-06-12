@@ -6,6 +6,9 @@
 
   export default {
     mounted () {
+      api.logoutEntry().then(res => {
+        window.location.href = res.data.data
+      })
       api.logout().then(res => {
         this.$store.dispatch('clearProfile')
         this.$router.replace({
