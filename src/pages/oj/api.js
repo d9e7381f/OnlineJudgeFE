@@ -16,6 +16,12 @@ export default {
   getAnnouncementList () {
     return ajax('announcement', 'get')
   },
+  loginEntry () {
+    return ajax('login/', 'get')
+  },
+  logoutEntry () {
+    return ajax('logout/', 'get')
+  },
   login (data) {
     return ajax('xlogin/', 'post', {
       data
