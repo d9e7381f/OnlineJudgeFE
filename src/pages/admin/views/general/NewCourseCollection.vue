@@ -17,7 +17,7 @@
           <el-col :span="1.5">
             <el-popover
               style="margin-right: 15px;"
-              v-if="isCourse && !item.children.length"
+              v-if="isCourse && !item.children &&!item.children.length"
               placement="top">
               <p>确定删除该节点并选择对相关题目操作？</p>
               <div style="text-align: right; margin: 0">
