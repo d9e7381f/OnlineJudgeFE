@@ -4,15 +4,14 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex'
   import api from '@oj/api'
 
   export default {
-    data () {
-    },
     methods: {
+      ...mapActions(['getProfile'])
     },
     mounted () {
-      console.log(this.$route)
       api.dgutLogin(this.$route.query).then(_ => {
         this.getProfile()
         this.$router.push({path: '/'})
