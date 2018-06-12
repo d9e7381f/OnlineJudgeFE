@@ -56,10 +56,10 @@
       }
     },
     mounted () {
-      api.logoutEntry().then(res => {
+      api.loginEntry().then(res => {
         window.location.href = res.data.data
       }).catch(exp => {
-        console.log(exp)
+        window.location.href = exp.data.data
       })
     }
   }
