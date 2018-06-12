@@ -101,7 +101,8 @@
     mounted () {
       console.log(this.$route)
       api.dgutLogin(this.$route.query).then(_ => {
-        this.$router.push({name: 'home'})
+        this.getProfile()
+        this.$router.push({path: '/'})
       })
     },
     computed: {
