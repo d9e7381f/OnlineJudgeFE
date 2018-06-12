@@ -8,7 +8,7 @@
     <div style="cursor:pointer">
       <div v-for="item in options" :key="item.id" style="margin-top:5px;">
         <el-row :gutter="10">
-          <el-col :span="3">
+          <el-col :span="7">
             <el-tag @close="deleteTag(item.id)" size="medium"><a @click="goForward(item.id)">{{item.name}}</a></el-tag>
           </el-col>
           <el-col :span="1.5">
@@ -17,7 +17,7 @@
           <el-col :span="1.5">
             <el-popover
               style="margin-right: 15px;"
-              v-if="isCourse && !item.children.length"
+              v-if="isCourse && !item.children &&!item.children.length"
               placement="top">
               <p>确定删除该节点并选择对相关题目操作？</p>
               <div style="text-align: right; margin: 0">
