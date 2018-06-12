@@ -15,6 +15,8 @@
       api.dgutLogin(this.$route.query).then(_ => {
         this.getProfile()
         this.$router.push({path: '/'})
+      }).catch(() => {
+        this.$router.push({path: '/'})
       })
     }
   }
