@@ -1,4 +1,5 @@
 import ProblemList from './problem/ProblemList.vue'
+import Login from './user/Login.vue'
 import Logout from './user/Logout.vue'
 import UserHome from './user/UserHome.vue'
 import About from './help/About.vue'
@@ -22,7 +23,7 @@ const ResetPassword = () => import(/* webpackChunkName: "password" */ '@oj/views
 const Problem = () => import(/* webpackChunkName: "Problem" */ '@oj/views/problem/Problem.vue')
 
 export {
-  Home, NotFound, Announcements,
+  Home, NotFound, Announcements, Login,
   Logout, UserHome, About, FAQ,
   ProblemList, Problem,
   ACMRank, OIRank,

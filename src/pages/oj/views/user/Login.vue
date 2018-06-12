@@ -97,6 +97,9 @@
         this.$router.push({name: 'apply-reset-password'})
       }
     },
+    mounted () {
+      console.log(this.$route.params)
+    },
     computed: {
       ...mapGetters(['website', 'modalStatus']),
       visible: {

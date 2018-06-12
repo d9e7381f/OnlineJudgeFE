@@ -6,6 +6,7 @@ import {
   ApplyResetPassword,
   FAQ,
   Home,
+  Login,
   Logout,
   NotFound,
   AssessContribution,
@@ -29,6 +30,12 @@ export default [
     path: '/',
     meta: {title: '主页'},
     component: Home
+  },
+  {
+    name: 'login',
+    path: '/login',
+    meta: {title: '登录'},
+    component: Login
   },
   {
     name: 'logout',
