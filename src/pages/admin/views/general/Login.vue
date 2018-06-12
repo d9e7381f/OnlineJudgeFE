@@ -54,6 +54,13 @@
           }
         })
       }
+    },
+    mounted () {
+      api.logoutEntry().then(res => {
+        window.location.href = res.data.data
+      }).catch(exp => {
+        console.log(exp)
+      })
     }
   }
 </script>
