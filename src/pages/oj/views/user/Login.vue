@@ -12,7 +12,8 @@
       ...mapActions(['getProfile'])
     },
     mounted () {
-      api.dgutLogin(this.$route.query).then(_ => {
+      let token = this.$route.query
+      api.dgutLogin(token).then(_ => {
         this.getProfile()
         this.$router.push({path: '/'})
       }).catch(() => {
