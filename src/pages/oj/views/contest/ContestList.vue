@@ -157,8 +157,11 @@
       goContest (contest) {
         this.cur_contest_id = contest.id
         if (contest.contest_type !== CONTEST_TYPE.PUBLIC && !this.isAuthenticated) {
-          this.$error('Please login first.')
-          this.$store.dispatch('changeModalStatus', {visible: true})
+          api.loginEntry().then(res => {
+            window.location.href = res.data.data
+          }).catch(exp => {
+            window.location.href = exp.data.data
+          })
         } else {
           this.$router.push({name: 'contest-details', params: {contestID: contest.id}})
         }
