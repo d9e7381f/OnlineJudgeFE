@@ -361,7 +361,7 @@
         this.problem.description = this.problem.description.replace(/<img/g, '<img style="width:100%" ')
       },
       downloadTestCase (problemID) {
-        let url = `/admin/test_case?problem_id=${problemID}`
+        let url = `/api/test_case?problem_id=${problemID}`
         utils.downloadFile(url)
       },
       thumbsupProblem () {
