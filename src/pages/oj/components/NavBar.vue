@@ -107,7 +107,7 @@
         } else {
           api.getUserInfo().then(res => {
             if (res.data.data.user.admin_type === 'Regular User') {
-              window.location.href = '/admin/problems'
+              window.location.href = '/admin/problems/'
             } else {
               window.location.href = '/admin/'
             }
