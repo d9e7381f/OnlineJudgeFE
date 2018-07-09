@@ -2,16 +2,9 @@
   <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px"
            class="demo-ruleForm login-container">
     <h3 class="title">欢迎登录</h3>
-    <el-form-item prop="account">
-      <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="用户名" @keyup.enter.native="handleLogin"></el-input>
-    </el-form-item>
-    <el-form-item prop="password">
-      <el-input type="password" v-model="ruleForm2.password" auto-complete="off" placeholder="密码" @keyup.enter.native="handleLogin"></el-input>
-    </el-form-item>
-    <el-form-item style="width:100%;">
-      <el-button type="primary" style="width:100%;" @click.native.prevent="handleLogin" :loading="logining">登录
-      </el-button>
-    </el-form-item>
+      <el-form-item style="width:100%;">
+        <el-button type="primary" style="width:100%;" @click.native.prevent="handleLogin">登录</el-button>
+      </el-form-item>
   </el-form>
 </template>
 
@@ -19,48 +12,14 @@
   import api from '../../api'
 
   export default {
-    data () {
-      return {
-        logining: false,
-        url: 'https://cas.dgut.edu.cn/?appid=oj',
-        ruleForm2: {
-          account: '',
-          password: ''
-        },
-        rules2: {
-          account: [
-            {required: true, trigger: 'blur'}
-          ],
-          password: [
-            {required: true, trigger: 'blur'}
-          ]
-        },
-        checked: true
-      }
-    },
     methods: {
-      handleLogin (ev) {
-        this.$refs.ruleForm2.validate((valid) => {
-          if (valid) {
-            this.logining = true
-            api.login(this.ruleForm2.account, this.ruleForm2.password).then(data => {
-              this.logining = false
-              this.$router.push({name: 'problem-list'})
-            }, () => {
-              this.logining = false
-            })
-          } else {
-            this.$error('请检查输入错误区域')
-          }
+      handleLogin () {
+        api.loginEntry().then(res => {
+          window.location.href = res.data.data
+        }).catch(exp => {
+          window.location.href = exp.data.data
         })
       }
-    },
-    mounted () {
-      api.loginEntry().then(res => {
-        window.location.href = res.data.data
-      }).catch(exp => {
-        window.location.href = exp.data.data
-      })
     }
   }
 </script>
