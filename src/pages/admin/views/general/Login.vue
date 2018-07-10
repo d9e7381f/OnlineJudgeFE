@@ -15,9 +15,11 @@
     methods: {
       handleLogin () {
         api.loginEntry().then(res => {
-          window.location.href = res.data.data
+          window.open(res.data.data)
+          // window.location.href = res.data.data
         }).catch(exp => {
-          window.location.href = exp.data.data
+          window.open(exp.data.data)
+          // window.location.href = exp.data.data
         })
       }
     }
