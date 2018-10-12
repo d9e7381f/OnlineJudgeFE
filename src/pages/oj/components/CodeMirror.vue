@@ -8,6 +8,11 @@
           <Option v-for="item in languages" :key="item" :value="item">{{item}}
           </Option>
         </Select>
+
+        <Tooltip content="设置为题目代码模板" placement="top" style="margin-left: 10px">
+          <Button icon="refresh" @click="onResetClick"></Button>
+        </Tooltip>
+
       </div>
       </Col>
       <Col :span=10>
@@ -115,6 +120,9 @@
       },
       onThemeChange (newTheme) {
         this.editor.setOption('theme', newTheme)
+      },
+      onResetClick () {
+        this.$emit('resetCode')
       }
     },
     computed: {

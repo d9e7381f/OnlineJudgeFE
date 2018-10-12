@@ -17,7 +17,7 @@
           <div v-for="sample, index in problem.samples">
             <div class="flex-container sample">
               <div class="sample-input">
-                <p class="title">输出例子 {{index + 1}}
+                <p class="title">输入例子 {{index + 1}}
                   <a class="copy"
                      v-clipboard:copy="sample.input"
                      v-clipboard:success="onCopy"
@@ -55,8 +55,12 @@
       </Panel>
       <!--problem main end-->
       <Card :padding="20" id="submit-code" dis-hover>
-        <CodeMirror :value.sync="code" @changeLang="onChangeLang" :languages="problem.languages"
-                    :language="language"></CodeMirror>
+        <CodeMirror :value.sync="code"
+            @changeLang="onChangeLang"
+            :languages="problem.languages"
+            :language="language"
+            @resetCode="onResetToTemplate"
+            ></CodeMirror>
         <Row type="flex" justify="space-between">
           <Col :span="10">
           <div class="status" v-if="statusVisible">
@@ -356,6 +360,17 @@
           this.$Loading.error()
         })
       },
+      onResetToTemplate () {
+        this.$Modal.confirm({
+          content: '你确定要将代码重置为题目代码模板吗?',
+          onOk: () => {
+            let template = this.problem.template
+            if (template && template[this.language]) {
+              this.code = template[this.language]
+            }
+          }
+        })
+      },
       // 为img标签添加宽度 防止撑开div
       addImageWidth () {
         this.problem.description = this.problem.description.replace(/<img/g, '<img style="width:100%" ')
@@ -478,6 +493,7 @@
         const submitFunc = (data, detailsVisible) => {
           this.statusVisible = true
           api.submitCode(data).then(res => {
+            this.submitted = true
             this.submissionId = res.data.data && res.data.data.submission_id
             // 定时检查状态
             this.submitting = false

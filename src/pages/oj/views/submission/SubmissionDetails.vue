@@ -19,13 +19,7 @@
 
     <!--后台返info就显示出来， 权限控制放后台 -->
     <Col v-if="submission.info && !isCE" :span="20">
-    <Alert type="warning">
-      <div class="admin-info-content">
-        <Icon type="information-circled" color="#f90"></Icon>
-        <span class="admin-info-content">只有管理员才能查看ACM题目的测试用例.</span>
-      </div>
-    </Alert>
-    <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
+      <Table stripe :loading="loading" :disabled-hover="true" :columns="columns" :data="submission.info.data"></Table>
     </Col>
 
     <Col :span="20">
