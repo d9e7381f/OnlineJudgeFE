@@ -14,7 +14,7 @@
         <Icon type="trophy"></Icon>
         竞赛
       </Menu-item>
-      <Submenu name="">
+      <Submenu name="contribution">
         <template slot="title">
           <Icon type="ios-flag"></Icon>
           贡献榜
@@ -30,7 +30,7 @@
         <Icon type="ios-pulse-strong"></Icon>
         提交
       </Menu-item>
-      <Submenu name="">
+      <Submenu name="rank">
         <template slot="title">
           <Icon type="podium"></Icon>
           排名
@@ -42,7 +42,7 @@
           OI排名
         </Menu-item>
       </Submenu>
-      <Submenu name="">
+      <Submenu name="about">
         <template slot="title">
           <Icon type="information-circled"></Icon>
           关于
