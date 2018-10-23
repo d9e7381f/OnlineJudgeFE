@@ -85,6 +85,13 @@
           this.announcements = res.data.data.results
           this.total = res.data.data.total
           this.addImageWidth(this.announcements)
+          var id = this.getQueryString('id')
+          if (id != null) {
+            var announcement = this.announcements.find((value, index, arr) => {
+              return id === value.id + ''
+            })
+            this.goAnnouncement(announcement)
+          }
         }, () => {
           this.btnLoading = false
         })
@@ -97,6 +104,15 @@
         }, () => {
           this.btnLoading = false
         })
+      },
+      getQueryString (name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i') // 匹配目标参数
+        var result = window.location.search.substr(1).match(reg) // 对querystring匹配目标参数
+        if (result != null) {
+          return decodeURIComponent(result[2])
+        } else {
+          return null
+        }
       },
       goAnnouncement (announcement) {
         this.announcement = announcement

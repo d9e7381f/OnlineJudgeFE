@@ -38,6 +38,12 @@ export default [
     component: Login
   },
   {
+    name: 'announcements',
+    path: '/announcements',
+    meta: {title: '公告'},
+    component: Announcements
+  },
+  {
     name: 'logout',
     path: '/logout',
     meta: {title: '注销'},
