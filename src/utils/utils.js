@@ -139,7 +139,7 @@ function formatGroupList (list, set = []) {
         let classItem = {
           fullName: classItemObject.name,
           name: classItemObject.class_num,
-          id: classItemObject.class_num
+          id: classItemObject.id
         }
         set.push(classItem)
         majorObject.children.push(classItem)
