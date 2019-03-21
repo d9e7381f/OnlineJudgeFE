@@ -5,7 +5,11 @@
     </div>
     <div slot="extra">
       <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">刷新一下</Button>
-      <Button v-else type="ghost" icon="ios-undo" @click="goBack">返回</Button>
+      <div v-else>
+        <Button v-clipboard:copy="'https://oj.dgut.edu.cn/announcements?id=' + announcement.id" v-clipboard:success="onCopy">copy</Button>
+        <Button type="ghost" icon="ios-undo" @click="goBack">返回</Button>
+      </div>
+      
     </div>
 
     <transition-group name="announcement-animate" mode="in-out">
@@ -62,6 +66,7 @@
     },
     methods: {
       init () {
+        console.log(this.clipBoardContent)
         if (this.isContest) {
           this.getContestAnnouncementList()
         } else {
@@ -122,6 +127,9 @@
             window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, 'problem-content'])
           }
         })
+      },
+      onCopy (event) {
+        this.$success('复制成功')
       },
       goBack () {
         this.listVisible = true
