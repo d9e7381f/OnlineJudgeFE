@@ -6,7 +6,8 @@
     <div slot="extra">
       <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">刷新一下</Button>
       <div v-else>
-        <Button v-clipboard:copy="'https://oj.dgut.edu.cn/announcements?id=' + announcement.id" v-clipboard:success="onCopy">copy</Button>
+        <Button　icon="ios-copy" v-clipboard:copy="'https://oj.dgut.edu.cn/announcements?id=' + announcement.id" 
+        v-clipboard:success="onCopy">复制此公告地址</Button>
         <Button type="ghost" icon="ios-undo" @click="goBack">返回</Button>
       </div>
       
@@ -129,7 +130,7 @@
         })
       },
       onCopy (event) {
-        this.$success('复制成功')
+        this.$success('已经成功复制该公告的地址到本地剪切板')
       },
       goBack () {
         this.listVisible = true
