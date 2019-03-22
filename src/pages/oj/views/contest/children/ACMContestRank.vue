@@ -67,7 +67,7 @@
           {
             title: '用户',
             align: 'center',
-            width: '60',
+            width: '80',
             render: (h, params) => {
               return h('a', {
                 on: {
@@ -323,6 +323,10 @@
 
   .screen-full {
     margin-right: 8px;
+  }
+
+  .ivu-table-cell{
+    padding: 0px;
   }
 
   #switches {
