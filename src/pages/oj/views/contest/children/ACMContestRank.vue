@@ -21,6 +21,9 @@
               <span>强制刷新</span>
               <i-switch :disabled="refreshDisabled" v-model="forceUpdate"></i-switch>
             </p>
+            <p>
+             <span> <a v-bind:href="downloadRankURL">下载列表</a></span>
+            </p>
           </template>
         </div>
       </Poptip>
@@ -41,6 +44,7 @@
   import moment from 'moment'
   import { mapActions } from 'vuex'
 
+  import api from '@oj/api'
   import Pagination from '@oj/components/Pagination'
   import ContestRankMixin from './contestRankMixin'
   import time from '@/utils/time'
@@ -122,6 +126,7 @@
           }
         ],
         dataRank: [],
+        downloadRankURL: '',
         options: {
           title: {
             text: '前十名',
@@ -186,6 +191,7 @@
     },
     mounted () {
       this.contestID = this.$route.params.contestID
+      this.downloadRankURL = '/api/download_rank_list?contest_id=' + this.contestID
       this.getContestRankData(1)
       if (this.contestProblems.length === 0) {
         this.getContestProblems().then((res) => {
@@ -305,6 +311,9 @@
       parseTotalTime (totalTime) {
         let m = moment.duration(totalTime, 's')
         return [Math.floor(m.asHours()), m.minutes(), m.seconds()].join(':')
+      },
+      downloadRankList () {
+        api.downloadRankList(this.contestID)
       }
     }
   }
