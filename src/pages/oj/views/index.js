@@ -10,6 +10,7 @@ import Announcements from './general/Announcements.vue'
 import ProblemContribution from './general/ProblemContribution'
 import AssessContribution from './general/AssessContribution'
 import CommentBoard from './problem/CommentBoard'
+import FeedBack from './feedback/FeedBack'
 // Grouping Components in the Same Chunk
 const SubmissionList = () => import(/* webpackChunkName: "submission" */ '@oj/views/submission/SubmissionList.vue')
 const SubmissionDetails = () => import(/* webpackChunkName: "submission" */ '@oj/views/submission/SubmissionDetails.vue')
@@ -30,7 +31,7 @@ export {
   SubmissionList, SubmissionDetails,
   ApplyResetPassword, ResetPassword,
   ProblemContribution, AssessContribution,
-  CommentBoard
+  CommentBoard, FeedBack
 }
 /* 组件导出分为两类, 一类常用的直接导出，另一类诸如Login, Logout等用懒加载,懒加载不在此处导出
  *   在对应的route内加载
