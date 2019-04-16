@@ -1,7 +1,7 @@
 <template>
   <div class="container"> 
     <Card :padding="100">
-     
+      
     </Card>
   </div>
 </template>
