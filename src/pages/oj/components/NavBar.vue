@@ -54,7 +54,7 @@
           常见问题解答
         </Menu-item>
       </Submenu>
-      <Submenu>
+      <Submenu name="feedback">
         <template slot="title">
           <Icon type="person"></Icon>
           紧急反馈
