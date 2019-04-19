@@ -178,6 +178,11 @@ export default {
       }
     })
   },
+  postFeedBack (data) {
+    return ajax('feedback/', 'post', {
+      data
+    })
+  },
   getContestProblem (problemID, contestID) {
     return ajax(`xproblem/${problemID}/`, 'get', {})
   },
