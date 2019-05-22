@@ -2,6 +2,7 @@ import Vue from 'vue'
 import storage from '@/utils/storage'
 import { STORAGE_KEY } from '@/utils/constants'
 import ojAPI from '@oj/api'
+import xss from 'xss'
 
 function submissionMemoryFormat (memory) {
   if (memory === undefined) return '--'
@@ -117,7 +118,14 @@ function foramtCascaderData (list) {
     }
   }
 }
-
+function xssFilter (result) {
+  for (let key in result) {
+    console.log(key + ' has xssfilter')
+    if (typeof result[key] === 'string') {
+      result[key] = xss(result[key])
+    }
+  }
+}
 function formatGroupList (list, set = []) {
   let groupList = []
   let yearKeys = Object.keys(list)
@@ -161,5 +169,6 @@ export default {
   deleteEmptyChildren: deleteEmptyChildren,
   formatGroupList: formatGroupList,
   foramtCascaderData: foramtCascaderData,
+  xssFilter: xssFilter,
   getLanguages: getLanguages
 }

@@ -67,7 +67,6 @@
     },
     methods: {
       init () {
-        console.log(this.clipBoardContent)
         if (this.isContest) {
           this.getContestAnnouncementList()
         } else {

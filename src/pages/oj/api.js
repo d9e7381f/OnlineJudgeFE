@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import store from '@/store'
 import axios from 'axios'
+import utils from '@/utils/utils'
 
 Vue.prototype.$http = axios
 axios.defaults.baseURL = '/api'
@@ -14,7 +15,7 @@ export default {
     })
   },
   getAnnouncementList () {
-    return ajax('announcement', 'get')
+    return ajax('announcement/', 'get')
   },
   loginEntry () {
     return ajax('login/', 'get')
@@ -314,6 +315,21 @@ function ajax (url, method, options) {
           }
         }
       } else {
+        if (res.data.data) {
+          if (Array.isArray(res.data.data)) {
+            for (let d of res.data.data) {
+              utils.xssFilter(d)
+            }
+          } else if (res.data.data.results) {
+            if (res.data.data.results.length) {
+              for (let result of res.data.data.results) {
+                utils.xssFilter(result)
+              }
+            }
+          } else {
+            utils.xssFilter(res.data.data)
+          }
+        }
         resolve(res)
         if (method !== 'get') {
           Vue.prototype.$success('Succeeded')

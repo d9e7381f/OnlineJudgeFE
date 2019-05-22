@@ -10,8 +10,7 @@
       <template>
         <div id="contest-desc">
           <Panel :padding="20" shadow>
-            <div slot="title">
-              {{contest.title}}
+            <div slot="title" v-text="contest.title">
             </div>
             <div slot="extra">
               <Tag type="dot" :color="countdownColor">
