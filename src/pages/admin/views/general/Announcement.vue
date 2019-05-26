@@ -167,7 +167,6 @@
           this.total = res.data.data.total
           this.announcementList = res.data.data.results
           this.addImageWidth(this.announcementList)
-          console.log(this.announcementList)
         }, res => {
           this.loading = false
         })

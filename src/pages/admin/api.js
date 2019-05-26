@@ -422,16 +422,29 @@ function ajax (url, method, options) {
       data
     }).then(res => {
       // API正常返回(status=20x), 是否错误通过有无error判断
-      console.log(res.data.error)
       if (res.data.error !== null) {
         Vue.prototype.$error(res.data.data)
         reject(res)
         // // 若后端返回为登录，则为session失效，应退出当前登录用户
-        console.log(res.data.data)
         if (res.data.data.startsWith('Please login')) {
           router.push({name: 'login'})
         }
       } else {
+        if (res.data.data) {
+          if (Array.isArray(res.data.data)) {
+            for (let d of res.data.data) {
+              utils.xssFilter(d)
+            }
+          } else if (res.data.data.results) {
+            if (res.data.data.results.length) {
+              for (let result of res.data.data.results) {
+                utils.xssFilter(result)
+              }
+            }
+          } else {
+            utils.xssFilter(res.data)
+          }
+        }
         resolve(res)
         if (method !== 'get') {
           Vue.prototype.$success('Succeeded')
