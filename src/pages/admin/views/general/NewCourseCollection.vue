@@ -153,7 +153,6 @@ export default {
       let inputValue = this.inputValue
       if (inputValue) {
         let params = {name: inputValue}
-        console.log(this.currentID)
         if (this.currentID !== 0 && this.currentID !== -1) {
           let parent = this.getItem(this.selectList, this.currentID)
           if (parent) {
@@ -163,9 +162,10 @@ export default {
         let funcName = this.isCourse === true ? 'addCourse' : 'addCollection'
         api[funcName](params).then(res => {
           if (!res.data.error) {
-            let problem = res.data.data
-            problem.children = []
-            this.options.push(problem)
+            let courseOrCollection = res.data.data
+            courseOrCollection.children = []
+            console.log(this.options)
+            this.options.push(courseOrCollection)
             if (this.isCourse) {
               this.getCourseList()
             } else {
@@ -229,13 +229,16 @@ export default {
       }).catch(() => {})
     },
     getItem (list, id) {
-      for (let item of list) {
+      console.log(list)
+      for (let item in list) {
         if (item.id === id) {
           return item
         }
-        let res = this.getItem(item.children, id)
-        if (res) {
-          return res
+        if (item['children']) {
+          let res = this.getItem(item.children, id)
+          if (res) {
+            return res
+          }
         }
       }
     },
@@ -318,6 +321,7 @@ export default {
     },
     goForward (id) {
       this.currentID = id
+      console.log(id)
       if (id === 0) {
         this.selectList = this.courseList
         this.options = this.selectList
@@ -334,7 +338,12 @@ export default {
         this.breadcrumb.push({name: '分类', id: 0})
       } else {
         let selectItem = this.getItem(this.selectList, id)
-        this.options = selectItem.children
+        if (!selectItem) {
+          selectItem = []
+          this.options = []
+        } else {
+          this.options = selectItem.children
+        }
         this.breadcrumb.push({name: selectItem.name, id: selectItem.id})
       }
     }
