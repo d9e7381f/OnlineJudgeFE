@@ -164,7 +164,6 @@ export default {
           if (!res.data.error) {
             let courseOrCollection = res.data.data
             courseOrCollection.children = []
-            console.log(this.options)
             this.options.push(courseOrCollection)
             if (this.isCourse) {
               this.getCourseList()
@@ -229,8 +228,7 @@ export default {
       }).catch(() => {})
     },
     getItem (list, id) {
-      console.log(list)
-      for (let item in list) {
+      for (let item of list) {
         if (item.id === id) {
           return item
         }
@@ -321,7 +319,6 @@ export default {
     },
     goForward (id) {
       this.currentID = id
-      console.log(id)
       if (id === 0) {
         this.selectList = this.courseList
         this.options = this.selectList
@@ -343,6 +340,9 @@ export default {
           this.options = []
         } else {
           this.options = selectItem.children
+          if (!this.options) {
+            this.options = []
+          }
         }
         this.breadcrumb.push({name: selectItem.name, id: selectItem.id})
       }
