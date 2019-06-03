@@ -327,7 +327,7 @@ function ajax (url, method, options) {
               }
             }
           } else {
-            utils.xssFilter(res.data.data)
+            utils.xssFilter(res.data)
           }
         }
         resolve(res)

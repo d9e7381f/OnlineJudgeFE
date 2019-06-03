@@ -18,8 +18,7 @@ import {
   SubmissionDetails,
   SubmissionList,
   CommentBoard,
-  UserHome,
-  FeedBack
+  UserHome
 } from '../views'
 
 import * as Contest from '@oj/views/contest'
@@ -68,12 +67,12 @@ export default [
     meta: {title: '题目列表'},
     component: ProblemList
   },
-  {
-    name: 'feedback',
-    path: '/feedback',
-    meta: {title: '问题反馈'},
-    component: FeedBack
-  },
+  // {
+  //   name: 'feedback',
+  //   path: '/feedback',
+  //   meta: {title: '问题反馈'},
+  //   component: FeedBack
+  // },
   {
     name: 'problem-details',
     path: '/problem/:problemID',

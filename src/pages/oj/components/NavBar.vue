@@ -54,7 +54,7 @@
           常见问题解答
         </Menu-item>
       </Submenu>
-      <Submenu name="feedback">
+      <!-- <Submenu name="feedback">
         <template slot="title">
           <Icon type="person"></Icon>
           紧急反馈
@@ -62,7 +62,7 @@
         <Menu-item name="/feedback">
           系统问题反馈
         </Menu-item>
-      </Submenu>
+      </Submenu> -->
       <template v-if="!isAuthenticated">
         <div class="btn-menu">
           <Button type="ghost"
