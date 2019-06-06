@@ -1,5 +1,5 @@
 <template>
-  <pre v-highlight><code :class="language" :style="styleObject" v-html="code"></code></pre>
+  <pre v-highlight="code"><code :class="language" :style="styleObject"></code></pre>
 </template>
 <script>
   export default {

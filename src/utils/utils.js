@@ -120,7 +120,7 @@ function foramtCascaderData (list) {
 }
 function xssFilter (result) {
   for (let key in result) {
-    if (typeof result[key] === 'string') {
+    if (typeof result[key] === 'string' && key !== 'code') {
       result[key] = xss(result[key])
     }
   }
