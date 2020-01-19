@@ -6,7 +6,7 @@
     <div slot="extra">
       <Button v-if="listVisible" type="info" @click="init" :loading="btnLoading">刷新一下</Button>
       <div v-else>
-        <Button　icon="ios-copy" v-clipboard:copy="'https://oj.dgut.edu.cn/announcements?id=' + announcement.id" 
+        <Button　icon="ios-copy" v-clipboard:copy=" host +'/announcements?id=' + announcement.id" 
         v-clipboard:success="onCopy">复制此公告地址</Button>
         <Button type="ghost" icon="ios-undo" @click="goBack">返回</Button>
       </div>
@@ -19,7 +19,7 @@
       </div>
       <template v-if="listVisible">
         <ul class="announcements-container" key="list">
-          <li v-for="announcement, index in announcements">
+          <li v-for="announcement, index in announcements" :key="'announcements-' + index">
             <div class="flex-container">
               <div class="title"><a class="entry" @click="goAnnouncement(announcement)">
                 {{announcement.title}}</a></div>
@@ -54,6 +54,7 @@
     },
     data () {
       return {
+        host: '',
         limit: 10,
         total: 10,
         btnLoading: false,
@@ -63,6 +64,7 @@
       }
     },
     mounted () {
+      this.host = window.location.host
       this.init()
     },
     methods: {

@@ -112,7 +112,7 @@
                     this.updateCheckedStatus(row)
                   }
                 }
-              }, '更新')
+              }, '更正')
             }
           }
         ],

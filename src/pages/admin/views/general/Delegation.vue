@@ -121,7 +121,6 @@
       },
       courseChange (value) {
         this.courseID = value[value.length - 1]
-        console.log(this.courseID)
       },
       groupChange (value) {
         if (value.length === 3) {
@@ -136,8 +135,6 @@
           this.selectUserList.push(user.id)
           this.selectUserInfo.push(user)
         }
-        console.log(this.selectUserList)
-        console.log(this.selectUserInfo)
       },
       delegate () {
         let data = {
@@ -145,7 +142,6 @@
           delegates: this.selectUserList
         }
         api.createDelegation(data)
-        console.log('delegate')
       },
       closeTag (user) {
         this.selectUserInfo.splice(this.selectUserInfo.indexOf(user), 1)
@@ -171,7 +167,7 @@
       },
       getGroupList () {
         api.getUserGroupList().then(res => {
-          this.groupList = utils.formatGroupList(res.data.data)
+          this.groupList = utils.formatGroupList02(res.data.data)
         }).catch(() => {})
       }
     }

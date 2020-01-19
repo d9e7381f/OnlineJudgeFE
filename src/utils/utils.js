@@ -157,6 +157,38 @@ function formatGroupList (list, set = []) {
   }
   return groupList
 }
+function formatGroupList02 (list, set = []) {
+  let groupList = []
+  let yearKeys = Object.keys(list)
+  for (let yearKeysName of yearKeys) {
+    let yearObject = {
+      id: yearKeysName,
+      name: yearKeysName,
+      children: []
+    }
+    let majorKeys = Object.keys(list[yearKeysName])
+    for (let majorKeysName of majorKeys) {
+      let majorObject = {
+        id: majorKeysName,
+        name: majorKeysName,
+        children: []
+      }
+      let classSet = list[yearKeysName][majorKeysName]
+      for (let classItemObject of classSet) {
+        let classItem = {
+          fullName: classItemObject.name,
+          name: classItemObject.class_num,
+          id: classItemObject.class_num
+        }
+        set.push(classItem)
+        majorObject.children.push(classItem)
+      }
+      yearObject.children.push(majorObject)
+    }
+    groupList.unshift(yearObject)
+  }
+  return groupList
+}
 
 export default {
   submissionMemoryFormat: submissionMemoryFormat,
@@ -167,6 +199,7 @@ export default {
   downloadFile: downloadFile,
   deleteEmptyChildren: deleteEmptyChildren,
   formatGroupList: formatGroupList,
+  formatGroupList02: formatGroupList02,
   foramtCascaderData: foramtCascaderData,
   xssFilter: xssFilter,
   getLanguages: getLanguages
