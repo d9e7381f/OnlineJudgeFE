@@ -241,7 +241,7 @@
               <el-col :span="6">
                 <el-cascader :options="courseList"
                   :props="cascaderprops"
-                  v-model="course"
+                  v-model="problem.course"
                   filterable
                   clearable
                   placeholder="选择题目所属课程">
@@ -684,6 +684,7 @@
           'High': 'High'
         }
         this.problem.difficulty = difficulty[this.problem.difficulty]
+        console.log(this.problem)
         if ((this.routeName !== 'create-contest-problem' || this.routeName !== 'edit-contest-problem') && this.problem.collection === '' && this.showCollection) {
           this.$error('未设置题目分类')
           return
@@ -692,7 +693,7 @@
           this.$error('请至少设置一个课程')
           return
         } else {
-          this.problem.course = this.course[this.course.length - 1]
+          this.problem.course = this.problem.course[this.problem.course.length - 1]
         }
         this.problem.languages = this.problem.languages.sort()
         this.problem.template = {}
